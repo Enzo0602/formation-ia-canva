@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connecter Canva à Claude</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #21262d;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text2: #8b949e;
+    --green: #3fb950;
+    --blue: #58a6ff;
+    --purple: #bc8cff;
+    --orange: #f0883e;
+    --accent: #238636;
+    --accent-hover: #2ea043;
+    --red: #f85149;
+    --yellow: #d29922;
+    --step-bg: #1c2128;
+    --highlight: rgba(56, 139, 253, 0.1);
+    --canva: #8b3dff;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #3a1c5e 50%, #6a1b9a 100%);
+    color: white;
+    padding: 60px 40px;
+    text-align: center;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    color: #d9c2ff;
+  }
+  .header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .header p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  /* STEPS OVERVIEW */
+  .overview {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    overflow-x: auto;
+    padding: 0 20px;
+  }
+  .ov-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+    white-space: nowrap;
+    position: relative;
+  }
+  .ov-step .num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #e8e8e8;
+    color: #666;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .ov-step.active .num { background: #1a1a2e; color: white; }
+  .ov-step.active { color: #1a1a2e; }
+  .ov-arrow { color: #ccc; font-size: 14px; align-self: center; flex-shrink: 0; }
+
+  /* MAIN */
+  .container { max-width: 860px; margin: 0 auto; padding: 48px 24px; }
+
+  /* STEP CARD */
+  .step-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-bottom: 40px;
+    overflow: hidden;
+    border: 1px solid #e8eaed;
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 28px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .step-num {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: #1a1a2e;
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-num.green { background: #1a7f37; }
+  .step-num.blue { background: #0969da; }
+  .step-num.purple { background: #6e40c9; }
+  .step-num.orange { background: #bc4c00; }
+  .step-title { font-size: 20px; font-weight: 700; color: #1a1a2e; }
+  .step-subtitle { font-size: 14px; color: #666; margin-top: 2px; }
+  .step-body { padding: 28px; }
+
+  /* APP WINDOW MOCKUP */
+  .gh-window {
+    background: var(--bg);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin: 20px 0;
+    font-family: 'Inter', sans-serif;
+  }
+  .gh-titlebar {
+    background: #010409;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot.r { background: #ff5f57; }
+  .dot.y { background: #febc2e; }
+  .dot.g { background: #28c840; }
+  .gh-url {
+    flex: 1;
+    background: var(--bg3);
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text2);
+    margin-left: 8px;
+    font-family: 'Fira Code', monospace;
+  }
+  .gh-content { padding: 20px; }
+
+  /* Settings layout */
+  .gh-settings-layout { display: flex; gap: 0; min-height: 260px; }
+  .gh-settings-sidebar {
+    width: 200px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    padding: 8px 0;
+  }
+  .gh-settings-item {
+    padding: 8px 16px;
+    font-size: 14px;
+    color: var(--text2);
+    cursor: default;
+    border-radius: 6px;
+    margin: 1px 8px;
+  }
+  .gh-settings-item.active {
+    background: var(--highlight);
+    color: var(--blue);
+    font-weight: 500;
+  }
+  .gh-settings-content { flex: 1; padding: 20px; }
+  .gh-settings-h2 { font-size: 18px; color: var(--text); font-weight: 600; margin-bottom: 4px; }
+  .gh-settings-desc { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
+
+  /* Connector row */
+  .connector-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: var(--bg2);
+  }
+  .connector-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    color: white;
+  }
+  .connector-icon.canva { background: var(--canva); }
+  .connector-icon.figma { background: #1e1e1e; border: 1px solid var(--border); }
+  .connector-icon.slack { background: #4a154b; }
+  .connector-name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .connector-desc { font-size: 12px; color: var(--text2); }
+  .connector-btn {
+    margin-left: auto;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 14px;
+    font-size: 13px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .connector-btn.primary { background: #6e40c9; border-color: #8957e5; color: white; font-weight: 600; }
+  .connector-btn.connected { background: rgba(63,185,80,0.12); border-color: var(--green); color: var(--green); }
+
+  /* Chat / prompt mockup */
+  .chat-window {
+    background: var(--bg);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin: 20px 0;
+  }
+  .chat-header {
+    background: #010409;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .chat-body { padding: 18px; }
+  .chat-bubble {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .chat-bubble .tok { color: var(--orange); }
+  .chat-bubble .cmd { color: var(--blue); font-weight: 600; }
+  .chat-bubble .path { color: var(--green); }
+
+  /* Toggle row */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 10px 0;
+    background: var(--bg2);
+  }
+  .toggle-row-left { display: flex; align-items: center; gap: 12px; }
+  .toggle {
+    width: 38px; height: 22px;
+    border-radius: 12px;
+    background: var(--green);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    top: 3px; right: 3px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: white;
+  }
+  .toggle.off { background: var(--bg3); border: 1px solid var(--border); }
+  .toggle.off::after { left: 3px; right: auto; background: var(--text2); }
+
+  /* Callout */
+  .callout {
+    display: flex;
+    gap: 14px;
+    background: #f0f7ff;
+    border-left: 3px solid #0969da;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: #1a1a2e;
+    align-items: flex-start;
+  }
+  .callout-icon { font-size: 18px; flex-shrink: 0; }
+  .callout.tip { background: #f0fff4; border-left-color: #1a7f37; }
+  .callout.warning { background: #fffbf0; border-left-color: #d1a400; }
+  .callout.danger { background: #fff0f0; border-left-color: #cf222e; }
+
+  /* Compare table */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .compare-card {
+    border-radius: 10px;
+    padding: 18px;
+    border: 1px solid #e8eaed;
+  }
+  .compare-card.yes { background: #f0fff4; border-color: #bdf0cf; }
+  .compare-card.no { background: #fff0f0; border-color: #f5c2c7; }
+  .compare-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .compare-card ul { margin: 8px 0 0 18px; font-size: 13px; color: #444; }
+  .compare-card ul li { margin-bottom: 4px; }
+
+  p { font-size: 15px; color: #444; margin-bottom: 12px; line-height: 1.7; }
+  strong { color: #1a1a2e; }
+  code { font-family: 'Fira Code', monospace; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #6e40c9; }
+
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    background: white;
+    border-top: 1px solid #e8eaed;
+    font-size: 14px;
+    color: #888;
+  }
+
+  /* ── RESPONSIVE MOBILE ── */
+  @media (max-width: 600px) {
+    .header { padding: 36px 20px; }
+    .header h1 { font-size: 24px; }
+    .header p { font-size: 14px; }
+
+    .overview { justify-content: flex-start; padding: 0 8px; }
+    .ov-step { padding: 12px 10px; font-size: 11px; gap: 6px; }
+    .ov-step .num { width: 20px; height: 20px; font-size: 10px; }
+    .ov-arrow { font-size: 11px; }
+
+    .container { padding: 24px 12px; }
+
+    .step-header { padding: 16px; gap: 12px; }
+    .step-num { width: 36px; height: 36px; font-size: 15px; border-radius: 10px; }
+    .step-title { font-size: 16px; }
+    .step-subtitle { font-size: 12px; }
+    .step-body { padding: 16px; }
+
+    .gh-window, .chat-window { border-radius: 8px; font-size: 12px; }
+    .gh-titlebar, .chat-header { padding: 8px 10px; gap: 6px; }
+    .dot { width: 10px; height: 10px; }
+    .gh-url { font-size: 10px; padding: 3px 8px; }
+    .gh-content, .chat-body { padding: 12px; }
+
+    .gh-settings-layout { flex-direction: column; }
+    .gh-settings-sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 8px;
+    }
+    .gh-settings-item { font-size: 12px; padding: 5px 10px; margin: 0; }
+    .gh-settings-content { padding: 12px; }
+    .gh-settings-h2 { font-size: 15px; }
+    .gh-settings-desc { font-size: 12px; }
+
+    .connector-row { flex-wrap: wrap; }
+    .connector-btn { margin-left: 0; }
+
+    .chat-bubble { font-size: 12px; padding: 12px; }
+
+    .compare { grid-template-columns: 1fr; }
+
+    .callout { font-size: 13px; padding: 12px 14px; gap: 10px; }
+
+    p { font-size: 14px; }
+  }
+
+  @media (max-width: 380px) {
+    .header h1 { font-size: 20px; }
+    .ov-step span:not(.num) { display: none; }
+    .gh-window, .chat-window { overflow-x: auto; }
+    .gh-content, .chat-body { min-width: 280px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">✦ Guide pratique</div>
+  <h1>Connecter Canva à Claude</h1>
+  <p>Active le connecteur Canva dans Claude pour créer des designs, remplir des modèles et exporter directement depuis le chat.</p>
+</div>
+
+<div class="overview">
+  <div class="ov-step active"><span class="num">1</span> Vérifier l'éligibilité</div>
+  <span class="ov-arrow">›</span>
+  <div class="ov-step active"><span class="num">2</span> Connecter le compte</div>
+  <span class="ov-arrow">›</span>
+  <div class="ov-step active"><span class="num">3</span> Activer dans le chat</div>
+  <span class="ov-arrow">›</span>
+  <div class="ov-step active"><span class="num">4</span> Faire la demande</div>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Vérifier que ton compte Canva est éligible</div>
+        <div class="step-subtitle">Le connecteur IA nécessite un abonnement Canva Pro, Équipe, Pro+ ou Solidaire</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Le connecteur Canva n'est pas disponible avec un compte Canva gratuit. Il fonctionne avec :</p>
+
+      <div class="compare">
+        <div class="compare-card yes">
+          <div class="compare-title">✅ Comptes éligibles</div>
+          <ul>
+            <li>Canva Pro</li>
+            <li>Canva en Équipe (Teams)</li>
+            <li>Canva Pro+</li>
+            <li>Canva Solidaire (Nonprofits)</li>
+          </ul>
+        </div>
+        <div class="compare-card no">
+          <div class="compare-title">❌ Non éligible</div>
+          <ul>
+            <li>Canva gratuit</li>
+            <li>Canva Éducation (accès limité)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-icon">🏢</div>
+        <div>Si tu fais partie d'une équipe Canva (Teams/Entreprise/Éducation), un <strong>admin doit aussi activer</strong> les "intégrations tierces" dans les contrôles d'administration pour que le connecteur fonctionne.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">Connecter ton compte Canva à Claude</div>
+        <div class="step-subtitle">Paramètres → Connecteurs → Canva</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Sur claude.ai, ouvre <strong>Paramètres</strong> puis l'onglet <strong>Connecteurs</strong>. Cherche <strong>Canva</strong> dans la liste et sélectionne-le.</p>
+
+      <div class="gh-window">
+        <div class="gh-titlebar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <div class="gh-url">claude.ai / settings / connectors</div>
+        </div>
+        <div class="gh-content">
+          <div style="font-size:15px;color:#e6edf3;font-weight:600;margin-bottom:4px;">Connecteurs</div>
+          <div style="font-size:12px;color:#8b949e;margin-bottom:16px;">Connecte des outils pour que Claude puisse y accéder pendant vos discussions</div>
+
+          <div class="connector-row">
+            <div class="connector-icon canva">🎨</div>
+            <div>
+              <div class="connector-name">Canva</div>
+              <div class="connector-desc">Crée et modifie des designs avec ton compte Canva</div>
+            </div>
+            <div class="connector-btn primary">Connecter</div>
+          </div>
+          <div class="connector-row">
+            <div class="connector-icon figma">F</div>
+            <div>
+              <div class="connector-name">Figma</div>
+              <div class="connector-desc">Accède à tes fichiers de design</div>
+            </div>
+            <div class="connector-btn">Connecter</div>
+          </div>
+          <div class="connector-row">
+            <div class="connector-icon slack">S</div>
+            <div>
+              <div class="connector-name">Slack</div>
+              <div class="connector-desc">Recherche dans tes conversations</div>
+            </div>
+            <div class="connector-btn">Connecter</div>
+          </div>
+        </div>
+      </div>
+
+      <p>Clique sur <strong>Connecter</strong>, puis suis les étapes pour autoriser Claude à accéder à ton compte Canva (tu seras redirigé vers Canva pour confirmer).</p>
+
+      <div class="gh-window">
+        <div class="gh-titlebar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <div class="gh-url">claude.ai / settings / connectors</div>
+        </div>
+        <div class="gh-content">
+          <div class="connector-row">
+            <div class="connector-icon canva">🎨</div>
+            <div>
+              <div class="connector-name">Canva</div>
+              <div class="connector-desc">Connecté en tant que enzo@hopsite.fr</div>
+            </div>
+            <div class="connector-btn connected">✓ Connecté</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Une fois connecté, le compte reste lié — pas besoin de refaire cette étape à chaque conversation.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Activer Canva dans une conversation</div>
+        <div class="step-subtitle">Icône des paramètres dans le chat → activer le connecteur Canva</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Dans une nouvelle discussion, clique sur l'icône <strong>⚙ Paramètres</strong> (ou l'icône d'outils) en bas de la zone de saisie. Dans la section <strong>Connecteurs</strong>, active le toggle <strong>Canva</strong>.</p>
+
+      <div class="chat-window">
+        <div class="chat-header">⚙ Outils disponibles dans cette discussion</div>
+        <div class="chat-body">
+          <div class="toggle-row">
+            <div class="toggle-row-left">
+              <div class="connector-icon canva" style="width:28px;height:28px;font-size:14px;">🎨</div>
+              <span style="color:#e6edf3;font-size:14px;font-weight:500;">Canva</span>
+            </div>
+            <div class="toggle"></div>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-row-left">
+              <div class="connector-icon figma" style="width:28px;height:28px;font-size:14px;">F</div>
+              <span style="color:#e6edf3;font-size:14px;font-weight:500;">Figma</span>
+            </div>
+            <div class="toggle off"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">🔄</div>
+        <div>Cette activation est <strong>par conversation</strong>. Si tu ouvres une nouvelle discussion et veux utiliser Canva, réactive simplement le toggle.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Faire ta demande à Claude</div>
+        <div class="step-subtitle">Crée, retrouve ou exporte un design directement depuis le chat</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Une fois Canva activé, décris simplement ce que tu veux dans le chat :</p>
+
+      <div class="chat-window">
+        <div class="chat-header">💬 Exemples de demandes</div>
+        <div class="chat-body">
+          <div class="chat-bubble">
+            <span class="cmd">Crée</span> une présentation Canva de 5 slides pour présenter mon projet "<span class="path">Formation IA Canva</span>", avec mon Brand Kit.
+          </div>
+          <div style="height:10px"></div>
+          <div class="chat-bubble">
+            <span class="cmd">Retrouve</span> mon design "<span class="path">Logo Hopsite</span>" dans Canva et exporte-le en PNG.
+          </div>
+          <div style="height:10px"></div>
+          <div class="chat-bubble">
+            <span class="cmd">Remplis</span> automatiquement mon modèle "<span class="path">Flyer Atelier</span>" avec ces informations : [...]
+          </div>
+        </div>
+      </div>
+
+      <p>Claude crée ou modifie le design directement dans ton compte Canva — il te donne ensuite un lien pour l'ouvrir et le finaliser dans l'éditeur Canva.</p>
+
+      <div class="compare">
+        <div class="compare-card yes">
+          <div class="compare-title">✅ Ce que Claude peut faire</div>
+          <ul>
+            <li>Créer des designs éditables (présentations, posts, flyers...)</li>
+            <li>Utiliser ton Brand Kit et tes modèles</li>
+            <li>Remplir automatiquement des modèles (autofill)</li>
+            <li>Retrouver des designs existants</li>
+            <li>Exporter en PDF ou image</li>
+          </ul>
+        </div>
+        <div class="compare-card no">
+          <div class="compare-title">❌ Ce que Claude ne fait pas</div>
+          <ul>
+            <li>Générer des images par IA dans le design (utilise Canva AI pour ça)</li>
+            <li>Fonctionne sans abonnement Canva éligible</li>
+            <li>Autofill si l'option n'est pas incluse dans ton forfait</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-icon">🔌</div>
+        <div>Pour déconnecter Canva : <strong>Paramètres → Connecteurs → Canva → ⋯ → Dissocier</strong>. Tu peux aussi le faire depuis Canva : <strong>Paramètres → Ton profil → Intégrations connectées → Déconnecter le connecteur IA</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Le connecteur Canva nécessite un abonnement Canva Pro, Équipe, Pro+ ou Solidaire
+</div>
+
+</body>
+</html>
