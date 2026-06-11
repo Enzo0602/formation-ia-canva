@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animations Web — Communication 4.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0F;
+    --bg2: #12121A;
+    --bg3: #1A1A28;
+    --violet: #7C3AED;
+    --violet-light: #A78BFA;
+    --cyan: #06B6D4;
+    --cyan-light: #67E8F9;
+    --pink: #EC4899;
+    --green: #10B981;
+    --text: #F1F0F5;
+    --muted: #6B7280;
+    --border: rgba(124,58,237,0.25);
+    --card: rgba(255,255,255,0.03);
+    --radius: 16px;
+    --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── SIDEBAR ────────────────────────────────────── */
+  .sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--violet-light);
+    margin-bottom: 8px;
+  }
+
+  .sidebar-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 32px;
+    color: var(--text);
+  }
+
+  .sidebar-title span { color: var(--cyan); }
+
+  .nav-list { list-style: none; flex: 1; }
+
+  .nav-list li { margin-bottom: 4px; }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: all var(--transition);
+    position: relative;
+    cursor: pointer;
+  }
+
+  .nav-link .nav-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+    transition: all var(--transition);
+  }
+
+  .nav-link:hover, .nav-link.active {
+    color: var(--text);
+    background: rgba(124,58,237,0.15);
+  }
+
+  .nav-link.active { color: var(--violet-light); }
+
+  .nav-link.active .nav-dot {
+    background: var(--violet);
+    box-shadow: 0 0 8px var(--violet);
+    transform: scale(1.4);
+  }
+
+  .nav-badge {
+    margin-left: auto;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    background: rgba(124,58,237,0.2);
+    color: var(--violet-light);
+  }
+
+  .sidebar-footer {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 24px;
+    line-height: 1.6;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+
+  /* ─── MAIN ───────────────────────────────────────── */
+  .main {
+    margin-left: 260px;
+    flex: 1;
+    padding: 0 48px 80px;
+    max-width: calc(100vw - 260px);
+  }
+
+  /* ─── HERO ───────────────────────────────────────── */
+  .hero {
+    padding: 80px 0 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 .gradient {
+    background: linear-gradient(135deg, var(--violet-light), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+  }
+
+  .stat-item { text-align: left; }
+
+  .stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--violet-light);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-bg-orb {
+    position: absolute;
+    top: -60px; right: -100px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    animation: orbFloat 8s ease-in-out infinite;
+  }
+
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(-20px, 30px) scale(1.05); }
+    66% { transform: translate(20px,-20px) scale(0.97); }
+  }
+
+  /* ─── SECTION ────────────────────────────────────── */
+  .section {
+    padding: 64px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-header { margin-bottom: 40px; }
+
+  .section-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  .code-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-family: 'Courier New', monospace;
+    background: rgba(6,182,212,0.1);
+    color: var(--cyan);
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-left: 10px;
+    vertical-align: middle;
+    font-weight: 600;
+  }
+
+  /* ─── DEMO CARD ──────────────────────────────────── */
+  .demo-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px;
+    backdrop-filter: blur(10px);
+    margin-bottom: 24px;
+  }
+
+  /* ════════════════════════════════════════════════════
+     1. CARROUSEL
+  ══════════════════════════════════════════════════════ */
+  .carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    height: 280px;
+  }
+
+  .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.77,0,0.175,1);
+  }
+
+  .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .carousel-slide:nth-child(1) { background: linear-gradient(135deg,#7C3AED,#4F46E5); }
+  .carousel-slide:nth-child(2) { background: linear-gradient(135deg,#06B6D4,#0EA5E9); }
+  .carousel-slide:nth-child(3) { background: linear-gradient(135deg,#EC4899,#F43F5E); }
+  .carousel-slide:nth-child(4) { background: linear-gradient(135deg,#10B981,#059669); }
+
+  .carousel-slide .slide-icon { font-size: 48px; }
+  .carousel-slide .slide-sub { font-size: 14px; font-weight: 400; opacity: 0.75; }
+
+  .carousel-btn {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+
+  .carousel-btn:hover { background: rgba(124,58,237,0.7); transform: translateY(-50%) scale(1.1); }
+  .carousel-btn.prev { left: 16px; }
+  .carousel-btn.next { right: 16px; }
+
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .carousel-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+  }
+
+  .carousel-dot.active {
+    background: var(--violet);
+    width: 24px;
+    border-radius: 4px;
+    box-shadow: 0 0 8px var(--violet);
+  }
+
+  /* ════════════════════════════════════════════════════
+     2. FLIP CARD
+  ══════════════════════════════════════════════════════ */
+  .flip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .flip-card {
+    height: 180px;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+
+  .flip-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4,0.2,0.2,1);
+  }
+
+  .flip-card:hover .flip-inner,
+  .flip-card.flipped .flip-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-front, .flip-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .flip-front {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+  }
+
+  .flip-back {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card:nth-child(1) .flip-back { background: linear-gradient(135deg,#7C3AED,#A78BFA); }
+  .flip-card:nth-child(2) .flip-back { background: linear-gradient(135deg,#06B6D4,#67E8F9); color: #0A0A0F; }
+  .flip-card:nth-child(3) .flip-back { background: linear-gradient(135deg,#EC4899,#FDA4AF); color: #0A0A0F; }
+
+  .flip-icon { font-size: 36px; }
+  .flip-label { font-size: 13px; font-weight: 600; }
+  .flip-sub { font-size: 12px; opacity: 0.75; line-height: 1.5; }
+
+  /* ════════════════════════════════════════════════════
+     3. HOVER EFFECTS
+  ══════════════════════════════════════════════════════ */
+  .hover-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .hover-card {
+    border-radius: 14px;
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hover-card-icon { font-size: 32px; transition: all var(--transition); }
+  .hover-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .hover-card-sub { font-size: 11px; color: var(--muted); transition: color var(--transition); }
+
+  /* Lift */
+  .hover-lift:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(124,58,237,0.3);
+    border-color: var(--violet);
+  }
+
+  /* Glow */
+  .hover-glow:hover {
+    box-shadow: 0 0 0 2px var(--cyan), 0 0 40px rgba(6,182,212,0.4);
+    border-color: var(--cyan);
+  }
+  .hover-glow:hover .hover-card-icon { text-shadow: 0 0 20px var(--cyan); }
+
+  /* Tilt */
+  .hover-tilt { transition: all var(--transition); }
+  .hover-tilt:hover {
+    transform: rotate(-3deg) scale(1.05);
+    background: linear-gradient(135deg, rgba(236,72,153,0.15), rgba(124,58,237,0.15));
+    border-color: var(--pink);
+  }
+
+  /* Reveal */
+  .hover-reveal .reveal-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--violet), var(--cyan));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .hover-reveal:hover .reveal-overlay { opacity: 1; transform: translateY(0); }
+
+  /* ════════════════════════════════════════════════════
+     4. SCROLL REVEAL
+  ══════════════════════════════════════════════════════ */
+  .scroll-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .reveal-item {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-item:nth-child(2) { transition-delay: 0.1s; }
+  .reveal-item:nth-child(3) { transition-delay: 0.2s; }
+
+  .reveal-item-icon { font-size: 32px; margin-bottom: 12px; }
+  .reveal-item-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .reveal-item-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ════════════════════════════════════════════════════
+     5. TYPING EFFECT
+  ══════════════════════════════════════════════════════ */
+  .typing-demo {
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .typing-label {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .typing-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    min-height: 48px;
+  }
+
+  .typing-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1.1em;
+    background: var(--violet);
+    vertical-align: text-bottom;
+    margin-left: 4px;
+    animation: blink 0.8s step-end infinite;
+  }
+
+  @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+  .typing-btn {
+    margin-top: 20px;
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--violet);
+    background: rgba(124,58,237,0.15);
+    color: var(--violet-light);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .typing-btn:hover { background: var(--violet); color: white; }
+
+  /* ════════════════════════════════════════════════════
+     6. COUNTER
+  ══════════════════════════════════════════════════════ */
+  .counter-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .counter-item {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px 20px;
+    text-align: center;
+  }
+
+  .counter-number {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    display: block;
+  }
+
+  .counter-item:nth-child(1) .counter-number { color: var(--violet-light); }
+  .counter-item:nth-child(2) .counter-number { color: var(--cyan); }
+  .counter-item:nth-child(3) .counter-number { color: var(--pink); }
+  .counter-item:nth-child(4) .counter-number { color: var(--green); }
+
+  .counter-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  .counter-trigger-btn {
+    margin-top: 24px;
+    padding: 12px 32px;
+    border-radius: 10px;
+    border: 2px solid var(--cyan);
+    background: transparent;
+    color: var(--cyan);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Space Grotesk', sans-serif;
+    display: block;
+    margin-left: auto; margin-right: auto;
+  }
+  .counter-trigger-btn:hover { background: var(--cyan); color: #0A0A0F; transform: translateY(-2px); }
+
+  /* ════════════════════════════════════════════════════
+     7. PARTICLE / CANVAS
+  ══════════════════════════════════════════════════════ */
+  .canvas-wrapper {
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    height: 300px;
+    border: 1px solid var(--border);
+    cursor: crosshair;
+  }
+
+  #particle-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--bg2);
+  }
+
+  .canvas-label {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: var(--muted);
+    background: rgba(10,10,15,0.7);
+    padding: 6px 14px;
+    border-radius: 20px;
+    pointer-events: none;
+    backdrop-filter: blur(8px);
+  }
+
+  /* ════════════════════════════════════════════════════
+     8. PROGRESS / LOADER
+  ══════════════════════════════════════════════════════ */
+  .progress-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .progress-item {}
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .progress-bar-bg {
+    height: 8px;
+    background: var(--bg3);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    border-radius: 4px;
+    width: 0%;
+    transition: width 1.6s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .p1 { background: linear-gradient(90deg, var(--violet), var(--violet-light)); }
+  .p2 { background: linear-gradient(90deg, var(--cyan), var(--cyan-light)); }
+  .p3 { background: linear-gradient(90deg, var(--pink), #FDA4AF); }
+  .p4 { background: linear-gradient(90deg, var(--green), #6EE7B7); }
+
+  .loaders-row {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 32px 0 16px;
+  }
+
+  .loader-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .loader-box span {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* Spinner */
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid rgba(124,58,237,0.2);
+    border-top-color: var(--violet);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Pulse */
+  .pulse {
+    width: 40px; height: 40px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity:1; }
+    50% { transform: scale(1.5); opacity:0.3; }
+  }
+
+  /* Dots */
+  .dots-loader { display: flex; gap: 6px; align-items: center; }
+
+  .dot-bounce {
+    width: 10px; height: 10px;
+    background: var(--pink);
+    border-radius: 50%;
+    animation: bounce 1.4s ease-in-out infinite;
+  }
+
+  .dot-bounce:nth-child(2) { animation-delay: 0.16s; }
+  .dot-bounce:nth-child(3) { animation-delay: 0.32s; }
+
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-16px); }
+  }
+
+  /* Skeleton */
+  .skeleton {
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .skel-line {
+    height: 10px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--bg3) 0%, rgba(255,255,255,0.07) 50%, var(--bg3) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  .skel-line.short { width: 60%; }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* ════════════════════════════════════════════════════
+     9. MODAL ANIMATED
+  ══════════════════════════════════════════════════════ */
+  .modal-demo-area {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .modal-trigger-btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-violet { background: var(--violet); color: white; }
+  .btn-violet:hover { background: #6D28D9; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
+
+  .btn-outline { background: transparent; color: var(--cyan); border: 2px solid var(--cyan); }
+  .btn-outline:hover { background: rgba(6,182,212,0.1); transform: translateY(-2px); }
+
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .modal-backdrop.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 460px;
+    width: 90%;
+    transform: scale(0.85) translateY(20px);
+    transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative;
+  }
+
+  .modal-backdrop.open .modal-box {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .modal-text { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  .notification-stack {
+    position: fixed;
+    top: 20px; right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .notif {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    min-width: 280px;
+    max-width: 340px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transform: translateX(120%);
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s;
+    font-size: 13.5px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    opacity: 0;
+  }
+
+  .notif.show { transform: translateX(0); opacity: 1; }
+  .notif-icon { font-size: 20px; flex-shrink: 0; }
+  .notif-text { flex: 1; }
+  .notif-title { font-weight: 600; margin-bottom: 2px; }
+  .notif-sub { color: var(--muted); font-size: 12px; }
+
+  /* ════════════════════════════════════════════════════
+     10. MORPHING SHAPES / CSS KEYFRAMES
+  ══════════════════════════════════════════════════════ */
+  .morph-stage {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 24px 0;
+  }
+
+  .morph-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .morph-shape { position: relative; }
+
+  .morph-1 {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--violet), var(--violet-light));
+    border-radius: 50%;
+    animation: morph1 4s ease-in-out infinite;
+  }
+
+  @keyframes morph1 {
+    0%,100% { border-radius: 50%; transform: rotate(0deg); }
+    25% { border-radius: 20%; transform: rotate(45deg); }
+    50% { border-radius: 50% 20%; transform: rotate(90deg); }
+    75% { border-radius: 20% 50%; transform: rotate(135deg); }
+  }
+
+  .morph-2 {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--cyan), var(--cyan-light));
+    animation: morph2 3s ease-in-out infinite;
+  }
+
+  @keyframes morph2 {
+    0%, 100% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; transform: scale(1); }
+    25% { border-radius: 0% 100% 0% 100% / 100% 0% 100% 0%; transform: scale(1.1); }
+    50% { border-radius: 100% 0% 100% 0% / 0% 100% 0% 100%; transform: scale(0.9); }
+    75% { border-radius: 50% 80% 50% 80% / 80% 50% 80% 50%; transform: scale(1.05); }
+  }
+
+  .morph-3 {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--pink), #FDA4AF);
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    animation: morph3 4s ease-in-out infinite;
+  }
+
+  @keyframes morph3 {
+    0%, 100% { clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); transform: rotate(0deg); }
+    33% { clip-path: polygon(50% 0%, 100% 100%, 0% 100%); transform: rotate(120deg); }
+    66% { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); transform: rotate(240deg); }
+  }
+
+  .morph-4 {
+    width: 80px; height: 80px;
+    border: 3px solid var(--green);
+    background: transparent;
+    border-radius: 50%;
+    animation: morph4 2s linear infinite;
+    position: relative;
+  }
+
+  .morph-4::after {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 3px solid var(--green);
+    border-radius: 50%;
+    animation: morph4 2s linear infinite reverse;
+    opacity: 0.5;
+  }
+
+  @keyframes morph4 {
+    0% { transform: rotate(0deg) scale(1); border-radius: 50%; }
+    50% { transform: rotate(180deg) scale(1.2); border-radius: 20%; }
+    100% { transform: rotate(360deg) scale(1); border-radius: 50%; }
+  }
+
+  .morph-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* ─── RESPONSIVE UTILS ───────────────────────────── */
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; max-width: 100vw; padding: 0 20px 60px; }
+    .flip-grid, .hover-grid, .counter-grid { grid-template-columns: 1fr 1fr; }
+    .scroll-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ─── SCROLLBAR ──────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--violet); }
+
+  /* ─── SECTION FADE ───────────────────────────────── */
+  .section-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .section-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── SIDEBAR ─────────────────────────────────── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">Com. 4.0</div>
+  <div class="sidebar-title">Animations<br><span>Web</span></div>
+  <nav>
+    <ul class="nav-list">
+      <li><a class="nav-link active" href="#s-carousel"><span class="nav-dot"></span>Carrousel</a></li>
+      <li><a class="nav-link" href="#s-flip"><span class="nav-dot"></span>Flip Card <span class="nav-badge">3D</span></a></li>
+      <li><a class="nav-link" href="#s-hover"><span class="nav-dot"></span>Hover Effects</a></li>
+      <li><a class="nav-link" href="#s-scroll"><span class="nav-dot"></span>Scroll Reveal</a></li>
+      <li><a class="nav-link" href="#s-typing"><span class="nav-dot"></span>Effet Typing</a></li>
+      <li><a class="nav-link" href="#s-counter"><span class="nav-dot"></span>Compteurs</a></li>
+      <li><a class="nav-link" href="#s-particles"><span class="nav-dot"></span>Particules</a></li>
+      <li><a class="nav-link" href="#s-loaders"><span class="nav-dot"></span>Loaders & Progress</a></li>
+      <li><a class="nav-link" href="#s-modal"><span class="nav-dot"></span>Modal & Notifs</a></li>
+      <li><a class="nav-link" href="#s-morph"><span class="nav-dot"></span>Morphing CSS</a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-footer">
+    Démo pédagogique<br>
+    Communication 4.0<br>
+    10 techniques essentielles
+  </div>
+</aside>
+
+<!-- ─── MAIN ─────────────────────────────────────── -->
+<main class="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-orb"></div>
+    <div class="hero-eyebrow">Communication Digitale · Animation Web</div>
+    <h1>Les animations<br><span class="gradient">qui captivent</span></h1>
+    <p class="hero-sub">Tour d'horizon interactif des techniques d'animation JavaScript et CSS qui transforment une page statique en expérience immersive.</p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">10</div>
+        <div class="stat-label">Techniques</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Interactif</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Librairie externe</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. CARROUSEL -->
+  <section class="section section-animate" id="s-carousel">
+    <div class="section-header">
+      <div class="section-eyebrow">01 · Classique indémodable</div>
+      <div class="section-title">Carrousel <span class="code-tag">translate()</span></div>
+      <p class="section-desc">Navigation entre contenus avec translation CSS. Indispensable pour galeries, témoignages ou mises en avant produit.</p>
+    </div>
+    <div class="demo-card">
+      <div class="carousel-wrapper">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide"><div class="slide-icon">🚀</div><div>Lancement de campagne</div><div class="slide-sub">Slide 1 / 4</div></div>
+          <div class="carousel-slide"><div class="slide-icon">🎯</div><div>Ciblage précis</div><div class="slide-sub">Slide 2 / 4</div></div>
+          <div class="carousel-slide"><div class="slide-icon">📊</div><div>Data & Insights</div><div class="slide-sub">Slide 3 / 4</div></div>
+          <div class="carousel-slide"><div class="slide-icon">💎</div><div>Résultats premium</div><div class="slide-sub">Slide 4 / 4</div></div>
+        </div>
+        <button class="carousel-btn prev" id="prevBtn">‹</button>
+        <button class="carousel-btn next" id="nextBtn">›</button>
+      </div>
+      <div class="carousel-dots" id="carouselDots">
+        <button class="carousel-dot active" data-index="0"></button>
+        <button class="carousel-dot" data-index="1"></button>
+        <button class="carousel-dot" data-index="2"></button>
+        <button class="carousel-dot" data-index="3"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. FLIP CARD -->
+  <section class="section section-animate" id="s-flip">
+    <div class="section-header">
+      <div class="section-eyebrow">02 · Interaction 3D</div>
+      <div class="section-title">Flip Card <span class="code-tag">rotateY(180deg)</span></div>
+      <p class="section-desc">Retournement 3D sur hover. Parfait pour présenter recto/verso d'un produit, avant/après, question/réponse.</p>
+    </div>
+    <div class="demo-card">
+      <div class="flip-grid">
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="flip-icon">🎨</div>
+              <div class="flip-label">Brand Design</div>
+              <div class="flip-sub">Survolez pour retourner</div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-icon">✨</div>
+              <div class="flip-label">Identité visuelle</div>
+              <div class="flip-sub">Charte couleurs, typo, logo</div>
+            </div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="flip-icon">📱</div>
+              <div class="flip-label">Social Media</div>
+              <div class="flip-sub">Hover pour la face cachée</div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-icon">📈</div>
+              <div class="flip-label">+340% engagement</div>
+              <div class="flip-sub">Avec des contenus animés</div>
+            </div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="flip-icon">🎬</div>
+              <div class="flip-label">Vidéo & Motion</div>
+              <div class="flip-sub">Cliquez pour fixer</div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-icon">🎯</div>
+              <div class="flip-label">Storytelling visuel</div>
+              <div class="flip-sub">Narration en mouvement</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. HOVER -->
+  <section class="section section-animate" id="s-hover">
+    <div class="section-header">
+      <div class="section-eyebrow">03 · Micro-interactions</div>
+      <div class="section-title">Hover Effects <span class="code-tag">:hover + transition</span></div>
+      <p class="section-desc">Retour visuel immédiat au survol. Améliore drastiquement le ressenti "premium" d'une interface.</p>
+    </div>
+    <div class="demo-card">
+      <div class="hover-grid">
+        <div class="hover-card hover-lift">
+          <div class="hover-card-icon">⬆️</div>
+          <div class="hover-card-title">Lift</div>
+          <div class="hover-card-sub">Élévation + ombre</div>
+        </div>
+        <div class="hover-card hover-glow">
+          <div class="hover-card-icon">✨</div>
+          <div class="hover-card-title">Glow</div>
+          <div class="hover-card-sub">Halo lumineux</div>
+        </div>
+        <div class="hover-card hover-tilt">
+          <div class="hover-card-icon">↗️</div>
+          <div class="hover-card-title">Tilt</div>
+          <div class="hover-card-sub">Rotation légère</div>
+        </div>
+        <div class="hover-card hover-reveal">
+          <div class="hover-card-icon">👁️</div>
+          <div class="hover-card-title">Reveal</div>
+          <div class="hover-card-sub">Overlay surgissant</div>
+          <div class="reveal-overlay">
+            <div style="font-size:24px">🎯</div>
+            Contenu révélé !
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SCROLL REVEAL -->
+  <section class="section section-animate" id="s-scroll">
+    <div class="section-header">
+      <div class="section-eyebrow">04 · Au fil du scroll</div>
+      <div class="section-title">Scroll Reveal <span class="code-tag">IntersectionObserver</span></div>
+      <p class="section-desc">Les éléments apparaissent au moment où ils entrent dans le viewport. Crée un rythme narratif et maintient l'attention.</p>
+    </div>
+    <div class="demo-card">
+      <div class="scroll-grid">
+        <div class="reveal-item" data-reveal>
+          <div class="reveal-item-icon">👁️</div>
+          <div class="reveal-item-title">Visibilité</div>
+          <div class="reveal-item-text">Déclenché à l'entrée dans le viewport via IntersectionObserver — une API native moderne.</div>
+        </div>
+        <div class="reveal-item" data-reveal>
+          <div class="reveal-item-icon">⏱️</div>
+          <div class="reveal-item-title">Délai en cascade</div>
+          <div class="reveal-item-text">Chaque carte apparaît avec 100ms de décalage, créant un effet de cascade fluide et naturel.</div>
+        </div>
+        <div class="reveal-item" data-reveal>
+          <div class="reveal-item-icon">🔄</div>
+          <div class="reveal-item-title">Réinitialisation</div>
+          <div class="reveal-item-text">Peut se rejouer à chaque scroll pour renforcer la mémorisation du contenu présenté.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. TYPING -->
+  <section class="section section-animate" id="s-typing">
+    <div class="section-header">
+      <div class="section-eyebrow">05 · Effet éditorial</div>
+      <div class="section-title">Effet Typewriter <span class="code-tag">setTimeout()</span></div>
+      <p class="section-desc">Simule une frappe en direct. Capte l'attention sur un titre hero, une tagline ou un message fort.</p>
+    </div>
+    <div class="demo-card">
+      <div class="typing-demo">
+        <div class="typing-label">Message en cours de frappe…</div>
+        <div class="typing-text" id="typingText"><span class="typing-cursor"></span></div>
+        <button class="typing-btn" id="typingRestartBtn">↺ Rejouer</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. COUNTER -->
+  <section class="section section-animate" id="s-counter">
+    <div class="section-header">
+      <div class="section-eyebrow">06 · Impact chiffré</div>
+      <div class="section-title">Compteurs animés <span class="code-tag">requestAnimationFrame</span></div>
+      <p class="section-desc">Donne vie aux statistiques. Un chiffre qui monte crée une tension dramatique et renforce la crédibilité.</p>
+    </div>
+    <div class="demo-card">
+      <div class="counter-grid">
+        <div class="counter-item">
+          <span class="counter-number" data-target="2400" data-suffix="K">0</span>
+          <div class="counter-label">Impressions / mois</div>
+        </div>
+        <div class="counter-item">
+          <span class="counter-number" data-target="98" data-suffix="%">0</span>
+          <div class="counter-label">Satisfaction client</div>
+        </div>
+        <div class="counter-item">
+          <span class="counter-number" data-target="340" data-suffix="%">0</span>
+          <div class="counter-label">ROI campagnes</div>
+        </div>
+        <div class="counter-item">
+          <span class="counter-number" data-target="127">0</span>
+          <div class="counter-label">Projets livrés</div>
+        </div>
+      </div>
+      <button class="counter-trigger-btn" id="counterBtn">▶ Lancer les compteurs</button>
+    </div>
+  </section>
+
+  <!-- 7. PARTICLES -->
+  <section class="section section-animate" id="s-particles">
+    <div class="section-header">
+      <div class="section-eyebrow">07 · Ambiance & Atmosphère</div>
+      <div class="section-title">Particules Canvas <span class="code-tag">&lt;canvas&gt; + requestAnimationFrame</span></div>
+      <p class="section-desc">Système de particules interactif. Bougez la souris sur la zone. Idéal pour heroes de page ou landing pages premium.</p>
+    </div>
+    <div class="demo-card" style="padding:0">
+      <div class="canvas-wrapper">
+        <canvas id="particle-canvas"></canvas>
+        <div class="canvas-label">✦ Bougez la souris dans cette zone</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. LOADERS -->
+  <section class="section section-animate" id="s-loaders">
+    <div class="section-header">
+      <div class="section-eyebrow">08 · UX & Attente</div>
+      <div class="section-title">Loaders & Barres de progression <span class="code-tag">@keyframes + CSS</span></div>
+      <p class="section-desc">Gestion de l'attente perçue. Un bon loader transforme la frustration en anticipation.</p>
+    </div>
+    <div class="demo-card">
+      <div class="progress-section" id="progressBars">
+        <div class="progress-item">
+          <div class="progress-meta"><span>UX Design</span><span>92%</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar p1" data-width="92"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-meta"><span>Développement Web</span><span>78%</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar p2" data-width="78"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-meta"><span>Social Media</span><span>85%</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar p3" data-width="85"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-meta"><span>Content Strategy</span><span>94%</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar p4" data-width="94"></div></div>
+        </div>
+      </div>
+
+      <div class="loaders-row">
+        <div class="loader-box">
+          <div class="spinner"></div>
+          <span>Spinner</span>
+        </div>
+        <div class="loader-box">
+          <div class="pulse"></div>
+          <span>Pulse</span>
+        </div>
+        <div class="loader-box">
+          <div class="dots-loader">
+            <div class="dot-bounce"></div>
+            <div class="dot-bounce"></div>
+            <div class="dot-bounce"></div>
+          </div>
+          <span>Dots bounce</span>
+        </div>
+        <div class="loader-box">
+          <div class="skeleton">
+            <div class="skel-line"></div>
+            <div class="skel-line"></div>
+            <div class="skel-line short"></div>
+          </div>
+          <span>Skeleton</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. MODAL + NOTIFS -->
+  <section class="section section-animate" id="s-modal">
+    <div class="section-header">
+      <div class="section-eyebrow">09 · Feedback utilisateur</div>
+      <div class="section-title">Modales & Notifications <span class="code-tag">scale() + translateX()</span></div>
+      <p class="section-desc">Interrompre sans frustrer. Les animations d'entrée/sortie définissent la personnalité de l'interface.</p>
+    </div>
+    <div class="demo-card">
+      <div class="modal-demo-area">
+        <button class="modal-trigger-btn btn-violet" id="openModal">Ouvrir une modale</button>
+        <button class="modal-trigger-btn btn-outline" id="triggerNotif">Déclencher une notif</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. MORPHING -->
+  <section class="section section-animate" id="s-morph">
+    <div class="section-header">
+      <div class="section-eyebrow">10 · Animation pure CSS</div>
+      <div class="section-title">Morphing de formes <span class="code-tag">border-radius + clip-path</span></div>
+      <p class="section-desc">Des formes qui se métamorphosent en boucle. Aucun JS requis — tout est géré par les keyframes CSS.</p>
+    </div>
+    <div class="demo-card">
+      <div class="morph-stage">
+        <div class="morph-item">
+          <div class="morph-shape morph-1"></div>
+          <div class="morph-label">border-radius</div>
+        </div>
+        <div class="morph-item">
+          <div class="morph-shape morph-2"></div>
+          <div class="morph-label">border-radius complexe</div>
+        </div>
+        <div class="morph-item">
+          <div class="morph-shape morph-3"></div>
+          <div class="morph-label">clip-path polygon</div>
+        </div>
+        <div class="morph-item">
+          <div class="morph-shape morph-4"></div>
+          <div class="morph-label">pseudo-elements</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-box">
+    <button class="modal-close" id="closeModal">✕</button>
+    <div class="modal-title">🎯 Animation de modale</div>
+    <div class="modal-text">
+      Cette modale apparaît avec un effet de <strong>scale + spring</strong> grâce à la courbe de Bézier <code>cubic-bezier(0.34, 1.56, 0.64, 1)</code> qui crée un léger rebond. Le fond devient flou via <code>backdrop-filter: blur()</code>.
+    </div>
+    <div style="display:flex;gap:12px">
+      <button class="modal-trigger-btn btn-violet" id="closeModal2" style="flex:1">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIF STACK -->
+<div class="notification-stack" id="notifStack"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// 1. CARROUSEL
+// ══════════════════════════════════════════════
+(function() {
+  let current = 0;
+  const total = 4;
+  const track = document.getElementById('carouselTrack');
+  const dots = document.querySelectorAll('.carousel-dot');
+  let autoInterval;
+
+  function goTo(idx) {
+    current = (idx + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', () => { goTo(current - 1); resetAuto(); });
+  document.getElementById('nextBtn').addEventListener('click', () => { goTo(current + 1); resetAuto(); });
+  dots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.index); resetAuto(); }));
+
+  function resetAuto() {
+    clearInterval(autoInterval);
+    autoInterval = setInterval(() => goTo(current + 1), 4000);
+  }
+  resetAuto();
+})();
+
+// ══════════════════════════════════════════════
+// 2. FLIP CARD (clic pour fixer)
+// ══════════════════════════════════════════════
+document.querySelectorAll('.flip-card').forEach(card => {
+  card.addEventListener('click', () => card.classList.toggle('flipped'));
+});
+
+// ══════════════════════════════════════════════
+// 3. NAV ACTIVE LINK
+// ══════════════════════════════════════════════
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('.section');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+    }
+  });
+}, { threshold: 0.4 });
+
+sections.forEach(s => navObserver.observe(s));
+
+// ══════════════════════════════════════════════
+// 4. SCROLL REVEAL
+// ══════════════════════════════════════════════
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('[data-reveal], .section-animate').forEach(el => revealObserver.observe(el));
+
+// ══════════════════════════════════════════════
+// 5. TYPEWRITER
+// ══════════════════════════════════════════════
+(function() {
+  const phrases = [
+    'Bienvenue dans le Web vivant.',
+    'Chaque pixel peut raconter.',
+    'L\'animation, c\'est de l\'émotion.',
+    'Communication 4.0 en action 🚀'
+  ];
+
+  const container = document.getElementById('typingText');
+  let phraseIdx = 0, charIdx = 0, deleting = false;
+
+  function type() {
+    const phrase = phrases[phraseIdx];
+    const displayed = deleting ? phrase.substring(0, charIdx--) : phrase.substring(0, charIdx++);
+    container.innerHTML = displayed + '<span class="typing-cursor"></span>';
+
+    let delay = deleting ? 40 : 80;
+    if (!deleting && charIdx > phrase.length) { delay = 2000; deleting = true; }
+    else if (deleting && charIdx < 0) {
+      deleting = false;
+      phraseIdx = (phraseIdx + 1) % phrases.length;
+      charIdx = 0;
+      delay = 300;
+    }
+    setTimeout(type, delay);
+  }
+  type();
+
+  document.getElementById('typingRestartBtn').addEventListener('click', () => {
+    phraseIdx = 0; charIdx = 0; deleting = false;
+  });
+})();
+
+// ══════════════════════════════════════════════
+// 6. COUNTERS
+// ══════════════════════════════════════════════
+function animateCounter(el) {
+  const target = +el.dataset.target;
+  const suffix = el.dataset.suffix || '';
+  const duration = 1800;
+  const start = performance.now();
+
+  function update(ts) {
+    const progress = Math.min((ts - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target) + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+document.getElementById('counterBtn').addEventListener('click', () => {
+  document.querySelectorAll('.counter-number').forEach(el => animateCounter(el));
+});
+
+// ══════════════════════════════════════════════
+// 7. PARTICLES CANVAS
+// ══════════════════════════════════════════════
+(function() {
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let mouse = { x: null, y: null };
+  const COLORS = ['#7C3AED', '#A78BFA', '#06B6D4', '#67E8F9', '#EC4899'];
+
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    for (let i = 0; i < 2; i++) {
+      particles.push(new Particle(mouse.x, mouse.y));
+    }
+  });
+
+  canvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+
+  class Particle {
+    constructor(x, y) {
+      this.x = x; this.y = y;
+      this.size = Math.random() * 4 + 1;
+      this.vx = (Math.random() - 0.5) * 3;
+      this.vy = (Math.random() - 0.5) * 3 - 1;
+      this.alpha = 1;
+      this.decay = Math.random() * 0.015 + 0.008;
+      this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.vy += 0.04;
+      this.alpha -= this.decay;
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // Background ambient particles
+  for (let i = 0; i < 40; i++) {
+    const p = new Particle(
+      Math.random() * 800,
+      Math.random() * 300
+    );
+    p.vx = (Math.random() - 0.5) * 0.5;
+    p.vy = -Math.random() * 0.5 - 0.2;
+    p.decay = 0.002;
+    p.size = Math.random() * 2 + 0.5;
+    particles.push(p);
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles = particles.filter(p => p.alpha > 0);
+    if (particles.length < 60 && Math.random() < 0.3) {
+      const p = new Particle(Math.random() * canvas.width, canvas.height + 10);
+      p.vy = -Math.random() * 1 - 0.5;
+      p.vx = (Math.random() - 0.5) * 0.8;
+      p.decay = 0.003;
+      p.size = Math.random() * 2 + 0.5;
+      particles.push(p);
+    }
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ══════════════════════════════════════════════
+// 8. PROGRESS BARS (observe scroll)
+// ══════════════════════════════════════════════
+const progressObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.progress-bar').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+    }
+  });
+}, { threshold: 0.3 });
+progressObserver.observe(document.getElementById('progressBars'));
+
+// ══════════════════════════════════════════════
+// 9. MODAL + NOTIFICATIONS
+// ══════════════════════════════════════════════
+const modal = document.getElementById('modalBackdrop');
+document.getElementById('openModal').addEventListener('click', () => modal.classList.add('open'));
+document.getElementById('closeModal').addEventListener('click', () => modal.classList.remove('open'));
+document.getElementById('closeModal2').addEventListener('click', () => modal.classList.remove('open'));
+modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+
+const notifMessages = [
+  { icon: '✅', title: 'Succès !', sub: 'Campagne publiée avec succès.', color: '#10B981' },
+  { icon: '🎯', title: 'Objectif atteint', sub: '10 000 impressions ce mois.', color: '#7C3AED' },
+  { icon: '💬', title: 'Nouveau message', sub: 'Votre client a répondu.', color: '#06B6D4' },
+  { icon: '⚡', title: 'Tip UX', sub: 'Les animations augmentent l\'engagement.', color: '#EC4899' },
+];
+let notifIdx = 0;
+const stack = document.getElementById('notifStack');
+
+document.getElementById('triggerNotif').addEventListener('click', () => {
+  const data = notifMessages[notifIdx++ % notifMessages.length];
+  const el = document.createElement('div');
+  el.className = 'notif';
+  el.style.borderLeft = `3px solid ${data.color}`;
+  el.innerHTML = `
+    <div class="notif-icon">${data.icon}</div>
+    <div class="notif-text">
+      <div class="notif-title">${data.title}</div>
+      <div class="notif-sub">${data.sub}</div>
+    </div>`;
+  stack.appendChild(el);
+  requestAnimationFrame(() => { requestAnimationFrame(() => el.classList.add('show')); });
+  setTimeout(() => {
+    el.classList.remove('show');
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(120%)';
+    setTimeout(() => el.remove(), 400);
+  }, 3500);
+});
+</script>
+</body>
+</html>
