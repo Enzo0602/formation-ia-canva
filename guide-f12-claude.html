@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide F12 — Modifier un élément avec Claude</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#1e1e1e;--bg2:#252526;--bg3:#2d2d2d;--bg4:#333;
+  --border:#454545;--text:#d4d4d4;--text2:#858585;
+  --blue:#4fc1ff;--green:#4ec94c;--orange:#ce9178;--accent:#007acc;
+  --sel:#264f78;
+}
+body{font-family:'Inter',sans-serif;background:#f0f2f5;color:#1a1a2e;line-height:1.6}
+
+/* ── OS SWITCHER ── */
+.os-switcher{display:flex;justify-content:center;background:white;border-bottom:2px solid #e8eaed;padding:16px 24px 0}
+.os-btn{display:flex;align-items:center;gap:9px;padding:12px 28px;font-size:14px;font-weight:700;cursor:pointer;border:none;background:none;color:#9ca3af;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .18s}
+.os-btn:hover{color:#374151}
+.os-btn.active-win{color:#0078d4;border-bottom-color:#0078d4}
+.os-btn.active-mac{color:#444;border-bottom-color:#444}
+
+/* ── HEADER ── */
+.header{background:linear-gradient(135deg,#0e1117,#161b22 60%,#1f2d3d);color:white;padding:52px 40px 40px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(31,111,235,.15),transparent 60%)}
+.header-tag{display:inline-block;background:rgba(88,166,255,.15);border:1px solid rgba(88,166,255,.3);border-radius:20px;padding:5px 16px;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#58a6ff;margin-bottom:16px;position:relative}
+.header h1{font-size:30px;font-weight:800;margin-bottom:10px;line-height:1.2;position:relative}
+.header h1 span{color:#58a6ff}
+.header p{font-size:14px;color:rgba(255,255,255,.55);max-width:460px;margin:0 auto;position:relative}
+
+/* ── STEPS BAR ── */
+.steps-bar{display:flex;justify-content:center;background:white;border-bottom:2px solid #e8eaed;overflow-x:auto}
+.step-pill{display:flex;align-items:center;gap:8px;padding:14px 18px;font-size:12px;font-weight:600;color:#9ca3af;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px}
+.step-pill .n{width:22px;height:22px;border-radius:50%;background:#f3f4f6;color:#9ca3af;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0}
+.step-pill.s1{color:#2563eb;border-bottom-color:#2563eb}.step-pill.s1 .n{background:#2563eb;color:white}
+.step-pill.s2{color:#7c3aed;border-bottom-color:#7c3aed}.step-pill.s2 .n{background:#7c3aed;color:white}
+.step-pill.s3{color:#059669;border-bottom-color:#059669}.step-pill.s3 .n{background:#059669;color:white}
+.step-pill.s4{color:#ea580c;border-bottom-color:#ea580c}.step-pill.s4 .n{background:#ea580c;color:white}
+.step-pill.s5{color:#dc2626;border-bottom-color:#dc2626}.step-pill.s5 .n{background:#dc2626;color:white}
+.sep{color:#d1d5db;align-self:center;font-size:14px;flex-shrink:0}
+
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px}
+
+/* ── CARD ── */
+.card{background:white;border-radius:16px;border:1px solid #e5e7eb;box-shadow:0 2px 8px rgba(0,0,0,.05);overflow:hidden;margin-bottom:32px}
+.card-head{display:flex;align-items:center;gap:14px;padding:20px 24px 16px;border-bottom:1px solid #f3f4f6}
+.card-num{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:white;flex-shrink:0}
+.c1{background:#2563eb}.c2{background:#7c3aed}.c3{background:#059669}.c4{background:#ea580c}.c5{background:#dc2626}
+.card-title{font-size:18px;font-weight:700;color:#111827}
+.card-sub{font-size:13px;color:#6b7280;margin-top:2px}
+.card-body{padding:24px}
+
+/* ── DEVTOOLS CHROME (réaliste) ── */
+.dt-window{background:var(--bg);border-radius:10px;overflow:hidden;border:1px solid var(--border);margin:14px 0;font-size:12px;font-family:'Inter',sans-serif}
+
+/* Chrome Windows titlebar */
+.chrome-win-outer{background:#202124;border-bottom:1px solid #3c3c3c}
+.chrome-win-tab-row{display:flex;align-items:flex-end;height:36px;padding:0 8px;gap:0}
+.chrome-win-tab{
+  display:flex;align-items:center;gap:6px;
+  height:28px;padding:0 12px;min-width:140px;max-width:220px;
+  background:#35363a;border-radius:8px 8px 0 0;font-size:12px;color:#bbb;
+  position:relative;margin-bottom:-1px;
+}
+.chrome-win-tab.active{background:#1e1e1e;color:white}
+.chrome-win-tab .tab-favicon{font-size:13px}
+.chrome-win-tab .tab-close{margin-left:auto;font-size:11px;color:#999;width:16px;height:16px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.chrome-win-tab .tab-close:hover{background:#555;color:white}
+.chrome-win-controls{margin-left:auto;display:flex;align-items:center}
+.chrome-win-btn{width:46px;height:36px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#aaa;cursor:default}
+.chrome-win-btn:hover{background:#3c3c3c}
+.chrome-win-btn.x:hover{background:#e81123;color:white}
+.chrome-omnibar{background:#292929;border-bottom:1px solid #3c3c3c;display:flex;align-items:center;height:36px;padding:0 10px;gap:8px}
+.chrome-nav-btn{color:#999;font-size:16px;cursor:default;padding:0 4px}
+.chrome-address{flex:1;background:#1c1c1c;border:1px solid #3c3c3c;border-radius:20px;height:24px;display:flex;align-items:center;padding:0 10px;font-size:12px;color:#aaa;font-family:'Fira Code',monospace}
+
+/* Chrome Mac titlebar */
+.chrome-mac-outer{background:#3a3a3a}
+.chrome-mac-tab-row{display:flex;align-items:flex-end;height:38px;padding:0 70px 0 8px;gap:0;position:relative}
+.chrome-mac-dots{position:absolute;left:10px;top:50%;transform:translateY(-50%);display:flex;gap:6px}
+.dot{width:12px;height:12px;border-radius:50%}
+.dr{background:#ff5f57}.dy{background:#febc2e}.dg{background:#28c840}
+.chrome-mac-tab{display:flex;align-items:center;gap:6px;height:28px;padding:0 14px;min-width:160px;background:#282828;border-radius:8px 8px 0 0;font-size:12px;color:#bbb;margin-bottom:-1px}
+.chrome-mac-tab.active{background:#1e1e1e;color:white}
+.chrome-mac-omnibar{background:#292929;border-bottom:1px solid #3c3c3c;display:flex;align-items:center;height:36px;padding:0 10px;gap:8px}
+.chrome-mac-address{flex:1;background:#1c1c1c;border:1px solid #3c3c3c;border-radius:20px;height:24px;display:flex;align-items:center;padding:0 10px;font-size:12px;color:#aaa;font-family:'Fira Code',monospace}
+
+/* DevTools panel tabs */
+.dt-panel-tabs{background:#1e1e1e;display:flex;border-bottom:1px solid #3c3c3c;overflow-x:auto}
+.dt-panel-tab{padding:8px 16px;font-size:12px;color:#999;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;cursor:default}
+.dt-panel-tab.active{color:#ccc;border-bottom-color:#007acc}
+
+/* DevTools toolbar — vraie barre Chrome DevTools */
+.dt-toolbar{background:#252526;padding:4px 6px;display:flex;align-items:center;gap:2px;border-bottom:1px solid #3c3c3c}
+.dt-tool{
+  width:26px;height:26px;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:default;color:#aaa;position:relative;
+}
+.dt-tool:hover{background:#3a3a3a}
+.dt-tool.active{background:rgba(0,122,204,.25);color:#4fc1ff}
+.dt-tool svg{width:16px;height:16px;display:block}
+.dt-tool-sep{width:1px;height:18px;background:#3c3c3c;margin:0 3px;flex-shrink:0}
+.dt-tool-label{font-size:10px;font-family:'Fira Code',monospace;color:#4ec94c;margin-left:auto;padding-right:4px}
+
+/* Elements panel split */
+.dt-split{display:flex;min-height:200px;max-height:240px}
+.dt-left{flex:1;border-right:1px solid var(--border);overflow:hidden;min-width:0}
+.dt-right{width:240px;flex-shrink:0;overflow:hidden;background:#252526}
+.dt-pane-title{padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#858585;border-bottom:1px solid #3c3c3c;background:#2d2d2d}
+.dt-pane-content{padding:8px;overflow:auto;height:100%}
+
+/* HTML tree */
+.tree{font-family:'Fira Code',monospace;font-size:11px;line-height:2}
+.tree-line{display:flex;align-items:baseline;padding:0 4px;border-radius:2px;cursor:default}
+.tree-line:hover{background:#2a2d2e}
+.tree-line.hl{background:#264f78!important}
+.ind{display:inline-block;width:16px;flex-shrink:0}
+.tg{color:#4fc1ff}.ta{color:#9cdcfe}.tv{color:#ce9178}.tx{color:#d4d4d4}.tc{color:#4fc1ff}
+.tarr{color:#858585;font-size:9px;margin-right:2px}
+
+/* Styles pane */
+.st-rule{margin-bottom:10px}
+.st-sel{color:#d7ba7d;font-family:'Fira Code',monospace;font-size:11px;margin-bottom:2px}
+.st-prop{font-family:'Fira Code',monospace;font-size:11px;color:#9cdcfe;padding-left:14px;line-height:1.8}
+.st-prop em{color:#ce9178;font-style:normal}
+
+/* Context menu Chrome-style */
+.ctx{background:#2b2b2b;border:1px solid #454545;border-radius:6px;overflow:hidden;width:230px;box-shadow:0 4px 20px rgba(0,0,0,.6);margin:14px auto}
+.ctx-row{padding:6px 16px;font-size:13px;color:#d4d4d4;display:flex;align-items:center;gap:8px;cursor:default;white-space:nowrap}
+.ctx-row:hover{background:#094771;color:white}
+.ctx-row.hi{background:#094771;color:white}
+.ctx-sep{height:1px;background:#454545;margin:3px 0}
+.ctx-shortcut{margin-left:auto;font-size:11px;color:#858585;font-family:'Fira Code',monospace}
+.ctx-sub-arrow{margin-left:auto;font-size:11px;color:#858585}
+.ctx-submenu{background:#2b2b2b;border:1px solid #454545;border-radius:6px;overflow:hidden;width:190px;margin:0 8px 6px 28px;box-shadow:0 2px 12px rgba(0,0,0,.4)}
+.ctx-submenu .ctx-row.hi{background:#094771;color:white}
+
+/* Page hover mockup */
+.page-mock{padding:20px;background:#fff;font-family:'Inter',sans-serif}
+.inspect-overlay{display:inline-block;position:relative;margin-top:12px}
+.inspect-box{outline:1px solid #1a73e8;background:rgba(26,115,232,.06);position:relative}
+.inspect-tag{position:absolute;bottom:calc(100% + 4px);left:0;background:#1a73e8;color:white;font-size:10px;padding:2px 7px;border-radius:3px;white-space:nowrap;font-family:'Fira Code',monospace;pointer-events:none}
+.inspect-size{position:absolute;top:calc(100% + 4px);left:0;background:rgba(0,0,0,.75);color:#fff;font-size:10px;padding:1px 6px;border-radius:3px;white-space:nowrap;font-family:'Fira Code',monospace}
+
+/* Chat */
+.chat-win{background:#1a1a2e;border-radius:12px;overflow:hidden;border:1px solid #2d3748;margin:14px 0}
+.chat-hd{background:#16213e;padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2d3748}
+.chat-logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:800}
+.chat-title{font-size:13px;font-weight:600;color:#e2e8f0}
+.chat-body{padding:14px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:88%;border-radius:12px;padding:10px 14px;font-size:13px;line-height:1.6}
+.msg.u{background:#1e3a5f;border:1px solid rgba(37,99,235,.2);color:#e2e8f0;align-self:flex-end;border-bottom-right-radius:4px}
+.msg.a{background:#0f2d0f;border:1px solid rgba(22,83,51,.2);color:#d1fae5;align-self:flex-start;border-bottom-left-radius:4px}
+.msg code{background:rgba(255,255,255,.08);border-radius:4px;padding:1px 5px;font-family:'Fira Code',monospace;font-size:11px}
+.msg pre{background:rgba(0,0,0,.3);border-radius:6px;padding:8px;font-family:'Fira Code',monospace;font-size:11px;margin-top:8px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+
+/* Code block */
+.cb{background:#1e1e1e;border-radius:10px;overflow:hidden;margin:12px 0}
+.cb-hd{background:#252526;padding:7px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #3c3c3c}
+.cb-lang{font-size:11px;color:#858585;font-family:'Fira Code',monospace}
+.cb-body{padding:14px 16px;font-family:'Fira Code',monospace;font-size:12px;line-height:1.8;color:#d4d4d4;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+
+/* Callout */
+.callout{display:flex;gap:12px;border-radius:10px;padding:12px 15px;margin:12px 0;font-size:14px;align-items:flex-start}
+.callout.info{background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a5f}
+.callout.tip{background:#f0fdf4;border:1px solid #86efac;color:#14532d}
+.callout.warn{background:#fffbeb;border:1px solid #fcd34d;color:#78350f}
+.callout-icon{font-size:17px;flex-shrink:0;margin-top:1px}
+
+/* Keys */
+.key{display:inline-flex;align-items:center;justify-content:center;border-radius:5px;padding:2px 9px;font-family:'Fira Code',monospace;font-size:12px;font-weight:600;box-shadow:0 2px 0 rgba(0,0,0,.4);white-space:nowrap}
+.key.win{background:#0a4b78;color:#9cdcfe;border:1px solid #007acc}
+.key.mac{background:#3a3a3a;color:#d4d4d4;border:1px solid #555}
+.srow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:10px 0}
+.slabel{font-size:13px;color:#6b7280;min-width:155px}
+.plus{color:#9ca3af;font-size:13px}
+
+/* Numbered inline */
+.ist{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;font-size:10px;font-weight:800;color:white;flex-shrink:0}
+.is1{background:#2563eb}.is2{background:#7c3aed}.is3{background:#059669}.is4{background:#ea580c}
+
+/* OS toggle */
+.os-win{display:block}.os-mac{display:none}
+body.mac .os-win{display:none}
+body.mac .os-mac{display:block}
+
+/* Icon zoom callout */
+.icon-zoom{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#252526;border:2px solid #007acc;border-radius:10px;
+  padding:10px 16px;margin:12px 0;
+}
+.icon-zoom-box{
+  background:#094771;border-radius:6px;padding:6px 8px;
+  display:flex;align-items:center;justify-content:center;
+}
+.icon-zoom-label{font-size:13px;color:#d4d4d4;line-height:1.5}
+.icon-zoom-label strong{color:#4fc1ff}
+
+p{font-size:14px;color:#374151;margin-bottom:10px;line-height:1.7}
+strong{color:#111827}
+.mt{margin-top:14px}
+.ann{display:flex;align-items:center;gap:8px;font-size:13px;color:#6b7280;margin:6px 0 6px 10px}
+.ann::before{content:'↳';color:#9ca3af}
+
+.footer{text-align:center;padding:32px 20px;font-size:13px;color:#9ca3af;background:white;border-top:1px solid #e5e7eb}
+
+@media(max-width:640px){
+  .header{padding:32px 16px 26px}.header h1{font-size:22px}
+  .os-btn{padding:10px 16px;font-size:13px}
+  .steps-bar{justify-content:flex-start}.sep{display:none}
+  .wrap{padding:20px 12px}.card-body{padding:16px}.card-title{font-size:16px}
+  .dt-split{flex-direction:column;max-height:none}
+  .dt-left,.dt-right{height:160px;width:100%}.dt-right{border-right:none;border-top:1px solid var(--border)}
+  .msg{max-width:95%}.slabel{min-width:unset;width:100%}
+}
+</style>
+</head>
+<body class="win">
+
+<div class="header">
+  <div class="header-tag">✦ Guide pratique · Hopsite</div>
+  <h1>Modifier un élément précis avec<br><span>DevTools</span> + Claude</h1>
+  <p>Sélectionner, copier, coller — demander une modification chirurgicale à Claude.</p>
+</div>
+
+<!-- OS SWITCHER -->
+<div class="os-switcher">
+  <button class="os-btn active-win" id="btn-win" onclick="setOS('win')">
+    <span style="font-size:18px">🪟</span> Windows
+  </button>
+  <button class="os-btn" id="btn-mac" onclick="setOS('mac')">
+    <span style="font-size:18px">🍎</span> Mac
+  </button>
+</div>
+
+<div class="steps-bar">
+  <div class="step-pill s1"><span class="n">1</span>Ouvrir DevTools</div>
+  <span class="sep">›</span>
+  <div class="step-pill s2"><span class="n">2</span>Sélectionner</div>
+  <span class="sep">›</span>
+  <div class="step-pill s3"><span class="n">3</span>Copier HTML</div>
+  <span class="sep">›</span>
+  <div class="step-pill s4"><span class="n">4</span>Demander à Claude</div>
+  <span class="sep">›</span>
+  <div class="step-pill s5"><span class="n">5</span>Remplacer</div>
+</div>
+
+<div class="wrap">
+
+<!-- ══ ÉTAPE 1 ══ -->
+<div class="card">
+  <div class="card-head">
+    <div class="card-num c1">1</div>
+    <div>
+      <div class="card-title">Ouvrir les DevTools</div>
+      <div class="card-sub">Le panneau développeur intégré à Chrome / Edge</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p>Ouvre ta page HTML dans <strong>Chrome</strong> ou <strong>Edge</strong>. Lance les DevTools avec :</p>
+
+    <div class="os-win">
+      <div class="srow"><span class="slabel">Touche rapide :</span><span class="key win">F12</span></div>
+      <div class="srow"><span class="slabel">Alternative :</span><span class="key win">Ctrl</span><span class="plus">+</span><span class="key win">Shift</span><span class="plus">+</span><span class="key win">I</span></div>
+      <div class="srow"><span class="slabel">Clic droit sur la page :</span><span style="font-size:13px">→ <strong>Inspecter</strong></span></div>
+    </div>
+    <div class="os-mac">
+      <div class="srow"><span class="slabel">Raccourci principal :</span><span class="key mac">⌘</span><span class="plus">+</span><span class="key mac">Option</span><span class="plus">+</span><span class="key mac">I</span></div>
+      <div class="srow"><span class="slabel">Clic droit sur la page :</span><span style="font-size:13px">→ <strong>Inspecter l'élément</strong></span></div>
+    </div>
+
+    <!-- Chrome Windows mockup -->
+    <div class="os-win">
+      <div class="dt-window">
+        <div class="chrome-win-outer">
+          <div class="chrome-win-tab-row">
+            <div class="chrome-win-tab active"><span class="tab-favicon">📄</span> mon-fichier.html <span class="tab-close">✕</span></div>
+            <div style="flex:1"></div>
+            <div class="chrome-win-controls">
+              <div class="chrome-win-btn">─</div>
+              <div class="chrome-win-btn">□</div>
+              <div class="chrome-win-btn x">✕</div>
+            </div>
+          </div>
+        </div>
+        <div class="chrome-omnibar">
+          <span class="chrome-nav-btn">←</span>
+          <span class="chrome-nav-btn">→</span>
+          <span class="chrome-nav-btn">↻</span>
+          <div class="chrome-address">🔒 localhost/mon-fichier.html</div>
+        </div>
+        <div class="dt-panel-tabs">
+          <div class="dt-panel-tab active">Elements</div>
+          <div class="dt-panel-tab">Console</div>
+          <div class="dt-panel-tab">Sources</div>
+          <div class="dt-panel-tab">Network</div>
+          <div class="dt-panel-tab">Performance</div>
+        </div>
+        <div style="padding:16px;text-align:center;color:#858585;font-size:13px">
+          DevTools ouverts → onglet <strong style="color:#4fc1ff">Elements</strong> sélectionné ✓
+        </div>
+      </div>
+    </div>
+
+    <!-- Chrome Mac mockup -->
+    <div class="os-mac">
+      <div class="dt-window">
+        <div class="chrome-mac-outer">
+          <div class="chrome-mac-tab-row">
+            <div class="chrome-mac-dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
+            <div class="chrome-mac-tab active"><span style="font-size:13px">📄</span> mon-fichier.html <span style="margin-left:auto;font-size:11px;color:#888">✕</span></div>
+          </div>
+        </div>
+        <div class="chrome-mac-omnibar">
+          <span style="color:#999;font-size:15px">←</span>
+          <span style="color:#999;font-size:15px">→</span>
+          <div class="chrome-mac-address">🔒 localhost/mon-fichier.html</div>
+        </div>
+        <div class="dt-panel-tabs">
+          <div class="dt-panel-tab active">Elements</div>
+          <div class="dt-panel-tab">Console</div>
+          <div class="dt-panel-tab">Sources</div>
+          <div class="dt-panel-tab">Network</div>
+        </div>
+        <div style="padding:16px;text-align:center;color:#858585;font-size:13px">
+          DevTools ouverts → onglet <strong style="color:#4fc1ff">Elements</strong> sélectionné ✓
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-icon">💡</div>
+      <div>Les DevTools s'ouvrent à droite ou en bas. Tu peux changer ça via le menu <strong>⋮</strong> (trois points) en haut à droite du panneau → <em>Dock side</em>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ÉTAPE 2 ══ -->
+<div class="card">
+  <div class="card-head">
+    <div class="card-num c2">2</div>
+    <div>
+      <div class="card-title">Activer le sélecteur d'élément</div>
+      <div class="card-sub">L'icône flèche en haut à gauche des DevTools</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p>Regarde tout en haut à gauche du panneau DevTools. Tu vois cette icône :</p>
+
+    <!-- ZOOM sur l'icône réelle -->
+    <div class="icon-zoom">
+      <div class="icon-zoom-box">
+        <!-- SVG de la vraie icône DevTools "inspect element" -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 4L10.5 20L13 13L20 10.5L4 4Z" fill="#4fc1ff" stroke="#4fc1ff" stroke-width="0.5" stroke-linejoin="round"/>
+          <path d="M13 13L18 18" stroke="#4fc1ff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="icon-zoom-label">
+        C'est la <strong>flèche de sélection d'élément</strong><br>
+        <span style="font-size:12px;color:#858585">En haut à gauche des DevTools, 1er bouton de la barre d'outils</span>
+      </div>
+    </div>
+
+    <p class="mt">Clique dessus pour l'activer. Elle devient <strong style="color:#4fc1ff">bleue</strong> quand elle est active :</p>
+
+    <!-- DevTools toolbar réaliste -->
+    <div class="dt-window">
+      <!-- Win -->
+      <div class="os-win">
+        <div class="chrome-win-outer" style="height:28px;display:flex;align-items:center;padding:0 8px;justify-content:flex-end">
+          <div style="display:flex"><div class="chrome-win-btn" style="height:28px;font-size:12px">─</div><div class="chrome-win-btn" style="height:28px;font-size:12px">□</div><div class="chrome-win-btn x" style="height:28px;font-size:12px">✕</div></div>
+        </div>
+      </div>
+      <div class="os-mac">
+        <div style="background:#3a3a3a;height:28px;display:flex;align-items:center;padding:0 10px;gap:6px;border-bottom:1px solid #555">
+          <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
+        </div>
+      </div>
+      <div class="dt-panel-tabs">
+        <div class="dt-panel-tab active">Elements</div>
+        <div class="dt-panel-tab">Console</div>
+        <div class="dt-panel-tab">Sources</div>
+      </div>
+      <!-- Vraie toolbar DevTools Chrome -->
+      <div class="dt-toolbar">
+        <!-- Bouton sélecteur ACTIF avec vraie icône SVG -->
+        <div class="dt-tool active" title="Sélecteur d'élément (Ctrl+Shift+C)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M4 4L10.5 20L13 13L20 10.5L4 4Z" fill="#4fc1ff" stroke="#4fc1ff" stroke-width="0.5" stroke-linejoin="round"/>
+            <path d="M13 13L18 18" stroke="#4fc1ff" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <!-- Bouton device toggle -->
+        <div class="dt-tool" title="Mode responsive">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="5" y="2" width="14" height="20" rx="2"/>
+            <rect x="2" y="6" width="5" height="12" rx="1" x="9"/>
+            <line x1="9" y1="21" x2="15" y2="21"/>
+          </svg>
+        </div>
+        <div class="dt-tool-sep"></div>
+        <!-- Bouton search -->
+        <div class="dt-tool" title="Recherche">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="10" cy="10" r="7"/><line x1="15" y1="15" x2="21" y2="21"/>
+          </svg>
+        </div>
+        <!-- Bouton settings -->
+        <div class="dt-tool" style="margin-left:auto" title="Paramètres">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>
+          </svg>
+        </div>
+        <div class="dt-tool-label">● Sélecteur actif</div>
+      </div>
+      <div style="padding:12px 16px;color:#858585;font-size:12px;text-align:center">
+        Ton curseur devient une <strong style="color:#4fc1ff">croix de ciblage</strong> sur la page →<br>survole les éléments pour les mettre en surbrillance bleue.
+      </div>
+    </div>
+
+    <p class="mt">Raccourci clavier pour activer/désactiver sans cliquer :</p>
+    <div class="os-win">
+      <div class="srow"><span class="key win">Ctrl</span><span class="plus">+</span><span class="key win">Shift</span><span class="plus">+</span><span class="key win">C</span></div>
+    </div>
+    <div class="os-mac">
+      <div class="srow"><span class="key mac">⌘</span><span class="plus">+</span><span class="key mac">Shift</span><span class="plus">+</span><span class="key mac">C</span></div>
+    </div>
+
+    <p class="mt">Déplace ta souris sur ta page. Chaque élément survolé est mis en évidence :</p>
+
+    <!-- Page avec hover effect réaliste -->
+    <div class="dt-window">
+      <div class="page-mock">
+        <div style="font-size:20px;font-weight:800;color:#111;margin-bottom:6px">Titre de ma page</div>
+        <div style="font-size:13px;color:#555;margin-bottom:14px">Mon accroche sous le titre</div>
+        <div class="inspect-overlay">
+          <div class="inspect-tag">button.btn-contact</div>
+          <div class="inspect-box">
+            <button style="background:#1a1a2e;color:white;border:none;border-radius:6px;padding:10px 22px;font-size:14px;font-weight:600;cursor:default;display:block">Me contacter</button>
+          </div>
+          <div class="inspect-size">124 × 36</div>
+        </div>
+        <div style="font-size:11px;color:#9ca3af;margin-top:20px">← élément survolé · clic gauche pour sélectionner</div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">🎯</div>
+      <div><strong>Clic gauche</strong> sur l'élément voulu. Le panneau Elements surligne automatiquement la ligne HTML correspondante en bleu.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ÉTAPE 3 ══ -->
+<div class="card">
+  <div class="card-head">
+    <div class="card-num c3">3</div>
+    <div>
+      <div class="card-title">Copier l'élément HTML</div>
+      <div class="card-sub">Clic droit sur la ligne bleue → Copy → Copy element</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p>Après le clic sur la page, la ligne HTML est surlignée en bleu dans le panneau Elements. Fais un <strong>clic droit</strong> dessus :</p>
+
+    <div class="dt-window">
+      <!-- Win -->
+      <div class="os-win">
+        <div class="chrome-win-outer" style="height:26px;display:flex;align-items:center;padding:0 8px;justify-content:flex-end">
+          <div style="display:flex"><div class="chrome-win-btn" style="height:26px;font-size:11px">─</div><div class="chrome-win-btn" style="height:26px;font-size:11px">□</div><div class="chrome-win-btn x" style="height:26px;font-size:11px">✕</div></div>
+        </div>
+      </div>
+      <div class="os-mac">
+        <div style="background:#3a3a3a;height:24px;display:flex;align-items:center;padding:0 10px;gap:6px;border-bottom:1px solid #555">
+          <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
+        </div>
+      </div>
+      <div class="dt-panel-tabs">
+        <div class="dt-panel-tab active">Elements</div>
+        <div class="dt-panel-tab">Console</div>
+        <div class="dt-panel-tab">Styles</div>
+      </div>
+      <div class="dt-split">
+        <div class="dt-left">
+          <div class="dt-pane-title">DOM Tree</div>
+          <div class="dt-pane-content">
+            <div class="tree">
+              <div class="tree-line"><span class="tarr">▾</span><span class="tg">&lt;html</span><span class="ta"> lang</span>=<span class="tv">"fr"</span><span class="tg">&gt;</span></div>
+              <div class="tree-line"><span class="ind"></span><span class="tarr">▾</span><span class="tg">&lt;body&gt;</span></div>
+              <div class="tree-line"><span class="ind"></span><span class="ind"></span><span class="tarr">▾</span><span class="tg">&lt;section&gt;</span></div>
+              <div class="tree-line hl" style="cursor:context-menu">
+                <span class="ind"></span><span class="ind"></span><span class="ind"></span>
+                <span class="tg">&lt;button </span><span class="ta">class</span>=<span class="tv">"btn-contact"</span><span class="tg">&gt;</span><span class="tx">Me contacter</span><span class="tc">&lt;/button&gt;</span>
+                <span style="font-size:9px;color:rgba(79,193,255,.5);margin-left:4px">← clic droit ici</span>
+              </div>
+              <div class="tree-line"><span class="ind"></span><span class="ind"></span><span class="tc">&lt;/section&gt;</span></div>
+              <div class="tree-line"><span class="ind"></span><span class="tc">&lt;/body&gt;</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="dt-right">
+          <div class="dt-pane-title">Styles</div>
+          <div class="dt-pane-content">
+            <div class="st-rule">
+              <div class="st-sel">.btn-contact {</div>
+              <div class="st-prop">background: <em>#1a1a2e</em>;</div>
+              <div class="st-prop">color: <em>#ffffff</em>;</div>
+              <div class="st-prop">padding: <em>10px 22px</em>;</div>
+              <div class="st-prop">border-radius: <em>6px</em>;</div>
+              <div class="st-sel">}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt">Le menu contextuel Chrome s'ouvre. Cherche <strong>Copy</strong> → sous-menu → <strong>Copy element</strong> :</p>
+
+    <div class="ctx">
+      <div class="ctx-row">Add attribute</div>
+      <div class="ctx-row">Edit as HTML</div>
+      <div class="ctx-sep"></div>
+      <div class="ctx-row">Duplicate element</div>
+      <div class="ctx-row">Delete element</div>
+      <div class="ctx-sep"></div>
+      <div class="ctx-row hi">
+        Copy
+        <span class="ctx-sub-arrow">▶</span>
+      </div>
+      <div class="ctx-submenu">
+        <div class="ctx-row hi">Copy element</div>
+        <div class="ctx-row">Copy outerHTML</div>
+        <div class="ctx-row">Copy selector</div>
+        <div class="ctx-row">Copy JS path</div>
+        <div class="ctx-row">Copy styles</div>
+        <div class="ctx-row">Copy XPath</div>
+      </div>
+      <div class="ctx-sep"></div>
+      <div class="ctx-row">Force state <span class="ctx-sub-arrow">▶</span></div>
+      <div class="ctx-row">Break on <span class="ctx-sub-arrow">▶</span></div>
+    </div>
+
+    <div class="ann">Clique <strong>Copy element</strong> — le HTML complet est copié dans le presse-papiers ✓</div>
+
+    <div class="callout tip">
+      <div class="callout-icon">✅</div>
+      <div><strong>Copy element</strong> copie tout le bloc HTML avec ses enfants — parfait pour les cards ou sections complètes. Si tu veux juste la balise sans les enfants, utilise <em>Copy outerHTML</em>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ÉTAPE 4 ══ -->
+<div class="card">
+  <div class="card-head">
+    <div class="card-num c4">4</div>
+    <div>
+      <div class="card-title">Coller dans Claude avec une demande précise</div>
+      <div class="card-sub">La formule qui donne les meilleurs résultats</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p>Dans une nouvelle conversation Claude, colle le code et décris la modification :</p>
+    <div class="cb">
+      <div class="cb-hd"><span class="cb-lang">prompt type à copier</span></div>
+      <div class="cb-body">Voici un élément de ma page HTML :
+
+[colle ici le code copié depuis les DevTools]
+
+Modifie UNIQUEMENT cet élément pour que :
+→ [décris ta modification précise]
+
+Retourne-moi juste le code HTML modifié, sans rien d'autre.</div>
+    </div>
+
+    <p class="mt">Exemple concret :</p>
+    <div class="chat-win">
+      <div class="chat-hd">
+        <div class="chat-logo">C</div>
+        <div><div class="chat-title">Claude · claude.ai</div></div>
+      </div>
+      <div class="chat-body">
+        <div class="msg u">
+          Voici un élément de ma page HTML :<br><br>
+          <code>&lt;button class="btn-contact"&gt;Me contacter&lt;/button&gt;</code><br><br>
+          Modifie UNIQUEMENT cet élément pour que :<br>
+          → bouton arrondi (border-radius 50px), fond dégradé violet→bleu, texte en majuscules, ombre portée<br><br>
+          Retourne juste le HTML modifié.
+        </div>
+        <div class="msg a">Voici ton bouton modifié :<pre>&lt;button class="btn-contact" style="
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  border-radius: 50px;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 14px rgba(124,58,237,0.35);
+  cursor: pointer;
+"&gt;ME CONTACTER&lt;/button&gt;</pre>Remplace l'ancien bouton par ce code dans ton fichier .html.</div>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div>Sois <strong>précis</strong> dans ta demande. Évite "rends-le plus joli" — préfère "change la couleur en #e94560, taille 16px, et ajoute une animation hover qui assombrit".</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ÉTAPE 5 ══ -->
+<div class="card">
+  <div class="card-head">
+    <div class="card-num c5">5</div>
+    <div>
+      <div class="card-title">Remplacer dans le fichier et sauvegarder</div>
+      <div class="card-sub">Chercher l'ancien → sélectionner → coller → sauver → recharger</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p>Ouvre ton <code style="background:#f3f4f6;padding:1px 5px;border-radius:3px;font-family:'Fira Code',monospace;font-size:12px">.html</code> dans ton éditeur (VS Code, Notepad++…) :</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin:16px 0">
+
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <span class="ist is1">1</span>
+        <div><strong>Ouvre le fichier</strong> → clic droit sur le .html → "Ouvrir avec…"</div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <span class="ist is2">2</span>
+        <div>
+          <div class="os-win">Recherche un texte unique : <span class="key win" style="font-size:11px">Ctrl</span><span class="plus">+</span><span class="key win" style="font-size:11px">F</span> → tape <code style="background:#f3f4f6;padding:1px 5px;border-radius:3px;font-family:'Fira Code',monospace;font-size:12px">btn-contact</code></div>
+          <div class="os-mac">Recherche un texte unique : <span class="key mac" style="font-size:11px">⌘</span><span class="plus">+</span><span class="key mac" style="font-size:11px">F</span> → tape <code style="background:#f3f4f6;padding:1px 5px;border-radius:3px;font-family:'Fira Code',monospace;font-size:12px">btn-contact</code></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <span class="ist is3">3</span>
+        <div><strong>Sélectionne</strong> tout l'ancien élément de la balise ouvrante <code style="background:#f3f4f6;padding:1px 4px;border-radius:3px;font-family:'Fira Code',monospace;font-size:12px">&lt;button</code> jusqu'à <code style="background:#f3f4f6;padding:1px 4px;border-radius:3px;font-family:'Fira Code',monospace;font-size:12px">&lt;/button&gt;</code></div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <span class="ist is4">4</span>
+        <div>
+          <div class="os-win"><strong>Colle</strong> <span class="key win" style="font-size:11px">Ctrl</span>+<span class="key win" style="font-size:11px">V</span> → <strong>Sauvegarde</strong> <span class="key win" style="font-size:11px">Ctrl</span>+<span class="key win" style="font-size:11px">S</span></div>
+          <div class="os-mac"><strong>Colle</strong> <span class="key mac" style="font-size:11px">⌘</span>+<span class="key mac" style="font-size:11px">V</span> → <strong>Sauvegarde</strong> <span class="key mac" style="font-size:11px">⌘</span>+<span class="key mac" style="font-size:11px">S</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <p>Recharge la page pour voir le résultat :</p>
+    <div class="os-win"><div class="srow"><span class="key win">F5</span><span class="plus">ou</span><span class="key win">Ctrl</span>+<span class="key win">R</span></div></div>
+    <div class="os-mac"><div class="srow"><span class="key mac">⌘</span>+<span class="key mac">R</span></div></div>
+
+    <div class="callout tip">
+      <div class="callout-icon">🚀</div>
+      <div>
+        <div class="os-win">Dans <strong>VS Code</strong>, <span class="key win" style="font-size:11px">Ctrl</span>+<span class="key win" style="font-size:11px">H</span> ouvre le chercher-remplacer. Tu peux coller l'ancien HTML dans le champ "chercher" et le nouveau dans "remplacer" — une seule action.</div>
+        <div class="os-mac">Dans <strong>VS Code</strong>, <span class="key mac" style="font-size:11px">⌘</span>+<span class="key mac" style="font-size:11px">H</span> ouvre le chercher-remplacer. Tu peux coller l'ancien HTML dans le champ "chercher" et le nouveau dans "remplacer" — une seule action.</div>
+      </div>
+    </div>
+    <div class="callout info">
+      <div class="callout-icon">📤</div>
+      <div>Satisfait du résultat ? <strong>Pousse sur GitHub</strong> pour mettre à jour ta version en ligne sur GitHub Pages.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RECAP ══ -->
+<div style="background:linear-gradient(135deg,#1a1a2e,#0f3460);border-radius:16px;padding:26px;color:white;margin-bottom:32px">
+  <div style="font-size:15px;font-weight:800;margin-bottom:14px;color:#58a6ff">⚡ Récap express</div>
+  <div style="display:flex;flex-direction:column;gap:9px;font-size:13px;color:rgba(255,255,255,.85)">
+    <div class="os-win">① <span class="key win" style="font-size:11px">F12</span> pour ouvrir les DevTools → onglet <strong style="color:#4fc1ff">Elements</strong></div>
+    <div class="os-mac">① <span class="key mac" style="font-size:11px">⌘ Option I</span> pour ouvrir les DevTools → onglet <strong style="color:#4fc1ff">Elements</strong></div>
+    <div>② Clique sur l'icône <strong style="color:#4fc1ff">flèche curseur</strong> (1er bouton en haut à gauche des DevTools)</div>
+    <div class="os-win">③ Ou raccourci : <span class="key win" style="font-size:11px">Ctrl+Shift+C</span></div>
+    <div class="os-mac">③ Ou raccourci : <span class="key mac" style="font-size:11px">⌘+Shift+C</span></div>
+    <div>④ Survole ta page → <strong>clic gauche</strong> sur l'élément voulu</div>
+    <div>⑤ <strong>Clic droit</strong> sur la ligne bleue dans le panneau → <strong style="color:#4ec94c">Copy → Copy element</strong></div>
+    <div>⑥ Colle dans Claude avec une demande précise → récupère le code modifié</div>
+    <div class="os-win">⑦ Remplace dans le fichier → <span class="key win" style="font-size:11px">Ctrl+S</span> → <span class="key win" style="font-size:11px">F5</span> → push sur GitHub</div>
+    <div class="os-mac">⑦ Remplace dans le fichier → <span class="key mac" style="font-size:11px">⌘+S</span> → <span class="key mac" style="font-size:11px">⌘+R</span> → push sur GitHub</div>
+  </div>
+</div>
+
+</div>
+<div class="footer">Guide généré par Enzo — Hopsite · Pour toute modification précise avec Claude</div>
+
+<script>
+function setOS(os){
+  document.body.className=os;
+  document.getElementById('btn-win').className='os-btn'+(os==='win'?' active-win':'');
+  document.getElementById('btn-mac').className='os-btn'+(os==='mac'?' active-mac':'');
+}
+if(navigator.userAgent.includes('Mac'))setOS('mac');
+</script>
+</body>
+</html>
