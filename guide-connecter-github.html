@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connecter GitHub à Claude — Token, push &amp; commit</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #21262d;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text2: #8b949e;
+    --green: #3fb950;
+    --blue: #58a6ff;
+    --purple: #bc8cff;
+    --orange: #f0883e;
+    --accent: #238636;
+    --accent-hover: #2ea043;
+    --red: #f85149;
+    --yellow: #d29922;
+    --step-bg: #1c2128;
+    --highlight: rgba(56, 139, 253, 0.1);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    padding: 60px 40px;
+    text-align: center;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    color: #a8c8ff;
+  }
+  .header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .header p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  /* STEPS OVERVIEW */
+  .overview {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    overflow-x: auto;
+    padding: 0 20px;
+  }
+  .ov-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+    white-space: nowrap;
+    position: relative;
+  }
+  .ov-step .num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #e8e8e8;
+    color: #666;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .ov-step.active .num { background: #1a1a2e; color: white; }
+  .ov-step.active { color: #1a1a2e; }
+  .ov-arrow { color: #ccc; font-size: 14px; align-self: center; flex-shrink: 0; }
+
+  /* MAIN */
+  .container { max-width: 860px; margin: 0 auto; padding: 48px 24px; }
+
+  /* STEP CARD */
+  .step-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-bottom: 40px;
+    overflow: hidden;
+    border: 1px solid #e8eaed;
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 28px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .step-num {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: #1a1a2e;
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-num.green { background: #1a7f37; }
+  .step-num.blue { background: #0969da; }
+  .step-num.purple { background: #6e40c9; }
+  .step-num.orange { background: #bc4c00; }
+  .step-title { font-size: 20px; font-weight: 700; color: #1a1a2e; }
+  .step-subtitle { font-size: 14px; color: #666; margin-top: 2px; }
+  .step-body { padding: 28px; }
+
+  /* GITHUB MOCKUP */
+  .gh-window {
+    background: var(--bg);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin: 20px 0;
+    font-family: 'Inter', sans-serif;
+  }
+  .gh-titlebar {
+    background: #010409;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot.r { background: #ff5f57; }
+  .dot.y { background: #febc2e; }
+  .dot.g { background: #28c840; }
+  .gh-url {
+    flex: 1;
+    background: var(--bg3);
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text2);
+    margin-left: 8px;
+    font-family: 'Fira Code', monospace;
+  }
+  .gh-content { padding: 20px; }
+
+  /* Settings pages mockup */
+  .gh-settings-layout { display: flex; gap: 0; min-height: 300px; }
+  .gh-settings-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    padding: 8px 0;
+  }
+  .gh-settings-item {
+    padding: 8px 16px;
+    font-size: 14px;
+    color: var(--text2);
+    cursor: default;
+    border-radius: 6px;
+    margin: 1px 8px;
+  }
+  .gh-settings-item.active {
+    background: var(--highlight);
+    color: var(--blue);
+    font-weight: 500;
+  }
+  .gh-settings-item.section-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text2);
+    margin-top: 12px;
+    cursor: default;
+    background: none;
+  }
+  .gh-settings-content { flex: 1; padding: 20px; }
+  .gh-settings-h2 { font-size: 18px; color: var(--text); font-weight: 600; margin-bottom: 4px; }
+  .gh-settings-desc { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
+  .gh-form-group { margin-bottom: 16px; }
+  .gh-label { font-size: 13px; color: var(--text); font-weight: 600; margin-bottom: 6px; display: block; }
+  .gh-input {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--text);
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .gh-select {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-size: 13px;
+    color: var(--text);
+    min-width: 180px;
+  }
+  .gh-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 14px;
+    font-size: 13px;
+    color: var(--text);
+    cursor: default;
+    white-space: nowrap;
+  }
+  .gh-btn.primary { background: #238636; border-color: #2ea043; color: white; font-weight: 600; }
+  .gh-radio-group { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+  .gh-radio {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--text); cursor: default;
+  }
+  .gh-radio-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid var(--border);
+  }
+  .gh-radio-dot.selected { border-color: var(--blue); background: var(--blue); }
+  .gh-permission-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .gh-permission-row:last-child { border-bottom: none; }
+  .gh-permission-name { color: var(--text); font-weight: 500; }
+  .gh-permission-desc { color: var(--text2); font-size: 12px; }
+
+  /* Token reveal mockup */
+  .gh-token-box {
+    background: rgba(63, 185, 80, 0.1);
+    border: 1px solid var(--green);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    color: var(--green);
+    word-break: break-all;
+  }
+
+  /* Chat / prompt mockup */
+  .chat-window {
+    background: var(--bg);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin: 20px 0;
+  }
+  .chat-header {
+    background: #010409;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .chat-body { padding: 18px; }
+  .chat-bubble {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .chat-bubble .tok { color: var(--orange); }
+  .chat-bubble .cmd { color: var(--blue); font-weight: 600; }
+  .chat-bubble .path { color: var(--green); }
+
+  /* Callout */
+  .callout {
+    display: flex;
+    gap: 14px;
+    background: #f0f7ff;
+    border-left: 3px solid #0969da;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: #1a1a2e;
+    align-items: flex-start;
+  }
+  .callout-icon { font-size: 18px; flex-shrink: 0; }
+  .callout.tip { background: #f0fff4; border-left-color: #1a7f37; }
+  .callout.warning { background: #fffbf0; border-left-color: #d1a400; }
+  .callout.danger { background: #fff0f0; border-left-color: #cf222e; }
+
+  /* URL demo */
+  .url-demo {
+    background: #1a1a2e;
+    border-radius: 10px;
+    padding: 20px 24px;
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+    margin: 16px 0;
+  }
+  .url-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #6b7280; margin-bottom: 10px; }
+  .url-line { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; line-height: 2; }
+  .url-base { color: #94a3b8; }
+  .url-pseudo { color: #60a5fa; }
+  .url-slash { color: #64748b; }
+  .url-repo { color: #34d399; }
+  .url-file { color: #f97316; background: rgba(249,115,22,0.12); padding: 2px 6px; border-radius: 4px; }
+
+  /* Compare table */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .compare-card {
+    border-radius: 10px;
+    padding: 18px;
+    border: 1px solid #e8eaed;
+  }
+  .compare-card.push { background: #f0f7ff; border-color: #c8e0ff; }
+  .compare-card.commit { background: #f0fff4; border-color: #bdf0cf; }
+  .compare-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .compare-card ul { margin: 8px 0 0 18px; font-size: 13px; color: #444; }
+  .compare-card ul li { margin-bottom: 4px; }
+
+  p { font-size: 15px; color: #444; margin-bottom: 12px; line-height: 1.7; }
+  strong { color: #1a1a2e; }
+  code { font-family: 'Fira Code', monospace; background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #bc4c00; }
+
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    background: white;
+    border-top: 1px solid #e8eaed;
+    font-size: 14px;
+    color: #888;
+  }
+
+  /* ── RESPONSIVE MOBILE ── */
+  @media (max-width: 600px) {
+    .header { padding: 36px 20px; }
+    .header h1 { font-size: 24px; }
+    .header p { font-size: 14px; }
+
+    .overview { justify-content: flex-start; padding: 0 8px; }
+    .ov-step { padding: 12px 10px; font-size: 11px; gap: 6px; }
+    .ov-step .num { width: 20px; height: 20px; font-size: 10px; }
+    .ov-arrow { font-size: 11px; }
+
+    .container { padding: 24px 12px; }
+
+    .step-header { padding: 16px; gap: 12px; }
+    .step-num { width: 36px; height: 36px; font-size: 15px; border-radius: 10px; }
+    .step-title { font-size: 16px; }
+    .step-subtitle { font-size: 12px; }
+    .step-body { padding: 16px; }
+
+    .gh-window, .chat-window { border-radius: 8px; font-size: 12px; }
+    .gh-titlebar, .chat-header { padding: 8px 10px; gap: 6px; }
+    .dot { width: 10px; height: 10px; }
+    .gh-url { font-size: 10px; padding: 3px 8px; }
+    .gh-content, .chat-body { padding: 12px; }
+
+    .gh-settings-layout { flex-direction: column; }
+    .gh-settings-sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 8px;
+    }
+    .gh-settings-item { font-size: 12px; padding: 5px 10px; margin: 0; }
+    .gh-settings-item.section-title { display: none; }
+    .gh-settings-content { padding: 12px; }
+    .gh-settings-h2 { font-size: 15px; }
+    .gh-settings-desc { font-size: 12px; }
+    .gh-select { font-size: 12px; min-width: unset; width: 100%; margin-bottom: 6px; }
+
+    .chat-bubble { font-size: 12px; padding: 12px; }
+
+    .url-demo { padding: 14px 16px; }
+    .url-line { font-size: 12px; }
+
+    .compare { grid-template-columns: 1fr; }
+
+    .callout { font-size: 13px; padding: 12px 14px; gap: 10px; }
+
+    p { font-size: 14px; }
+  }
+
+  @media (max-width: 380px) {
+    .header h1 { font-size: 20px; }
+    .ov-step span:not(.num) { display: none; }
+    .url-line { font-size: 11px; }
+    .gh-window, .chat-window { overflow-x: auto; }
+    .gh-content, .chat-body { min-width: 280px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">✦ Guide pratique</div>
+  <h1>Connecter GitHub à Claude</h1>
+  <p>Crée un token correctement, puis demande à Claude un <strong>push</strong> (juste envoyer) ou un <strong>commit</strong> (rendre public + récupérer le lien).</p>
+</div>
+
+<div class="overview">
+  <div class="ov-step active"><span class="num">1</span> Créer le token</div>
+  <span class="ov-arrow">›</span>
+  <div class="ov-step active"><span class="num">2</span> Donner les bons droits</div>
+  <span class="ov-arrow">›</span>
+  <div class="ov-step active"><span class="num">3</span> Demander un push</div>
+  <span class="ov-arrow">›</span>
+  <div class="ov-step active"><span class="num">4</span> Demander un commit + lien</div>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Créer un token GitHub</div>
+        <div class="step-subtitle">Settings → Developer settings → Personal access tokens → Fine-grained tokens</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Sur GitHub, clique sur ta photo de profil (en haut à droite) → <strong>Settings</strong> → tout en bas de la barre latérale, <strong>Developer settings</strong> → <strong>Personal access tokens</strong> → <strong>Fine-grained tokens</strong> → <strong>Generate new token</strong>.</p>
+
+      <div class="gh-window">
+        <div class="gh-titlebar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <div class="gh-url">github.com / settings / personal-access-tokens / new</div>
+        </div>
+        <div class="gh-content">
+          <div style="font-size:15px;color:#e6edf3;font-weight:600;margin-bottom:16px;">New fine-grained personal access token</div>
+
+          <div class="gh-form-group">
+            <label class="gh-label">Token name</label>
+            <div class="gh-input" style="color:#e6edf3;">claude-formation-ia-canva</div>
+          </div>
+
+          <div class="gh-form-group">
+            <label class="gh-label">Expiration</label>
+            <div class="gh-select">90 days ▾</div>
+          </div>
+
+          <div class="gh-form-group">
+            <label class="gh-label">Repository access</label>
+            <div class="gh-radio-group">
+              <div class="gh-radio"><div class="gh-radio-dot"></div> All repositories</div>
+              <div class="gh-radio"><div class="gh-radio-dot selected"></div> Only select repositories</div>
+            </div>
+            <div class="gh-select" style="margin-top:6px;">📁 formation-ia-canva ▾</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">💡</div>
+        <div><strong>Fine-grained token</strong> = un token limité à <strong>un seul dépôt</strong> et avec une <strong>date d'expiration</strong>. C'est le plus sûr : même partagé, il ne donne accès qu'à ce dépôt précis et devient inutilisable après l'expiration.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">Donner les bons droits (permissions)</div>
+        <div class="step-subtitle">Repository permissions → Contents → Read and write</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Toujours sur la même page, descends jusqu'à <strong>Repository permissions</strong> et règle <strong>Contents</strong> sur <strong>Read and write</strong>. C'est le seul droit nécessaire pour que Claude puisse lire et envoyer des fichiers dans ton dépôt.</p>
+
+      <div class="gh-window">
+        <div class="gh-titlebar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <div class="gh-url">github.com / settings / personal-access-tokens / new</div>
+        </div>
+        <div class="gh-content">
+          <div style="font-size:15px;color:#e6edf3;font-weight:600;margin-bottom:6px;">Repository permissions</div>
+          <div class="gh-permission-row">
+            <div>
+              <div class="gh-permission-name">Contents</div>
+              <div class="gh-permission-desc">Repository contents, commits, branches, downloads, releases</div>
+            </div>
+            <div class="gh-select" style="min-width:140px;">Read and write ▾</div>
+          </div>
+          <div class="gh-permission-row">
+            <div>
+              <div class="gh-permission-name">Metadata</div>
+              <div class="gh-permission-desc">Search repositories, list collaborators (obligatoire)</div>
+            </div>
+            <div class="gh-select" style="min-width:140px;">Read-only ▾</div>
+          </div>
+          <div style="margin-top:16px;">
+            <div class="gh-btn primary" style="display:inline-block;">Generate token</div>
+          </div>
+        </div>
+      </div>
+
+      <p>Clique sur <strong>Generate token</strong>. GitHub affiche le token <strong>une seule fois</strong> :</p>
+
+      <div class="gh-token-box">github_pat_11ABCDEFG0xxxxxxxxxxxxxx_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+
+      <div class="callout danger">
+        <div class="callout-icon">🔒</div>
+        <div>Copie-le tout de suite et garde-le pour toi. Si tu fermes la page sans le copier, tu devras en regénérer un nouveau. Ne le mets jamais sur une page publique (Drive partagé, réseaux sociaux, etc.) — seulement dans le chat avec Claude.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Demander un « push » à Claude</div>
+        <div class="step-subtitle">= envoyer / mettre à jour un fichier dans le dépôt, sans forcément le rendre visible tout de suite</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Un <strong>push</strong> sert à envoyer un fichier (nouveau ou modifié) dans ton dépôt GitHub. Utile quand tu veux juste sauvegarder un travail en cours, sans forcément l'ajouter à la page d'accueil.</p>
+
+      <div class="chat-window">
+        <div class="chat-header">💬 Message à envoyer à Claude</div>
+        <div class="chat-body">
+          <div class="chat-bubble">
+            Voici mon token : <span class="tok">github_pat_xxxxxxxxxxxx</span><br><br>
+            <span class="cmd">Push</span> ce fichier dans mon dépôt <span class="path">formation-ia-canva</span> (juste l'envoyer, pas besoin de le rendre accessible publiquement pour l'instant).
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">✅</div>
+        <div>Claude pousse le fichier dans le dépôt. Il est sauvegardé sur GitHub, mais <strong>pas encore lié</strong> depuis ta page d'accueil ni forcément visible publiquement.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Demander un « commit » + récupérer le lien</div>
+        <div class="step-subtitle">= rendre le fichier accessible à tous et obtenir son URL publique</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Un <strong>commit</strong> ici signifie : envoyer le fichier <strong>et</strong> le rendre consultable par n'importe qui via GitHub Pages, puis te donner le lien.</p>
+
+      <div class="chat-window">
+        <div class="chat-header">💬 Message à envoyer à Claude</div>
+        <div class="chat-body">
+          <div class="chat-bubble">
+            Voici mon token : <span class="tok">github_pat_xxxxxxxxxxxx</span><br><br>
+            <span class="cmd">Commit</span> ce fichier dans mon dépôt <span class="path">formation-ia-canva</span>, rends-le accessible à tout le monde et donne-moi le lien public pour le voir.
+          </div>
+        </div>
+      </div>
+
+      <p>Claude pousse le fichier, et te renvoie son URL publique :</p>
+
+      <div class="url-demo">
+        <div class="url-label">Lien public du fichier</div>
+        <div class="url-line">
+          <span class="url-base">https://</span>
+          <span class="url-pseudo">enzo0602</span>
+          <span class="url-base">.github.io</span>
+          <span class="url-slash">/</span>
+          <span class="url-repo">formation-ia-canva</span>
+          <span class="url-slash">/</span>
+          <span class="url-file">mon-fichier.html</span>
+        </div>
+      </div>
+
+      <p>Ce lien fonctionne immédiatement pour <code>index.html</code> (la page d'accueil), et après <strong>1 à 2 minutes</strong> pour les autres fichiers (le temps que GitHub Pages se mette à jour).</p>
+
+      <div class="compare">
+        <div class="compare-card push">
+          <div class="compare-title">📤 Push</div>
+          <ul>
+            <li>Envoie / met à jour un fichier</li>
+            <li>Rapide, pas de lien renvoyé</li>
+            <li>Idéal pour sauvegarder un brouillon</li>
+          </ul>
+        </div>
+        <div class="compare-card commit">
+          <div class="compare-title">🌐 Commit</div>
+          <ul>
+            <li>Envoie le fichier</li>
+            <li>Le rend accessible à tous</li>
+            <li>Te donne le lien public à partager</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-icon">🔁</div>
+        <div>Une fois ton fichier en ligne, pense à <strong>révoquer ou regénérer ton token</strong> (étape 1) si tu n'en as plus besoin pour l'instant — c'est une bonne habitude de sécurité.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Token GitHub valable uniquement pour le dépôt choisi
+</div>
+
+</body>
+</html>
