@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enzo</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0f1117;
+    color: #e6e6e6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+  }
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  p.subtitle {
+    color: #9aa0ac;
+    margin-bottom: 48px;
+    font-size: 1rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+  }
+  .card {
+    background: #1a1d27;
+    border: 1px solid #2a2e3a;
+    border-radius: 14px;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: #4f7cff;
+    background: #1f2330;
+  }
+  .card .icon {
+    font-size: 1.6rem;
+  }
+  .card h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .card .filename {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  footer {
+    margin-top: 60px;
+    color: #6b7280;
+    font-size: 0.85rem;
+  }
+  footer a { color: #9aa0ac; }
+</style>
+</head>
+<body>
+  <h1>Enzo</h1>
+  <p class="subtitle">Formation IA &amp; Canva — ressources</p>
+
+  <div class="grid">
+    <a class="card" href="animations-demo.html">
+      <span class="icon">🎬</span>
+      <h2>Animations Web — Communication 4.0</h2>
+      <span class="filename">animations-demo.html</span>
+    </a>
+    <a class="card" href="guide-f12-claude.html">
+      <span class="icon">🛠️</span>
+      <h2>Guide F12 — Modifier un élément avec Claude</h2>
+      <span class="filename">guide-f12-claude.html</span>
+    </a>
+    <a class="card" href="guide-github-pages.html">
+      <span class="icon">🚀</span>
+      <h2>Publier un fichier HTML sur GitHub Pages</h2>
+      <span class="filename">guide-github-pages.html</span>
+    </a>
+    <a class="card" href="prompt-template-hopsite.html">
+      <span class="icon">✨</span>
+      <h2>Prompt Template — Créer une page HTML avec Claude</h2>
+      <span class="filename">prompt-template-hopsite.html</span>
+    </a>
+  </div>
+
+  <footer>
+    <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a>
+  </footer>
+</body>
+</html>
