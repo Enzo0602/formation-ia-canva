@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Template — Créer une page HTML avec Claude</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --border: #e4e7ec;
+    --text: #111827;
+    --text2: #6b7280;
+    --accent: #1a1a2e;
+    --accent2: #0f3460;
+    --green: #059669;
+    --blue: #2563eb;
+    --orange: #ea580c;
+    --purple: #7c3aed;
+    --pink: #db2777;
+    --required: #dc2626;
+    --optional: #2563eb;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    color: white;
+    padding: 52px 40px 40px;
+    text-align: center;
+  }
+  .header-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #a8c8ff;
+    margin-bottom: 18px;
+  }
+  .header h1 { font-size: 30px; font-weight: 700; margin-bottom: 10px; line-height: 1.25; }
+  .header p { font-size: 15px; color: rgba(255,255,255,0.6); max-width: 500px; margin: 0 auto; }
+
+  /* INTRO */
+  .intro {
+    max-width: 820px;
+    margin: 36px auto 0;
+    padding: 0 24px;
+  }
+  .how-to-use {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    padding: 18px 22px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 14px;
+    color: #1e3a5f;
+    margin-bottom: 32px;
+  }
+  .how-to-use-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    align-items: center;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 6px;
+    padding: 2px 9px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  .badge.req { background: #fef2f2; color: var(--required); border: 1px solid #fca5a5; }
+  .badge.opt { background: #eff6ff; color: var(--optional); border: 1px solid #93c5fd; }
+  .badge.pro { background: #fdf4ff; color: var(--purple); border: 1px solid #d8b4fe; }
+
+  /* SECTION */
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin: 36px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* FIELD CARDS */
+  .fields { display: flex; flex-direction: column; gap: 12px; }
+
+  .field {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.15s;
+  }
+  .field:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+
+  .field-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px 10px;
+  }
+  .field-icon { font-size: 20px; flex-shrink: 0; }
+  .field-label { font-size: 15px; font-weight: 600; color: var(--text); flex: 1; }
+  .field-hint { font-size: 12px; color: var(--text2); padding: 0 18px 8px; }
+
+  .field-input-wrap { padding: 0 18px 16px; }
+  .field-input {
+    width: 100%;
+    background: #f9fafb;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    resize: vertical;
+    min-height: 44px;
+    transition: border-color 0.15s, background 0.15s;
+    line-height: 1.5;
+  }
+  .field-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    background: white;
+  }
+  .field-input::placeholder { color: #9ca3af; font-style: italic; }
+
+  .field-examples {
+    padding: 0 18px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .example-chip {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 3px 11px;
+    font-size: 12px;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s;
+    user-select: none;
+  }
+  .example-chip:hover { background: #e0e7ff; border-color: #a5b4fc; color: #3730a3; }
+
+  /* COLOR PICKER */
+  .color-row {
+    padding: 0 18px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .color-swatch-wrap { display: flex; align-items: center; gap: 8px; }
+  .color-swatch {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+  }
+  .color-swatch input[type=color] {
+    position: absolute;
+    top: -4px; left: -4px;
+    width: 40px; height: 40px;
+    border: none; background: none;
+    cursor: pointer; opacity: 0;
+  }
+  .color-preview {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    border: 2px solid var(--border);
+    pointer-events: none;
+  }
+  .color-hex-input {
+    background: #f9fafb;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-family: 'Fira Code', monospace;
+    width: 100px;
+    color: var(--text);
+  }
+  .color-hex-input:focus { outline: none; border-color: #6366f1; }
+
+  /* PROMPT RESULT */
+  .prompt-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 12px;
+  }
+  .prompt-header {
+    background: #1a1a2e;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .prompt-header-title { color: white; font-size: 14px; font-weight: 600; }
+  .copy-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 6px 14px;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.18); }
+  .copy-btn.copied { background: rgba(5, 150, 105, 0.3); border-color: #6ee7b7; }
+  #prompt-output {
+    padding: 20px;
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 200px;
+    background: #fafafa;
+  }
+  .prompt-placeholder { color: #9ca3af; font-style: italic; }
+
+  /* Highlight blanks in prompt */
+  .blank { color: #7c3aed; font-weight: 600; }
+  .filled { color: #059669; font-weight: 500; }
+
+  /* GENERATE BTN */
+  .generate-wrap { padding: 24px 0 8px; text-align: center; }
+  .generate-btn {
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 36px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(15, 52, 96, 0.3);
+  }
+  .generate-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .generate-btn:active { transform: translateY(0); }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 36px 20px;
+    font-size: 13px;
+    color: var(--text2);
+    border-top: 1px solid var(--border);
+    margin-top: 48px;
+    background: white;
+  }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .header { padding: 36px 20px 28px; }
+    .header h1 { font-size: 22px; }
+    .header p { font-size: 13px; }
+    .intro { padding: 0 14px; }
+    .field-label { font-size: 14px; }
+    .generate-btn { font-size: 14px; padding: 12px 24px; }
+    #prompt-output { font-size: 12px; padding: 14px; }
+    .color-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">✦ Hopsite · Outil Claude</div>
+  <h1>Créer une page HTML<br>avec Claude</h1>
+  <p>Remplis les champs, génère ton prompt prêt à coller dans Claude.</p>
+</div>
+
+<div class="intro">
+
+  <div style="height:28px"></div>
+
+  <div class="how-to-use">
+    <div class="how-to-use-icon">📋</div>
+    <div>
+      <strong>Comment utiliser ce template :</strong> remplis les champs ci-dessous selon ton projet. Les champs <span class="badge req">obligatoire</span> sont essentiels, les autres enrichissent le résultat. Clique sur <strong>Générer le prompt</strong>, puis copie-colle le texte directement dans Claude.
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="badge req">obligatoire</span> Indispensable</div>
+    <div class="legend-item"><span class="badge opt">optionnel</span> Recommandé</div>
+    <div class="legend-item"><span class="badge pro">avancé</span> Pour aller plus loin</div>
+  </div>
+
+  <!-- ── 1. IDENTITÉ ── -->
+  <div class="section-title">🏷 Identité du projet</div>
+  <div class="fields">
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">🎯</span>
+        <span class="field-label">Sujet / objectif de la page</span>
+        <span class="badge req">obligatoire</span>
+      </div>
+      <div class="field-hint">Qu'est-ce que cette page doit faire ou communiquer ?</div>
+      <div class="field-input-wrap">
+        <textarea class="field-input" id="f-sujet" rows="2" placeholder="ex : présenter mon activité de photographe freelance, annoncer l'ouverture de mon restaurant, partager un lien bio…"></textarea>
+      </div>
+      <div class="field-examples">
+        <span class="example-chip" onclick="fill('f-sujet',this)">Page de présentation</span>
+        <span class="example-chip" onclick="fill('f-sujet',this)">Landing page produit</span>
+        <span class="example-chip" onclick="fill('f-sujet',this)">Lien bio réseaux sociaux</span>
+        <span class="example-chip" onclick="fill('f-sujet',this)">Annonce événement</span>
+        <span class="example-chip" onclick="fill('f-sujet',this)">Portfolio</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">✏️</span>
+        <span class="field-label">Titre principal de la page</span>
+        <span class="badge req">obligatoire</span>
+      </div>
+      <div class="field-hint">Le grand titre affiché en haut de page.</div>
+      <div class="field-input-wrap">
+        <input class="field-input" id="f-titre" type="text" placeholder="ex : Enzo Dupont · Photographe, Hopsite — Créez votre présence en ligne…">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">💬</span>
+        <span class="field-label">Accroche / sous-titre</span>
+        <span class="badge opt">optionnel</span>
+      </div>
+      <div class="field-hint">Une phrase courte qui résume ce que tu proposes.</div>
+      <div class="field-input-wrap">
+        <input class="field-input" id="f-accroche" type="text" placeholder="ex : Je capture des instants uniques pour les marques et les particuliers.">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">👤</span>
+        <span class="field-label">Nom / marque à afficher</span>
+        <span class="badge opt">optionnel</span>
+      </div>
+      <div class="field-hint">Ton prénom, ton nom de marque, ou le nom de ton projet.</div>
+      <div class="field-input-wrap">
+        <input class="field-input" id="f-nom" type="text" placeholder="ex : Enzo, Hopsite, Studio Lumière…">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── 2. STYLE VISUEL ── -->
+  <div class="section-title">🎨 Style visuel</div>
+  <div class="fields">
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">🎭</span>
+        <span class="field-label">Ambiance / style général</span>
+        <span class="badge req">obligatoire</span>
+      </div>
+      <div class="field-hint">Comment tu veux que la page se ressente visuellement.</div>
+      <div class="field-input-wrap">
+        <textarea class="field-input" id="f-style" rows="2" placeholder="ex : minimaliste et épuré, chaleureux et artisanal, moderne et tech, ludique et coloré…"></textarea>
+      </div>
+      <div class="field-examples">
+        <span class="example-chip" onclick="fill('f-style',this)">Minimaliste épuré</span>
+        <span class="example-chip" onclick="fill('f-style',this)">Chaleureux artisanal</span>
+        <span class="example-chip" onclick="fill('f-style',this)">Moderne et tech</span>
+        <span class="example-chip" onclick="fill('f-style',this)">Luxe premium</span>
+        <span class="example-chip" onclick="fill('f-style',this)">Ludique et coloré</span>
+        <span class="example-chip" onclick="fill('f-style',this)">Dark élégant</span>
+        <span class="example-chip" onclick="fill('f-style',this)">Nature organique</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">🎨</span>
+        <span class="field-label">Couleurs principales</span>
+        <span class="badge opt">optionnel</span>
+      </div>
+      <div class="field-hint">Sélectionne jusqu'à 3 couleurs ou tape des codes hex.</div>
+      <div class="color-row">
+        <div class="color-swatch-wrap">
+          <span style="font-size:12px;color:#6b7280;">Principale</span>
+          <div class="color-swatch" id="swatch1" style="background:#1a1a2e">
+            <input type="color" value="#1a1a2e" oninput="updateColor(1,this.value)">
+          </div>
+          <input class="color-hex-input" id="hex1" value="#1a1a2e" oninput="updateColorFromHex(1,this.value)" maxlength="7">
+        </div>
+        <div class="color-swatch-wrap">
+          <span style="font-size:12px;color:#6b7280;">Secondaire</span>
+          <div class="color-swatch" id="swatch2" style="background:#0f3460">
+            <input type="color" value="#0f3460" oninput="updateColor(2,this.value)">
+          </div>
+          <input class="color-hex-input" id="hex2" value="#0f3460" oninput="updateColorFromHex(2,this.value)" maxlength="7">
+        </div>
+        <div class="color-swatch-wrap">
+          <span style="font-size:12px;color:#6b7280;">Accent</span>
+          <div class="color-swatch" id="swatch3" style="background:#e94560">
+            <input type="color" value="#e94560" oninput="updateColor(3,this.value)">
+          </div>
+          <input class="color-hex-input" id="hex3" value="#e94560" oninput="updateColorFromHex(3,this.value)" maxlength="7">
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">🖼</span>
+        <span class="field-label">Logo / image</span>
+        <span class="badge opt">optionnel</span>
+      </div>
+      <div class="field-hint">Décris ton logo ou indique si tu n'en as pas. Claude peut en générer un en texte/SVG.</div>
+      <div class="field-input-wrap">
+        <textarea class="field-input" id="f-logo" rows="2" placeholder="ex : logo texte 'Hopsite' en blanc, icône soleil stylisé, pas de logo (utilise mes initiales)…"></textarea>
+      </div>
+      <div class="field-examples">
+        <span class="example-chip" onclick="fill('f-logo',this)">Logo texte uniquement</span>
+        <span class="example-chip" onclick="fill('f-logo',this)">Initiales stylisées</span>
+        <span class="example-chip" onclick="fill('f-logo',this)">Pas de logo</span>
+        <span class="example-chip" onclick="fill('f-logo',this)">Icône SVG simple</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── 3. CONTENU ── -->
+  <div class="section-title">📝 Contenu</div>
+  <div class="fields">
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">🗣</span>
+        <span class="field-label">Ton / voix</span>
+        <span class="badge req">obligatoire</span>
+      </div>
+      <div class="field-hint">Comment tu t'adresses à tes visiteurs.</div>
+      <div class="field-input-wrap">
+        <textarea class="field-input" id="f-ton" rows="2" placeholder="ex : professionnel et direct, chaleureux et accessible, inspirant et poétique, fun et décalé…"></textarea>
+      </div>
+      <div class="field-examples">
+        <span class="example-chip" onclick="fill('f-ton',this)">Professionnel et direct</span>
+        <span class="example-chip" onclick="fill('f-ton',this)">Chaleureux et humain</span>
+        <span class="example-chip" onclick="fill('f-ton',this)">Inspirant et poétique</span>
+        <span class="example-chip" onclick="fill('f-ton',this)">Fun et décalé</span>
+        <span class="example-chip" onclick="fill('f-ton',this)">Sobre et expert</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">📦</span>
+        <span class="field-label">Sections à inclure</span>
+        <span class="badge opt">optionnel</span>
+      </div>
+      <div class="field-hint">Quels blocs de contenu veux-tu sur la page ? Coche tout ce qui s'applique.</div>
+      <div class="field-input-wrap">
+        <textarea class="field-input" id="f-sections" rows="3" placeholder="ex : hero avec accroche, à propos, services/offres, galerie photos, témoignages, FAQ, contact, footer…"></textarea>
+      </div>
+      <div class="field-examples">
+        <span class="example-chip" onclick="appendFill('f-sections',this)">Hero accroche</span>
+        <span class="example-chip" onclick="appendFill('f-sections',this)">À propos</span>
+        <span class="example-chip" onclick="appendFill('f-sections',this)">Services / offres</span>
+        <span class="example-chip" onclick="appendFill('f-sections',this)">Galerie photos</span>
+        <span class="example-chip" onclick="appendFill('f-sections',this)">Témoignages</span>
+        <span class="example-chip" onclick="appendFill('f-sections',this)">FAQ</span>
+        <span class="example-chip" onclick="appendFill('f-sections',this)">Formulaire contact</span>
+        <span class="example-chip" onclick="appendFill('f-sections',this)">Bouton CTA</span>
+        <span class="example-chip" onclick="appendFill('f-sections',this)">Footer</span>
+        <span class="example-chip" onclick="appendFill('f-sections',this)">Liens réseaux sociaux</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">🔗</span>
+        <span class="field-label">Liens externes</span>
+        <span class="badge opt">optionnel</span>
+      </div>
+      <div class="field-hint">URLs ou réseaux à intégrer (Instagram, LinkedIn, WhatsApp, site existant…).</div>
+      <div class="field-input-wrap">
+        <textarea class="field-input" id="f-liens" rows="3" placeholder="ex :&#10;Instagram : https://instagram.com/moncompte&#10;WhatsApp : +33 6 00 00 00 00&#10;Email : contact@hopsite.fr"></textarea>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">📣</span>
+        <span class="field-label">Bouton d'action principal (CTA)</span>
+        <span class="badge opt">optionnel</span>
+      </div>
+      <div class="field-hint">Texte du bouton et où il pointe.</div>
+      <div class="field-input-wrap">
+        <input class="field-input" id="f-cta" type="text" placeholder="ex : 'Me contacter' → mailto:enzo@hopsite.fr, 'Prendre RDV' → lien Calendly…">
+      </div>
+      <div class="field-examples">
+        <span class="example-chip" onclick="fill('f-cta',this)">Me contacter par email</span>
+        <span class="example-chip" onclick="fill('f-cta',this)">Prendre rendez-vous</span>
+        <span class="example-chip" onclick="fill('f-cta',this)">Voir mon portfolio</span>
+        <span class="example-chip" onclick="fill('f-cta',this)">Commander en ligne</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── 4. ANIMATIONS & TECHNIQUE ── -->
+  <div class="section-title">✨ Animations & technique</div>
+  <div class="fields">
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">🎬</span>
+        <span class="field-label">Animations souhaitées</span>
+        <span class="badge opt">optionnel</span>
+      </div>
+      <div class="field-hint">Effets visuels à intégrer dans la page.</div>
+      <div class="field-input-wrap">
+        <textarea class="field-input" id="f-anim" rows="2" placeholder="ex : apparition au scroll, texte qui s'écrit, particules en fond, hover sur les cartes, transitions douces…"></textarea>
+      </div>
+      <div class="field-examples">
+        <span class="example-chip" onclick="appendFill('f-anim',this)">Apparition au scroll</span>
+        <span class="example-chip" onclick="appendFill('f-anim',this)">Texte animé hero</span>
+        <span class="example-chip" onclick="appendFill('f-anim',this)">Hover sur cartes</span>
+        <span class="example-chip" onclick="appendFill('f-anim',this)">Fond particules</span>
+        <span class="example-chip" onclick="appendFill('f-anim',this)">Parallaxe</span>
+        <span class="example-chip" onclick="appendFill('f-anim',this)">Transitions douces</span>
+        <span class="example-chip" onclick="appendFill('f-anim',this)">Aucune animation</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">📱</span>
+        <span class="field-label">Responsive mobile</span>
+        <span class="badge opt">optionnel</span>
+      </div>
+      <div class="field-hint">La page doit-elle être optimisée pour mobile ?</div>
+      <div class="field-input-wrap">
+        <input class="field-input" id="f-responsive" type="text" placeholder="ex : oui, priorité mobile / desktop uniquement / les deux">
+      </div>
+      <div class="field-examples">
+        <span class="example-chip" onclick="fill('f-responsive',this)">Oui, priorité mobile</span>
+        <span class="example-chip" onclick="fill('f-responsive',this)">Desktop et mobile</span>
+        <span class="example-chip" onclick="fill('f-responsive',this)">Desktop uniquement</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">🌙</span>
+        <span class="field-label">Mode sombre</span>
+        <span class="badge pro">avancé</span>
+      </div>
+      <div class="field-hint">Souhaites-tu un mode sombre automatique ou forcé ?</div>
+      <div class="field-input-wrap">
+        <input class="field-input" id="f-darkmode" type="text" placeholder="ex : mode sombre uniquement, mode clair uniquement, automatique selon le système…">
+      </div>
+      <div class="field-examples">
+        <span class="example-chip" onclick="fill('f-darkmode',this)">Mode sombre uniquement</span>
+        <span class="example-chip" onclick="fill('f-darkmode',this)">Mode clair uniquement</span>
+        <span class="example-chip" onclick="fill('f-darkmode',this)">Automatique selon OS</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">⚙️</span>
+        <span class="field-label">Contraintes techniques</span>
+        <span class="badge pro">avancé</span>
+      </div>
+      <div class="field-hint">Précisions sur ce que tu veux éviter ou imposer.</div>
+      <div class="field-input-wrap">
+        <textarea class="field-input" id="f-tech" rows="2" placeholder="ex : HTML/CSS/JS pur (pas de framework), pas de dépendances externes, fichier unique, Google Fonts autorisées…"></textarea>
+      </div>
+      <div class="field-examples">
+        <span class="example-chip" onclick="fill('f-tech',this)">HTML/CSS/JS pur</span>
+        <span class="example-chip" onclick="fill('f-tech',this)">Fichier unique</span>
+        <span class="example-chip" onclick="fill('f-tech',this)">Pas de framework</span>
+        <span class="example-chip" onclick="fill('f-tech',this)">Google Fonts ok</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── 5. EXTRAS ── -->
+  <div class="section-title">🌟 Extras</div>
+  <div class="fields">
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">🧑‍🎨</span>
+        <span class="field-label">Références visuelles / inspiration</span>
+        <span class="badge pro">avancé</span>
+      </div>
+      <div class="field-hint">Sites, marques ou styles dont tu t'inspires.</div>
+      <div class="field-input-wrap">
+        <textarea class="field-input" id="f-refs" rows="2" placeholder="ex : style Apple.com, ambiance Notion, couleurs Spotify, typographie Le Monde…"></textarea>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-header">
+        <span class="field-icon">📌</span>
+        <span class="field-label">Autres précisions</span>
+        <span class="badge opt">optionnel</span>
+      </div>
+      <div class="field-hint">Tout ce qui n'entre pas dans les cases ci-dessus.</div>
+      <div class="field-input-wrap">
+        <textarea class="field-input" id="f-extras" rows="3" placeholder="ex : la page sera hébergée sur GitHub Pages, j'ai déjà un texte à insérer tel quel, ajoute un compteur de visiteurs, je veux une police manuscrite pour les titres…"></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── GENERATE ── -->
+  <div class="generate-wrap">
+    <button class="generate-btn" onclick="generatePrompt()">
+      ✦ Générer le prompt
+    </button>
+  </div>
+
+  <!-- ── PROMPT OUTPUT ── -->
+  <div class="section-title">📤 Ton prompt à copier dans Claude</div>
+  <div class="prompt-section">
+    <div class="prompt-header">
+      <span class="prompt-header-title">💬 Prompt généré</span>
+      <button class="copy-btn" id="copy-btn" onclick="copyPrompt()">📋 Copier</button>
+    </div>
+    <pre id="prompt-output"><span class="prompt-placeholder">Remplis les champs ci-dessus et clique sur "Générer le prompt" pour voir ton prompt apparaître ici.</span></pre>
+  </div>
+
+  <div style="height: 20px"></div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Outil propulsé par Claude
+</div>
+
+<script>
+  function fill(id, chip) {
+    document.getElementById(id).value = chip.textContent.trim();
+  }
+  function appendFill(id, chip) {
+    const el = document.getElementById(id);
+    const v = el.value.trim();
+    el.value = v ? v + ', ' + chip.textContent.trim() : chip.textContent.trim();
+  }
+
+  function updateColor(n, val) {
+    document.getElementById('swatch'+n).style.background = val;
+    document.getElementById('hex'+n).value = val;
+  }
+  function updateColorFromHex(n, val) {
+    if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+      document.getElementById('swatch'+n).style.background = val;
+      document.getElementById('swatch'+n).querySelector('input').value = val;
+    }
+  }
+
+  function val(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+  function blank(label) { return `[ ${label} ]`; }
+  function maybe(v, label) { return v || blank(label); }
+
+  function generatePrompt() {
+    const sujet      = val('f-sujet');
+    const titre      = val('f-titre');
+    const accroche   = val('f-accroche');
+    const nom        = val('f-nom');
+    const style      = val('f-style');
+    const c1         = val('hex1');
+    const c2         = val('hex2');
+    const c3         = val('hex3');
+    const logo       = val('f-logo');
+    const ton        = val('f-ton');
+    const sections   = val('f-sections');
+    const liens      = val('f-liens');
+    const cta        = val('f-cta');
+    const anim       = val('f-anim');
+    const responsive = val('f-responsive');
+    const darkmode   = val('f-darkmode');
+    const tech       = val('f-tech');
+    const refs       = val('f-refs');
+    const extras     = val('f-extras');
+
+    const couleurs = [c1, c2, c3].filter(c => c && c !== '#000000').join(', ') || null;
+
+    let lines = [];
+    lines.push(`Crée-moi une page HTML complète et soignée, prête à héberger sur GitHub Pages.`);
+    lines.push(``);
+    lines.push(`🎯 OBJECTIF`);
+    lines.push(`${maybe(sujet, 'décris l\'objectif de la page')}`);
+    lines.push(``);
+    lines.push(`📌 CONTENU PRINCIPAL`);
+    lines.push(`- Titre principal : ${maybe(titre, 'titre de la page')}`);
+    if (accroche) lines.push(`- Accroche / sous-titre : ${accroche}`);
+    if (nom) lines.push(`- Nom / marque : ${nom}`);
+    lines.push(``);
+    lines.push(`🎨 STYLE VISUEL`);
+    lines.push(`- Ambiance : ${maybe(style, 'style visuel souhaité')}`);
+    if (couleurs) lines.push(`- Couleurs : ${couleurs}`);
+    if (logo) lines.push(`- Logo : ${logo}`);
+    lines.push(``);
+    lines.push(`🗣 TON & VOIX`);
+    lines.push(`${maybe(ton, 'ton souhaité')}`);
+    lines.push(``);
+
+    if (sections) {
+      lines.push(`📦 SECTIONS À INCLURE`);
+      lines.push(`${sections}`);
+      lines.push(``);
+    }
+
+    if (liens) {
+      lines.push(`🔗 LIENS EXTERNES`);
+      lines.push(`${liens}`);
+      lines.push(``);
+    }
+
+    if (cta) {
+      lines.push(`📣 BOUTON D'ACTION (CTA)`);
+      lines.push(`${cta}`);
+      lines.push(``);
+    }
+
+    const animLine = anim || blank('animations souhaitées ou "aucune"');
+    lines.push(`✨ ANIMATIONS`);
+    lines.push(`${animLine}`);
+    lines.push(``);
+
+    lines.push(`📱 RESPONSIVE`);
+    lines.push(`${maybe(responsive, 'mobile / desktop / les deux')}`);
+    lines.push(``);
+
+    if (darkmode) {
+      lines.push(`🌙 MODE SOMBRE`);
+      lines.push(`${darkmode}`);
+      lines.push(``);
+    }
+
+    if (tech) {
+      lines.push(`⚙️ CONTRAINTES TECHNIQUES`);
+      lines.push(`${tech}`);
+      lines.push(``);
+    }
+
+    if (refs) {
+      lines.push(`🧑‍🎨 RÉFÉRENCES / INSPIRATION`);
+      lines.push(`${refs}`);
+      lines.push(``);
+    }
+
+    if (extras) {
+      lines.push(`📌 AUTRES PRÉCISIONS`);
+      lines.push(`${extras}`);
+      lines.push(``);
+    }
+
+    lines.push(`---`);
+    lines.push(`Le fichier doit être un seul fichier .html autonome (CSS et JS inclus). Utilise des Google Fonts si besoin. Rends la page visuellement distinctive, pas générique.`);
+
+    const output = lines.join('\n');
+
+    const el = document.getElementById('prompt-output');
+    // Highlight blanks
+    el.innerHTML = output.replace(/\[ [^\]]+ \]/g, m => `<span class="blank">${m}</span>`);
+
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function copyPrompt() {
+    const el = document.getElementById('prompt-output');
+    const text = el.innerText || el.textContent;
+    if (!text || text.includes('Remplis les champs')) return;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.textContent = '✅ Copié !';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '📋 Copier';
+        btn.classList.remove('copied');
+      }, 2200);
+    });
+  }
+</script>
+
+</body>
+</html>
