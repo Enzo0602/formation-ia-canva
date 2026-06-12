@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 3.4 : Le duo Claude + Canva, et place à la pratique</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .flow-overview {
+    display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; justify-content: center;
+  }
+  .flow-overview .fo-item {
+    display: flex; align-items: center; gap: 6px;
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 999px;
+    padding: 6px 12px; font-size: 11.5px; color: #1a1a2e; font-weight: 600;
+  }
+  .flow-overview .fo-num {
+    width: 20px; height: 20px; border-radius: 50%; background: var(--hop-navy, #00162E);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 10.5px; font-weight: 800; flex-shrink: 0;
+  }
+  .flow-overview .fo-arrow { color: #c7d4de; font-size: 13px; }
+
+  .time-compare {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    flex-wrap: wrap; margin: 14px 0;
+  }
+  .time-compare .tc-box {
+    border-radius: 10px; padding: 12px 18px; text-align: center; min-width: 150px;
+  }
+  .time-compare .tc-box.with { background: rgba(26,127,55,.1); border: 1px solid rgba(26,127,55,.25); }
+  .time-compare .tc-box.without { background: rgba(237,107,42,.1); border: 1px solid rgba(237,107,42,.25); }
+  .time-compare .tc-num { font-size: 20px; font-weight: 800; }
+  .time-compare .tc-box.with .tc-num { color: #1a7f37; }
+  .time-compare .tc-box.without .tc-num { color: #bc4c00; }
+  .time-compare .tc-label { font-size: 11.5px; color: #555; margin-top: 4px; }
+  .time-compare .tc-vs { font-size: 12px; font-weight: 800; color: #9fb6cc; }
+
+  .duo-steps { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+  .duo-step {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 12px 16px;
+  }
+  .duo-step .ds-num {
+    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+    background: var(--hop-secondary, #23ACD6); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800;
+  }
+  .duo-step p { font-size: 13px; color: #1a1a2e; line-height: 1.5; margin: 0; }
+
+  .zone-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .zone-tags span {
+    font-family: 'Fira Code', monospace; font-size: 11.5px; font-weight: 700;
+    background: rgba(0,64,132,.08); color: var(--hop-primary, #004084);
+    border-radius: 999px; padding: 3px 10px;
+  }
+  .prompt-box {
+    font-family: 'Fira Code', monospace; font-size: 12px; line-height: 1.7; color: #1a1a2e;
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 8px; padding: 12px 16px; margin: 10px 0;
+  }
+
+  .exercise-box {
+    border: 1.5px dashed #c7d4de; border-radius: 12px; padding: 16px 18px; margin: 14px 0;
+  }
+  .exercise-box .ex-head {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;
+  }
+  .exercise-box .ex-title { font-size: 14px; font-weight: 800; color: #1a1a2e; }
+  .exercise-box .ex-meta {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 700; color: #5a7390;
+    background: #f4f8fb; border-radius: 999px; padding: 3px 10px;
+  }
+  .exercise-box p { font-size: 13px; color: #444; line-height: 1.6; }
+  .exercise-box ul { list-style: none; margin: 8px 0 0 0; display: flex; flex-direction: column; gap: 5px; }
+  .exercise-box li { font-size: 12.5px; color: #444; line-height: 1.5; padding-left: 18px; position: relative; }
+  .exercise-box li::before { content: '→'; position: absolute; left: 0; color: var(--hop-secondary, #23ACD6); font-weight: 800; }
+  .exercise-box .ex-phase {
+    font-size: 12.5px; color: #444; padding: 4px 0; display: flex; justify-content: space-between;
+    border-bottom: 1px solid #e8eaed;
+  }
+  .exercise-box .ex-phase:last-child { border-bottom: none; }
+  .exercise-box .ex-phase strong { color: #1a1a2e; }
+  .exercise-box .ex-phase span { color: #5a7390; font-weight: 700; }
+
+  .recap-tags { margin-top: 14px; }
+  .recap-tags .tag {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .5px;
+    padding: 3px 10px; border-radius: 999px; margin: 2px;
+  }
+  .tag.navy { background: rgba(0,22,46,.08); color: #00162E; }
+  .tag.blue { background: rgba(35,172,214,.14); color: #0969da; }
+  .tag.orange { background: rgba(237,107,42,.12); color: #bc4c00; }
+  .tag.green { background: rgba(26,127,55,.12); color: #1a7f37; }
+  .tag.purple { background: rgba(0,64,132,.1); color: #004084; }
+
+  @media (max-width: 700px) {
+    .time-compare { flex-direction: column; }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 03 — Canva</div>
+  <div class="hop-guide-badge">Guide 3.4</div>
+  <h1>Le duo Claude + Canva, et place à la pratique</h1>
+  <p>Claude rédige, Canva met en forme. Le workflow complet, la magie des zones de template — puis quatre exercices pour mettre tout cela en pratique.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> Le workflow complet</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> Claude modifie Canva</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Exercices 6 &amp; 7</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> Exercices 8 &amp; 9</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Le workflow complet, de l'idée à l'affiche imprimée</div>
+        <div class="step-subtitle">7 étapes — et un duo gagnant au cœur de la méthode</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="flow-overview">
+        <span class="fo-item"><span class="fo-num">1</span> L'idée &amp; la décision</span><span class="fo-arrow">→</span>
+        <span class="fo-item"><span class="fo-num">2</span> Rédaction avec l'IA</span><span class="fo-arrow">→</span>
+        <span class="fo-item"><span class="fo-num">3</span> Relecture du texte</span><span class="fo-arrow">→</span>
+        <span class="fo-item"><span class="fo-num">4</span> Création Canva</span><span class="fo-arrow">→</span>
+        <span class="fo-item"><span class="fo-num">5</span> Validation en équipe</span><span class="fo-arrow">→</span>
+        <span class="fo-item"><span class="fo-num">6</span> Téléchargement PDF</span><span class="fo-arrow">→</span>
+        <span class="fo-item"><span class="fo-num">7</span> Impression &amp; affichage</span>
+      </div>
+      <div class="time-compare">
+        <div class="tc-box with">
+          <div class="tc-num">45 min – 1h</div>
+          <div class="tc-label">avec la méthode IA + Canva</div>
+        </div>
+        <span class="tc-vs">VS</span>
+        <div class="tc-box without">
+          <div class="tc-num">3h – 4h</div>
+          <div class="tc-label">sans ces outils</div>
+        </div>
+      </div>
+      <p style="text-align:center; font-size:13px; color:#555;">Vous venez de gagner <strong>une demi-journée par mois</strong>.</p>
+
+      <p style="margin-top:18px;"><strong>Le duo gagnant — pourquoi combiner les deux ?</strong></p>
+      <p style="font-size:13px; color:#555; line-height:1.6;">Claude est excellent pour le texte. Canva est excellent pour la mise en forme. Ensemble, ils couvrent les deux compétences clés d'une bonne communication visuelle.</p>
+      <div class="duo-steps">
+        <div class="duo-step"><span class="ds-num">1</span><p>Demandez à Claude le texte complet avec un prompt détaillé (méthode <strong>PROMPT</strong>, Guide 1.6).</p></div>
+        <div class="duo-step"><span class="ds-num">2</span><p>Copiez-collez chaque partie (titre, corps, contact) dans les zones correspondantes de Canva.</p></div>
+        <div class="duo-step"><span class="ds-num">3</span><p>Ajustez si nécessaire et téléchargez (PDF, JPG/PNG ou lien — voir Guide 3.2).</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">Claude modifie votre Canva directement</div>
+        <div class="step-subtitle">Pour aller encore plus vite sur un template déjà construit</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Une fois votre template CSE construit (Guide 3.2) avec des <strong>zones identifiées</strong>, Claude peut directement proposer les mises à jour de ces zones — vous n'avez plus qu'à les appliquer.</p>
+      <div class="zone-tags">
+        <span>[TITRE]</span><span>[DATE]</span><span>[HEURE]</span><span>[LIEU]</span><span>[CONTACT]</span>
+      </div>
+      <p style="font-size:13px; color:#555;"><strong>Prompt de personnalisation de zones</strong> :</p>
+      <div class="prompt-box">« J'ai un template Canva pour une affiche CSE avec ces zones : [TITRE], [DATE], [HEURE], [LIEU], [CONTACT]. Mets à jour uniquement ces zones pour cet événement : Titre = [X], Date = [Y], Heure = [Z], Lieu = [W], Contact = [V]. Conserve exactement la même longueur de texte pour ne pas casser la mise en page. »</div>
+      <div class="callout tip">
+        <div class="callout-icon">ℹ️</div>
+        <div>Fonctionnalité disponible avec <strong>Claude Pro connecté à Canva</strong> — schéma : template Canva avec zones identifiées → prompt Claude → modifications appliquées automatiquement.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Exercices 6 &amp; 7 — créer votre template et vos premiers projets</div>
+        <div class="step-subtitle">Place à la pratique en groupe</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="exercise-box">
+        <div class="ex-head">
+          <span class="ex-title">Exercice 6 — Présentation CSE par Mickaël + création de votre template</span>
+          <span class="ex-meta">⏱ 2h30</span>
+          <span class="ex-meta">👥 Groupes de 3-4</span>
+        </div>
+        <div class="ex-phase"><strong>Phase 1</strong> — Présentation Mickaël <span>30 min</span></div>
+        <div class="ex-phase"><strong>Phase 2</strong> — Découverte Canva <span>20 min</span></div>
+        <div class="ex-phase"><strong>Phase 3</strong> — Création du template CSE <span>45 min</span></div>
+        <div class="ex-phase"><strong>Phase 4</strong> — Création de 2 projets <span>45 min</span></div>
+        <div class="ex-phase"><strong>Phase 5</strong> — Partage inter-groupes <span>10 min</span></div>
+      </div>
+
+      <div class="exercise-box">
+        <div class="ex-head">
+          <span class="ex-title">Exercice 7 — Créer 2 projets de communication avec IA + Canva</span>
+          <span class="ex-meta">⏱ 60 minutes</span>
+          <span class="ex-meta">👥 Groupes de 3-4</span>
+        </div>
+        <p>Choisissez 2 projets de communication parmi :</p>
+        <ul>
+          <li>Affiche A4 événement</li>
+          <li>Mail d'information aux salariés</li>
+          <li>Page de newsletter</li>
+          <li>Présentation bilan CSE</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Exercices 8 &amp; 9 — partager, réutiliser, analyser</div>
+        <div class="step-subtitle">Pour conclure la Partie 03</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="exercise-box">
+        <div class="ex-head">
+          <span class="ex-title">Exercice 8 — Personnaliser la trame d'un autre groupe (partage de fichier)</span>
+          <span class="ex-meta">⏱ 30 minutes</span>
+          <span class="ex-meta">👥 Inter-groupes</span>
+        </div>
+        <p>Apprendre à réutiliser le travail d'un collègue sans l'abîmer, en adaptant le contenu tout en conservant la mise en page — une compétence clé pour travailler en équipe sur Canva.</p>
+      </div>
+
+      <div class="exercise-box">
+        <div class="ex-head">
+          <span class="ex-title">Exercice 9 — Analyse tracks visuels</span>
+          <span class="ex-meta">⏱ 30 minutes</span>
+          <span class="ex-meta">👥 Groupes de 3-4</span>
+        </div>
+        <p>Prenez l'un des visuels du matin. Demandez à Claude de l'évaluer (méthode du Guide 2.6, Exercice 3). Produisez une version améliorée dans Canva. Comparez avec votre évaluation manuelle du matin.</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">🏁</div>
+        <div>
+          <p style="margin:0 0 6px;">C'est la fin de la <strong>Partie 03 — Canva</strong>. Vous savez maintenant :</p>
+          <div class="recap-tags">
+            <span class="tag navy">3.1 — Découvrir Canva</span>
+            <span class="tag blue">3.2 — Construire son template CSE</span>
+            <span class="tag green">3.3 — Travailler en équipe sans friction</span>
+            <span class="tag orange">3.4 — Le duo Claude + Canva</span>
+          </div>
+          <p style="margin-top:14px;">Prochaine étape : <strong>Partie 04 — Prompts avancés</strong>, pour aller plus loin avec des prompts plus complexes et des résultats sur mesure.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 03 : Canva
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>

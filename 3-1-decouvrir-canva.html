@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 3.1 : Découvrir Canva</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .intro-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0;
+  }
+  .intro-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 14px 16px;
+  }
+  .intro-card h4 { font-size: 13.5px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+  .intro-card p { font-size: 12.5px; color: #555; line-height: 1.6; }
+
+  .equation-flow {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    flex-wrap: wrap; margin: 16px 0; padding: 16px; background: #f8fafc;
+    border: 1px solid #e8eaed; border-radius: 10px;
+  }
+  .equation-flow .eq-step {
+    background: #fff; border: 1px solid #e8eaed; border-radius: 8px;
+    padding: 10px 14px; font-size: 12.5px; font-weight: 700; color: #1a1a2e; text-align: center;
+  }
+  .equation-flow .eq-step span { display: block; font-size: 11px; font-weight: 500; color: #5a7390; margin-top: 2px; }
+  .equation-flow .eq-arrow { color: #c7d4de; font-size: 18px; flex-shrink: 0; }
+  .equation-flow .eq-result {
+    background: rgba(26,127,55,.1); border: 1px solid rgba(26,127,55,.25);
+    border-radius: 8px; padding: 10px 14px; font-size: 12.5px; font-weight: 800; color: #1a7f37; text-align: center;
+  }
+
+  .tour-list { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+  .tour-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .tour-item .ti-icon {
+    width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+    background: var(--hop-secondary, #23ACD6); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  .tour-item h4 { font-size: 13px; font-weight: 800; color: #1a1a2e; margin-bottom: 3px; }
+  .tour-item p { font-size: 12.5px; color: #555; line-height: 1.5; margin: 0; }
+
+  .exercise-box {
+    border: 1.5px dashed #c7d4de; border-radius: 12px; padding: 16px 18px; margin: 14px 0;
+  }
+  .exercise-box .ex-head {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;
+  }
+  .exercise-box .ex-title { font-size: 14px; font-weight: 800; color: #1a1a2e; }
+  .exercise-box .ex-meta {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 700; color: #5a7390;
+    background: #f4f8fb; border-radius: 999px; padding: 3px 10px;
+  }
+  .exercise-box p { font-size: 13px; color: #444; line-height: 1.6; }
+  .exercise-box ul { list-style: none; margin: 8px 0 0 0; display: flex; flex-direction: column; gap: 5px; }
+  .exercise-box li { font-size: 12.5px; color: #444; line-height: 1.5; padding-left: 18px; position: relative; }
+  .exercise-box li::before { content: '→'; position: absolute; left: 0; color: var(--hop-secondary, #23ACD6); font-weight: 800; }
+
+  .usage-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0;
+  }
+  .usage-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px;
+    text-align: center;
+  }
+  .usage-card .uc-icon { font-size: 28px; margin-bottom: 8px; }
+  .usage-card h4 { font-size: 13px; font-weight: 800; color: #1a1a2e; margin-bottom: 6px; }
+  .usage-card p { font-size: 12px; color: #555; line-height: 1.5; }
+
+  @media (max-width: 700px) {
+    .intro-grid, .usage-grid { grid-template-columns: 1fr; }
+    .equation-flow { flex-direction: column; }
+    .equation-flow .eq-arrow { transform: rotate(90deg); }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 03 — Canva</div>
+  <div class="hop-guide-badge">Guide 3.1</div>
+  <h1>Découvrir Canva</h1>
+  <p>Un outil de création graphique gratuit, accessible à tous, qui transforme les textes préparés avec l'IA en visuels professionnels — sans formation graphique.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> Qu'est-ce que Canva ?</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> L'interface en repères</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Exercice 5</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> Les 3 usages du CSE</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Qu'est-ce que Canva, et pourquoi pour le CSE ?</div>
+        <div class="step-subtitle">L'outil qui démocratise le graphisme</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="intro-grid">
+        <div class="intro-card">
+          <h4>🎨 Qu'est-ce que Canva ?</h4>
+          <p>Un outil de création graphique en ligne, <strong>gratuit</strong>, sans installation, utilisable depuis n'importe quel navigateur. Des milliers de templates professionnels à personnaliser en quelques clics — résultat pro garanti, même sans formation graphique.</p>
+        </div>
+        <div class="intro-card">
+          <h4>✅ Pourquoi Canva pour le CSE ?</h4>
+          <p>Avec Canva : <strong>20 minutes, résultat professionnel</strong>. C'est la révolution du graphisme accessible à tous, sans budget agence et sans logiciel complexe.</p>
+        </div>
+      </div>
+      <p style="margin-top:12px;"><strong>L'équation gagnante</strong> :</p>
+      <div class="equation-flow">
+        <div class="eq-step">Claude rédige le texte<span>30 secondes</span></div>
+        <span class="eq-arrow">→</span>
+        <div class="eq-step">Canva met en forme<span>20 minutes</span></div>
+        <span class="eq-arrow">→</span>
+        <div class="eq-result">Résultat pro<span style="color:#1a7f37;">vs 2h seul·e</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">L'interface Canva, quelques repères</div>
+        <div class="step-subtitle">De quoi se lancer sans se perdre — comptez environ 10 minutes pour explorer</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Avant l'exercice, prenez quelques minutes pour repérer les grandes zones de l'interface Canva :</p>
+      <div class="tour-list">
+        <div class="tour-item">
+          <span class="ti-icon">📋</span>
+          <div>
+            <h4>La barre latérale gauche</h4>
+            <p>Templates (modèles prêts à l'emploi), Éléments (formes, icônes, illustrations), Texte, Uploads (vos propres images et logos).</p>
+          </div>
+        </div>
+        <div class="tour-item">
+          <span class="ti-icon">🖼️</span>
+          <div>
+            <h4>La zone de travail centrale</h4>
+            <p>Votre design, page par page. Cliquez sur un élément pour le sélectionner, déplacez-le, redimensionnez-le.</p>
+          </div>
+        </div>
+        <div class="tour-item">
+          <span class="ti-icon">🎛️</span>
+          <div>
+            <h4>Le panneau de personnalisation</h4>
+            <p>Apparaît en haut quand un élément est sélectionné : police, taille, couleur, alignement, transparence.</p>
+          </div>
+        </div>
+        <div class="tour-item">
+          <span class="ti-icon">📤</span>
+          <div>
+            <h4>La barre du haut à droite</h4>
+            <p>Partager (inviter des collaborateurs, générer un lien) et Télécharger (exporter en PDF, JPG, PNG…).</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Le meilleur moyen d'apprendre Canva, c'est de cliquer : ouvrez un template et explorez chaque zone pendant <strong>10 minutes</strong>, sans objectif précis, juste pour vous familiariser.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Exercice 5 — Découverte des outils essentiels de Canva</div>
+        <div class="step-subtitle">À vous de jouer</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="exercise-box">
+        <div class="ex-head">
+          <span class="ex-title">Exercice 5</span>
+          <span class="ex-meta">⏱ 30 minutes</span>
+          <span class="ex-meta">👤 Individuel</span>
+        </div>
+        <p><strong>Consigne générale</strong> : ouvrez Canva → choisissez le format <strong>« Affiche A4 »</strong> → recréez une affiche simple pour un <strong>Repas de Noël CSE</strong> en travaillant, dans l'ordre, sur ces 4 actions :</p>
+        <ul>
+          <li>Modifier les textes du template (titre, date, lieu, informations pratiques)</li>
+          <li>Changer les couleurs pour qu'elles correspondent à votre charte visuelle CSE</li>
+          <li>Ajouter ou remplacer une image, un logo ou un élément graphique</li>
+          <li>Ajuster la mise en page (alignement, tailles, espacements)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Les 3 grands usages du CSE sur Canva</div>
+        <div class="step-subtitle">Tout ce que vous créerez tournera autour de ces trois familles</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="usage-grid">
+        <div class="usage-card">
+          <div class="uc-icon">🎉</div>
+          <h4>Les affiches d'événements</h4>
+          <p>Repas de Noël, sorties, chèques vacances, élections… des visuels ponctuels, affichés ou diffusés par mail.</p>
+        </div>
+        <div class="usage-card">
+          <div class="uc-icon">📰</div>
+          <h4>Les newsletters mensuelles</h4>
+          <p>Le fil rouge d'information régulier avec les salariés (voir Guide 2.6 pour le calendrier annuel).</p>
+        </div>
+        <div class="usage-card">
+          <div class="uc-icon">📊</div>
+          <h4>Les présentations et bilans</h4>
+          <p>Comptes-rendus d'activité, bilans annuels, supports pour les réunions d'information.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">➡️</div>
+        <div>Pour chacun de ces usages, la clé est de ne pas repartir de zéro chaque fois. Le <strong>Guide 3.2</strong> explique comment construire un <strong>template CSE réutilisable</strong>, étape par étape.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 03 : Canva
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>

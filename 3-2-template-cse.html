@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 3.2 : Construire et organiser son template CSE</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .step5-list { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+  .step5-item {
+    display: flex; gap: 12px; align-items: center;
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .step5-item .s5-num {
+    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+    background: var(--hop-secondary, #23ACD6); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800;
+  }
+  .step5-item p { font-size: 13.5px; color: #1a1a2e; font-weight: 600; margin: 0; }
+
+  .filename-demo {
+    margin: 14px 0; border: 1px solid #e8eaed; border-radius: 10px; overflow: hidden;
+  }
+  .filename-demo .fd-pattern {
+    font-family: 'Fira Code', monospace; font-size: 13px; font-weight: 700; color: #1a1a2e;
+    background: #f8fafc; padding: 12px 16px; border-bottom: 1px solid #e8eaed;
+    text-align: center; letter-spacing: .5px;
+  }
+  .filename-demo .fd-pattern span { color: var(--hop-secondary, #23ACD6); }
+  .filename-demo .fd-examples { padding: 12px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .filename-demo .fd-examples code {
+    font-family: 'Fira Code', monospace; font-size: 12px; color: #1a7f37;
+    background: rgba(26,127,55,.07); border-radius: 6px; padding: 4px 10px; display: inline-block;
+  }
+
+  .folder-tree {
+    font-family: 'Fira Code', monospace; font-size: 12.5px; line-height: 2;
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 14px 18px; margin: 14px 0;
+    color: #1a1a2e;
+  }
+  .folder-tree .ft-indent { padding-left: 24px; color: #555; }
+  .folder-tree .ft-warn { color: #bc4c00; }
+
+  .version-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0;
+  }
+  .version-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 12px; text-align: center;
+  }
+  .version-card .vc-tag {
+    font-family: 'Fira Code', monospace; font-weight: 800; font-size: 13px; color: var(--hop-primary, #004084);
+    margin-bottom: 4px;
+  }
+  .version-card p { font-size: 11.5px; color: #555; line-height: 1.4; }
+
+  .format-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0;
+  }
+  .format-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 14px 16px;
+  }
+  .format-card h4 {
+    font-size: 13.5px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .format-card p { font-size: 12.5px; color: #555; line-height: 1.55; margin: 0; }
+
+  @media (max-width: 700px) {
+    .version-grid { grid-template-columns: repeat(2, 1fr); }
+    .format-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 03 — Canva</div>
+  <div class="hop-guide-badge">Guide 3.2</div>
+  <h1>Construire et organiser son template CSE</h1>
+  <p>Un template, c'est un modèle réutilisable à l'infini. Bien le construire — et bien le ranger — vous fait gagner du temps à chaque communication.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> Créer votre template</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> Nommer les fichiers</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Organiser &amp; versionner</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> Choisir le bon export</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Créer votre template CSE — étape par étape</div>
+        <div class="step-subtitle">Un template = un modèle réutilisable à l'infini</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="step5-list">
+        <div class="step5-item"><span class="s5-num">1</span><p>Définir votre charte visuelle (couleurs, polices, logo — voir Guide 2.2)</p></div>
+        <div class="step5-item"><span class="s5-num">2</span><p>Choisir un template de base dans Canva, proche du résultat souhaité</p></div>
+        <div class="step5-item"><span class="s5-num">3</span><p>Définir les zones fixes : titre, date, lieu, contact, logo</p></div>
+        <div class="step5-item"><span class="s5-num">4</span><p>Nommer et protéger le template (voir étapes 2 et 3 ci-dessous)</p></div>
+        <div class="step5-item"><span class="s5-num">5</span><p>Tester et valider en équipe avant de le considérer comme « officiel »</p></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Une fois ce template créé, vous ne repartez (presque) plus jamais de zéro : pour chaque nouvelle communication, vous dupliquez le template et n'ajustez que le contenu.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">Le nommage des fichiers</div>
+        <div class="step-subtitle">Une convention simple, à appliquer systématiquement</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Un bon nom de fichier permet de retrouver n'importe quel document en quelques secondes, sans avoir à l'ouvrir.</p>
+      <div class="filename-demo">
+        <div class="fd-pattern">[<span>CSE</span>]_[<span>TYPE</span>]_[<span>SUJET</span>]_[<span>DATE</span>]_[<span>v1</span>]</div>
+        <div class="fd-examples">
+          <code>CSE_AFFICHE_Noel_2024-11_v1</code>
+          <code>CSE_NEWSLETTER_Fev2025_FINAL</code>
+          <code>CSE_PRES_BilanAnnuel_2024_PRINT</code>
+          <code>TEMPLATE_AFFICHE_A4_ORIGINAL</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Organisation des dossiers &amp; gestion des versions</div>
+        <div class="step-subtitle">Ranger une fois, retrouver toujours</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p><strong>Organisation des dossiers</strong> — une structure simple, par type de communication :</p>
+      <div class="folder-tree">
+        📁 2025<br>
+        <span class="ft-indent">📁 TEMPLATES <span class="ft-warn">⚠️ ne pas modifier !</span></span><br>
+        <span class="ft-indent">📁 Affiches</span><br>
+        <span class="ft-indent">📁 Newsletters</span><br>
+        <span class="ft-indent">📁 Présentations</span><br>
+        📁 Archives 2024
+      </div>
+      <p><strong>Gestion des versions</strong> — un suffixe qui indique toujours où en est le document :</p>
+      <div class="version-grid">
+        <div class="version-card"><div class="vc-tag">v1</div><p>Première version de travail</p></div>
+        <div class="version-card"><div class="vc-tag">v2</div><p>Après corrections du groupe</p></div>
+        <div class="version-card"><div class="vc-tag">FINAL</div><p>Version validée par le bureau</p></div>
+        <div class="version-card"><div class="vc-tag">PRINT</div><p>Version téléchargée pour impression</p></div>
+      </div>
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div>Ne jamais supprimer les anciennes versions — archivez-les plutôt dans un dossier dédié par année.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Choisir le bon format d'export</div>
+        <div class="step-subtitle">PDF, JPG/PNG ou lien de partage — selon l'usage</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="format-grid">
+        <div class="format-card">
+          <h4>📄 PDF pour l'impression</h4>
+          <p>Toujours utiliser le PDF pour imprimer. PDF Standard pour un usage courant, PDF Premium pour une qualité impression professionnelle (fonds perdus, crops inclus).</p>
+        </div>
+        <div class="format-card">
+          <h4>🖼️ JPG ou PNG pour le numérique</h4>
+          <p>JPG pour les photos et visuels envoyés par mail ou WhatsApp (fichier léger). PNG pour les images avec fond transparent (logo sur fond coloré). Parfait pour écran, réseaux sociaux et mails.</p>
+        </div>
+        <div class="format-card">
+          <h4>🔗 Lien de partage direct</h4>
+          <p>Au lieu de télécharger, partagez un lien : le destinataire voit le design dans son navigateur. Pratique pour présenter en réunion ou faire valider rapidement — le lien reflète toujours la dernière version.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div><strong>Règle simple</strong> : Impression → toujours PDF. Mail ou réseaux → JPG ou PNG. Validation rapide → lien Canva. Téléchargez le PDF définitif <strong>après</strong> validation complète et relecture — jamais avant.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">➡️</div>
+        <div>Votre template est prêt, bien nommé et bien rangé. Reste une question : que se passe-t-il quand <strong>plusieurs personnes</strong> y travaillent ? Le <strong>Guide 3.3</strong> répond à cette question.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 03 : Canva
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>
