@@ -101,6 +101,7 @@ h1, h2, h3, h4, .hop-logo text, .hop-guide-badge, .hop-topbar__back, button, .bt
 }
 .header h1 span, .header span { color: var(--hop-secondary) !important; }
 .header p { color: rgba(255,255,255,.7) !important; }
+.header p strong, .header p b { color: #ffffff !important; }
 
 /* ---------- Variables spécifiques à la démo animations ---------- */
 .gradient {
