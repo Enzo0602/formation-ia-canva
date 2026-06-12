@@ -1,0 +1,112 @@
+/* ============================================================
+   Hopsite — feuille de style commune
+   Charte graphique : Principal #004084 · Secondaire #23ACD6
+   Complémentaire #ED6B2A · Web numérique #00162E
+   Typo : Urbanist (titres) / Inter (texte)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --hop-primary: #004084;
+  --hop-secondary: #23ACD6;
+  --hop-orange: #ED6B2A;
+  --hop-navy: #00162E;
+  --hop-white: #ffffff;
+
+  /* harmonisation des accents existants des guides */
+  --accent: #23ACD6;
+  --accent-hover: #1c8aab;
+  --accent2: #00162E;
+  --blue: #23ACD6;
+  --purple: #004084;
+}
+
+h1, h2, h3, h4, .hop-logo text, .hop-guide-badge, .hop-topbar__back, button, .btn {
+  font-family: 'Urbanist', -apple-system, sans-serif;
+}
+
+/* ---------- Bandeau supérieur (header commun) ---------- */
+.hop-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 24px;
+  background: var(--hop-navy);
+  border-bottom: 3px solid var(--hop-secondary);
+  font-family: 'Inter', sans-serif;
+}
+.hop-topbar__logo { display: flex; align-items: center; line-height: 0; }
+.hop-logo { height: 34px; width: auto; display: block; }
+.hop-topbar__back {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 18px;
+  border: 1.5px solid var(--hop-secondary);
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: background .2s, color .2s;
+}
+.hop-topbar__back:hover { background: var(--hop-secondary); color: var(--hop-navy); }
+
+/* ---------- Badge "Guide N" ---------- */
+.hop-guide-badge {
+  display: inline-block;
+  background: rgba(35,172,214,.16);
+  border: 1px solid var(--hop-secondary);
+  color: var(--hop-secondary);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+/* ---------- Pied de page commun ---------- */
+.hop-footer {
+  margin-top: 50px;
+  padding: 44px 24px 36px;
+  background: var(--hop-navy);
+  color: #fff;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+}
+.hop-footer .hop-logo { height: 30px; margin: 0 auto 18px; }
+.hop-footer__text { color: #9fb6cc; margin-bottom: 8px; font-size: 14px; }
+.hop-footer__contact { font-size: 17px; font-weight: 700; margin-bottom: 16px; font-family: 'Urbanist', sans-serif; }
+.hop-footer__contact a { color: var(--hop-secondary); text-decoration: none; }
+.hop-footer__contact a:hover { text-decoration: underline; }
+.hop-footer__sep { margin: 0 12px; color: #3a5a78; }
+.hop-footer__credit { font-size: 12px; color: #5d7c99; }
+.hop-footer__credit a { color: #7fa8c9; text-decoration: none; }
+.hop-footer__credit a:hover { text-decoration: underline; }
+
+/* ---------- Réhabillage des en-têtes existants des guides ---------- */
+.header, header.header {
+  background: linear-gradient(135deg, var(--hop-navy) 0%, var(--hop-primary) 60%, var(--hop-secondary) 130%) !important;
+}
+.header::before { background: radial-gradient(ellipse at 70% 50%, rgba(35,172,214,.18), transparent 60%) !important; }
+.header-tag {
+  background: rgba(35,172,214,.18) !important;
+  border-color: rgba(35,172,214,.35) !important;
+  color: var(--hop-secondary) !important;
+}
+.header h1 span, .header span { color: var(--hop-secondary) !important; }
+
+/* ---------- Variables spécifiques à la démo animations ---------- */
+.gradient {
+  background: linear-gradient(135deg, var(--hop-secondary), var(--hop-primary)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+@media (max-width: 600px) {
+  .hop-topbar { padding: 12px 16px; flex-wrap: wrap; }
+  .hop-logo { height: 28px; }
+}

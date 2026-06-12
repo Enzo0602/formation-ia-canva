@@ -3,114 +3,304 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enzo</title>
+<title>Enzo — Formation IA &amp; Canva | Hopsite</title>
+<link rel="stylesheet" href="hopsite-theme.css">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: #0f1117;
-    color: #e6e6e6;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f4f8fb;
+    color: #00162E;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 60px 20px;
   }
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-    letter-spacing: -0.02em;
-  }
-  p.subtitle {
-    color: #9aa0ac;
-    margin-bottom: 48px;
-    font-size: 1rem;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    width: 100%;
-    max-width: 900px;
-  }
-  .card {
-    background: #1a1d27;
-    border: 1px solid #2a2e3a;
-    border-radius: 14px;
-    padding: 24px;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+
+  main {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    padding: 60px 20px 80px;
+  }
+
+  .hero-text { text-align: center; max-width: 720px; margin-bottom: 40px; }
+
+  .eyebrow {
+    display: inline-block;
+    background: rgba(35,172,214,.12);
+    border: 1px solid rgba(35,172,214,.35);
+    color: #1c8aab;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+    color: #00162E;
+  }
+  h1 span { color: #23ACD6; }
+
+  p.subtitle {
+    color: #4a6178;
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  /* ---- Search bar ---- */
+  .search-wrap {
+    width: 100%;
+    max-width: 520px;
+    margin: 8px 0 44px;
+    position: relative;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: #8aa6bd;
+  }
+  #guide-search {
+    width: 100%;
+    padding: 14px 18px 14px 48px;
+    border-radius: 999px;
+    border: 1.5px solid #d6e3ed;
+    background: #ffffff;
+    color: #00162E;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  #guide-search:focus {
+    border-color: #23ACD6;
+    box-shadow: 0 0 0 4px rgba(35,172,214,.15);
+  }
+  #guide-search::placeholder { color: #9fb6cc; }
+
+  .results-empty {
+    display: none;
+    text-align: center;
+    color: #6b8299;
+    font-size: 0.95rem;
+    margin: 10px 0 30px;
+  }
+
+  /* ---- Grid ---- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+    width: 100%;
+    max-width: 1000px;
+  }
+  .card {
+    background: #ffffff;
+    border: 1px solid #e1ecf3;
+    border-radius: 16px;
+    padding: 26px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 1px 2px rgba(0,22,46,.04);
   }
   .card:hover {
     transform: translateY(-4px);
-    border-color: #4f7cff;
-    background: #1f2330;
+    border-color: #23ACD6;
+    box-shadow: 0 12px 24px rgba(0,64,132,.12);
+  }
+  .card .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
   }
   .card .icon {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(35,172,214,.12);
+    border-radius: 12px;
+  }
+  .card .badge {
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #ED6B2A;
+    background: rgba(237,107,42,.1);
+    border: 1px solid rgba(237,107,42,.3);
+    border-radius: 999px;
+    padding: 4px 12px;
   }
   .card h2 {
-    font-size: 1.05rem;
-    font-weight: 600;
-    line-height: 1.3;
+    font-size: 1.08rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #00162E;
   }
   .card .filename {
-    font-size: 0.8rem;
-    color: #6b7280;
+    font-size: 0.78rem;
+    color: #9fb6cc;
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   }
-  footer {
-    margin-top: 60px;
-    color: #6b7280;
-    font-size: 0.85rem;
+
+  .card.is-hidden { display: none; }
+
+  @media (max-width: 480px) {
+    h1 { font-size: 2rem; }
   }
-  footer a { color: #9aa0ac; }
 </style>
 </head>
 <body>
-  <h1>Enzo</h1>
-  <p class="subtitle">Formation IA &amp; Canva — ressources</p>
 
-  <div class="grid">
-    <a class="card" href="animations-demo.html">
-      <span class="icon">🎬</span>
-      <h2>Animations Web — Communication 4.0</h2>
-      <span class="filename">animations-demo.html</span>
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <svg class="hop-logo" viewBox="-6 0 246 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hopsite">
+      <rect x="-2" y="26" width="9" height="12" rx="2" fill="#ED6B2A"/>
+      <rect x="4" y="8" width="40" height="32" rx="7" fill="#23ACD6"/>
+      <rect x="10" y="14" width="28" height="18" rx="2" fill="#00162E"/>
+      <circle cx="18" cy="23" r="2.6" fill="#fff"/>
+      <circle cx="30" cy="23" r="2.6" fill="#fff"/>
+      <path d="M17 28 q7 5 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <rect x="12" y="40" width="6" height="12" rx="3" fill="#23ACD6"/>
+      <rect x="30" y="40" width="6" height="12" rx="3" fill="#23ACD6"/>
+      <rect x="10" y="50" width="10" height="5" rx="2.5" fill="#ED6B2A"/>
+      <rect x="28" y="50" width="10" height="5" rx="2.5" fill="#ED6B2A"/>
+      <text x="56" y="40" font-family="Urbanist, 'Trebuchet MS', sans-serif" font-weight="800" font-size="32" letter-spacing="-1">
+        <tspan fill="#23ACD6">hop</tspan><tspan fill="#ffffff">site.</tspan>
+      </text>
+    </svg>
+  </a>
+  <a href="https://hopsite.fr" class="hop-topbar__back">hopsite.fr</a>
+</header>
+
+<main>
+  <div class="hero-text">
+    <span class="eyebrow">Formation IA &amp; Canva</span>
+    <h1>Bonjour, c'est <span>Enzo</span></h1>
+    <p class="subtitle">Retrouvez ici tous mes guides pour utiliser Claude avec Canva, GitHub et créer des pages web — étape par étape, sans prise de tête.</p>
+  </div>
+
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <input type="search" id="guide-search" placeholder="Rechercher un guide (ex : GitHub, Canva, animations...)">
+  </div>
+
+  <p class="results-empty" id="results-empty">Aucun guide ne correspond à votre recherche.</p>
+
+  <div class="grid" id="guide-grid">
+    <a class="card" href="prompt-template-hopsite.html" data-search="guide 1 créer une page html avec claude prompt template">
+      <div class="top-row">
+        <span class="icon">✨</span>
+        <span class="badge">Guide 1</span>
+      </div>
+      <h2>Créer une page HTML avec Claude</h2>
+      <span class="filename">prompt-template-hopsite.html</span>
     </a>
-    <a class="card" href="guide-f12-claude.html">
-      <span class="icon">🛠️</span>
-      <h2>Guide F12 — Modifier un élément avec Claude</h2>
+    <a class="card" href="guide-f12-claude.html" data-search="guide 2 modifier un élément avec claude f12 devtools">
+      <div class="top-row">
+        <span class="icon">🛠️</span>
+        <span class="badge">Guide 2</span>
+      </div>
+      <h2>Modifier un élément avec Claude (F12)</h2>
       <span class="filename">guide-f12-claude.html</span>
     </a>
-    <a class="card" href="guide-github-pages.html">
-      <span class="icon">🚀</span>
+    <a class="card" href="guide-github-pages.html" data-search="guide 3 publier un fichier html sur github pages">
+      <div class="top-row">
+        <span class="icon">🚀</span>
+        <span class="badge">Guide 3</span>
+      </div>
       <h2>Publier un fichier HTML sur GitHub Pages</h2>
       <span class="filename">guide-github-pages.html</span>
     </a>
-    <a class="card" href="prompt-template-hopsite.html">
-      <span class="icon">✨</span>
-      <h2>Prompt Template — Créer une page HTML avec Claude</h2>
-      <span class="filename">prompt-template-hopsite.html</span>
-    </a>
-    <a class="card" href="guide-connecter-github.html">
-      <span class="icon">🔑</span>
+    <a class="card" href="guide-connecter-github.html" data-search="guide 4 connecter github à claude token push commit">
+      <div class="top-row">
+        <span class="icon">🔑</span>
+        <span class="badge">Guide 4</span>
+      </div>
       <h2>Connecter GitHub à Claude — Token, push &amp; commit</h2>
       <span class="filename">guide-connecter-github.html</span>
     </a>
-    <a class="card" href="guide-connecter-canva.html">
-      <span class="icon">🎨</span>
+    <a class="card" href="guide-connecter-canva.html" data-search="guide 5 connecter canva à claude">
+      <div class="top-row">
+        <span class="icon">🎨</span>
+        <span class="badge">Guide 5</span>
+      </div>
       <h2>Connecter Canva à Claude</h2>
       <span class="filename">guide-connecter-canva.html</span>
     </a>
+    <a class="card" href="animations-demo.html" data-search="guide 6 animations web communication 4.0 démo">
+      <div class="top-row">
+        <span class="icon">🎬</span>
+        <span class="badge">Guide 6</span>
+      </div>
+      <h2>Animations Web — Communication 4.0</h2>
+      <span class="filename">animations-demo.html</span>
+    </a>
   </div>
+</main>
 
-  <footer>
-    <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a>
-  </footer>
+<footer class="hop-footer">
+  <svg class="hop-logo" viewBox="-6 0 246 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hopsite">
+    <rect x="-2" y="26" width="9" height="12" rx="2" fill="#ED6B2A"/>
+    <rect x="4" y="8" width="40" height="32" rx="7" fill="#23ACD6"/>
+    <rect x="10" y="14" width="28" height="18" rx="2" fill="#00162E"/>
+    <circle cx="18" cy="23" r="2.6" fill="#fff"/>
+    <circle cx="30" cy="23" r="2.6" fill="#fff"/>
+    <path d="M17 28 q7 5 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <rect x="12" y="40" width="6" height="12" rx="3" fill="#23ACD6"/>
+    <rect x="30" y="40" width="6" height="12" rx="3" fill="#23ACD6"/>
+    <rect x="10" y="50" width="10" height="5" rx="2.5" fill="#ED6B2A"/>
+    <rect x="28" y="50" width="10" height="5" rx="2.5" fill="#ED6B2A"/>
+    <text x="56" y="40" font-family="Urbanist, 'Trebuchet MS', sans-serif" font-weight="800" font-size="32" letter-spacing="-1">
+      <tspan fill="#23ACD6">hop</tspan><tspan fill="#ffffff">site.</tspan>
+    </text>
+  </svg>
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+
+<script>
+  const search = document.getElementById('guide-search');
+  const cards = Array.from(document.querySelectorAll('#guide-grid .card'));
+  const empty = document.getElementById('results-empty');
+
+  search.addEventListener('input', () => {
+    const q = search.value.trim().toLowerCase();
+    let visible = 0;
+    cards.forEach(card => {
+      const haystack = (card.dataset.search || '') + ' ' + card.textContent.toLowerCase();
+      const match = haystack.toLowerCase().includes(q);
+      card.classList.toggle('is-hidden', !match);
+      if (match) visible++;
+    });
+    empty.style.display = visible === 0 ? 'block' : 'none';
+  });
+</script>
+
 </body>
 </html>
