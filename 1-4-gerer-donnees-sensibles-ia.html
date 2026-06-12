@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 1.4 : Comment gérer les données sensibles avec une IA</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .example-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 12px 0;
+  }
+  .example-box {
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .example-box.bad { background: #fff0f0; border: 1px solid #fecaca; color: #7f1d1d; }
+  .example-box.good { background: #f0fff4; border: 1px solid #bbf7d0; color: #14532d; }
+  .example-label {
+    font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+  }
+  .technique-title {
+    font-size: 15px; font-weight: 800; color: #1a1a2e; margin: 22px 0 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .technique-title:first-of-type { margin-top: 4px; }
+
+  .compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+  .compare-table th, .compare-table td {
+    border: 1px solid #e8eaed; padding: 10px 12px; text-align: left; vertical-align: top;
+  }
+  .compare-table th { background: #f8fafc; font-weight: 700; color: #1a1a2e; }
+  .compare-table td { color: #444; }
+  .compare-table th:first-child, .compare-table td:first-child { font-weight: 700; color: #1a1a2e; white-space: nowrap; }
+
+  .rule-list { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+  .rule-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .rule-item .rn {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--hop-navy); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; flex-shrink: 0;
+  }
+  .rule-item p { font-size: 13.5px; color: #444; margin: 0; line-height: 1.6; }
+
+  .checklist { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+  .checklist-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .checklist-item .cn {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: var(--hop-orange); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; flex-shrink: 0;
+  }
+  .checklist-item p { font-size: 13.5px; color: #444; margin: 0; line-height: 1.6; }
+  .checklist-item p span { color: #1a1a2e; font-weight: 600; }
+
+  @media (max-width: 600px) {
+    .example-row { grid-template-columns: 1fr; }
+    .compare-table { font-size: 12px; }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 01 — L'IA</div>
+  <div class="hop-guide-badge">Guide 1.4</div>
+  <h1>Comment gérer les données sensibles avec une IA</h1>
+  <p>Les techniques concrètes pour utiliser l'IA sans jamais exposer une information sensible — et les règles à respecter quel que soit l'outil.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> 3 techniques d'anonymisation</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> Que voit votre employeur ?</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Les règles universelles</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> Réflexe 5 secondes</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Comment utiliser l'IA SANS données sensibles</div>
+        <div class="step-subtitle">3 techniques d'anonymisation, avec exemples avant/après</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Dans la grande majorité des cas, vous pouvez utiliser l'IA pour vos tâches CSE <strong>sans jamais exposer une information sensible</strong> — il suffit de reformuler. Voici les trois techniques.</p>
+
+      <div class="technique-title">👤 Anonymiser les personnes</div>
+      <div class="example-row">
+        <div class="example-box bad">
+          <div class="example-label">❌ Avant</div>
+          <p>« Rédige un mail à Sophie Martin pour lui annoncer que sa demande de congé a été refusée par Jean Dupont. »</p>
+        </div>
+        <div class="example-box good">
+          <div class="example-label">✅ Après</div>
+          <p>« Rédige un mail à une salariée pour lui annoncer que sa demande de congé a été refusée par son responsable. »</p>
+        </div>
+      </div>
+
+      <div class="technique-title">🔢 Anonymiser les chiffres sensibles</div>
+      <div class="example-row">
+        <div class="example-box bad">
+          <div class="example-label">❌ Avant</div>
+          <p>« Notre budget CSE est de 47 850 € cette année, en baisse de 12 % par rapport à l'année dernière. »</p>
+        </div>
+        <div class="example-box good">
+          <div class="example-label">✅ Après</div>
+          <p>« Notre budget CSE est d'environ 48 000 € cette année, en légère baisse par rapport à l'année dernière. »</p>
+        </div>
+      </div>
+
+      <div class="technique-title">🏢 Anonymiser l'entreprise et le contexte</div>
+      <div class="example-row">
+        <div class="example-box bad">
+          <div class="example-label">❌ Avant</div>
+          <p>« Notre entreprise [Nom de l'entreprise] traverse un plan de restructuration et 15 postes du service logistique sont menacés. »</p>
+        </div>
+        <div class="example-box good">
+          <div class="example-label">✅ Après</div>
+          <p>« Une entreprise du secteur logistique traverse une réorganisation qui pourrait affecter une quinzaine de postes. »</p>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Dans les trois cas, le sens et l'utilité de votre demande restent <strong>identiques</strong> — seules les informations identifiantes disparaissent.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">Votre employeur peut-il voir ce que vous tapez ?</div>
+        <div class="step-subtitle">Ça dépend de l'outil et du compte utilisé</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Question que tout le monde se pose, mais que peu osent poser à voix haute. La réponse honnête : <strong>ça dépend de l'outil</strong>.</p>
+      <table class="compare-table">
+        <tr>
+          <th>Ce que l'administrateur IT peut techniquement voir</th>
+          <th>Ce que dit le droit en France</th>
+        </tr>
+        <tr>
+          <td>Les logs de connexion (qui a utilisé Copilot, quand, depuis quel appareil), les prompts et réponses dans certaines configurations d'audit, le volume d'utilisation par utilisateur, les fichiers auxquels Copilot a accédé dans Teams / SharePoint.</td>
+          <td>L'employeur peut surveiller l'usage des outils numériques professionnels sous conditions : information préalable des salariés (le CSE doit être consulté !), usage proportionné et justifié, conforme au RGPD. Le CSE lui-même doit être informé et consulté avant tout déploiement de Copilot en entreprise.</td>
+        </tr>
+      </table>
+      <div class="callout">
+        <div class="callout-icon">🛡️</div>
+        <div><strong>Ce que vous devez faire pour vous protéger</strong> : n'utilisez pas Copilot entreprise pour des échanges syndicaux confidentiels. Ne tapez pas de positions de négociation que vous ne voulez pas partager avec la direction. Utilisez <strong>claude.ai (compte personnel)</strong> pour les usages strictement personnels et syndicaux. Séparez les usages : outil entreprise = tâches neutres.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Les règles universelles</div>
+        <div class="step-subtitle">Dans tous les cas, quel que soit l'outil utilisé</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Au-delà des spécificités de chaque outil, il existe des règles qui s'appliquent <strong>dans tous les cas</strong>, sans exception :</p>
+      <div class="rule-list">
+        <div class="rule-item">
+          <div class="rn">1</div>
+          <p>Ne jamais partager de <strong>données personnelles de salariés</strong> (noms, prénoms, situations individuelles) avec une IA.</p>
+        </div>
+        <div class="rule-item">
+          <div class="rn">2</div>
+          <p>Ne jamais partager de <strong>données financières confidentielles</strong> (salaires individuels, budgets non publiés).</p>
+        </div>
+        <div class="rule-item">
+          <div class="rn">3</div>
+          <p>Ne jamais mentionner de <strong>situations conflictuelles ou disciplinaires nommées</strong> (jamais avec le nom de la personne, jamais les secrets industriels ou commerciaux, jamais les positions syndicales et confidences de salariés, jamais les PV à huis clos).</p>
+        </div>
+        <div class="rule-item">
+          <div class="rn">4</div>
+          <p>Ne jamais partager d'<strong>informations non publiques sur l'entreprise</strong> (projets non annoncés, restructurations à venir, données stratégiques).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Le réflexe 5 secondes avant d'envoyer</div>
+        <div class="step-subtitle">Une checklist à devenir automatique</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Avant d'envoyer quoi que ce soit à une IA, prenez <strong>cinq secondes de réflexion</strong> avec ces questions :</p>
+      <div class="checklist">
+        <div class="checklist-item">
+          <div class="cn">1</div>
+          <p><span>Est-ce que je mentionne une personne identifiable ?</span><br>Si oui : remplacez le nom par un rôle générique (« un salarié », « mon responsable », « une collègue »).</p>
+        </div>
+        <div class="checklist-item">
+          <div class="cn">2</div>
+          <p><span>Est-ce que j'inclus des données financières précises ou confidentielles ?</span><br>Si oui : arrondissez ou utilisez des ordres de grandeur. Les chiffres exacts sont rarement nécessaires pour obtenir un conseil utile.</p>
+        </div>
+        <div class="checklist-item">
+          <div class="cn">3</div>
+          <p><span>Est-ce que cette information est confidentielle dans mon entreprise ?</span><br>Si oui : ne la partagez pas avec une IA grand public. Reformulez en termes génériques.</p>
+        </div>
+        <div class="checklist-item">
+          <div class="cn">4</div>
+          <p><span>Quel outil j'utilise ?</span><br>Claude (compte personnel) ou Copilot (compte entreprise) : choisissez l'outil en fonction du contenu.</p>
+        </div>
+        <div class="checklist-item">
+          <div class="cn">5</div>
+          <p><span>Est-ce que j'ai besoin de toutes ces informations pour ma demande ?</span><br>Souvent non. Donnez le minimum nécessaire — l'IA n'a pas besoin de tout le contexte pour vous aider efficacement.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">✅</div>
+        <div>Avec un peu de pratique, ce réflexe devient automatique — exactement comme on vérifie le destinataire avant d'envoyer un mail sensible.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 01 : L'IA
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>

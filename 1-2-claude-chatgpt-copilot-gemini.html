@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 1.2 : Claude, ChatGPT, Copilot, Gemini — lequel choisir ?</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .info-card {
+    background: #f8fafc;
+    border: 1px solid #e8eaed;
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .info-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .info-card p { font-size: 13.5px; color: #555; margin-bottom: 0; }
+
+  .compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+  .compare-table th, .compare-table td {
+    border: 1px solid #e8eaed; padding: 10px 12px; text-align: left; vertical-align: top;
+  }
+  .compare-table th { background: #f8fafc; font-weight: 700; color: #1a1a2e; }
+  .compare-table td { color: #444; }
+  .compare-table th:first-child, .compare-table td:first-child { font-weight: 700; color: #1a1a2e; white-space: nowrap; }
+
+  .tag {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .5px;
+    padding: 3px 10px; border-radius: 999px; margin: 2px;
+  }
+  .tag.navy { background: rgba(0,22,46,.08); color: #00162E; }
+  .tag.blue { background: rgba(35,172,214,.14); color: #0969da; }
+  .tag.orange { background: rgba(237,107,42,.12); color: #bc4c00; }
+  .tag.green { background: rgba(26,127,55,.12); color: #1a7f37; }
+
+  @media (max-width: 600px) {
+    .info-grid { grid-template-columns: 1fr; }
+    .compare-table { font-size: 12px; }
+    .compare-table th, .compare-table td { padding: 8px; }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 01 — L'IA</div>
+  <div class="hop-guide-badge">Guide 1.2</div>
+  <h1>Claude, ChatGPT, Copilot, Gemini : lequel choisir ?</h1>
+  <p>Un petit panorama des principaux assistants IA du moment, leurs différences, et pourquoi cette formation s'appuie sur Claude.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> Les 4 grands assistants</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> Tableau comparatif</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Pourquoi Claude ?</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> Une compétence universelle</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Les 4 grands assistants IA du moment</div>
+        <div class="step-subtitle">Claude, ChatGPT, Copilot et Gemini — chacun avec sa logique</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Il existe aujourd'hui plusieurs assistants IA grand public. Voici les quatre que vous croiserez le plus probablement, au travail ou dans la vie de tous les jours :</p>
+      <div class="info-grid">
+        <div class="info-card">
+          <h4>🟠 Claude (Anthropic)</h4>
+          <p>L'assistant utilisé dans cette formation. Connu pour la qualité de sa rédaction et, depuis janvier 2026, sa connexion directe avec Canva.</p>
+        </div>
+        <div class="info-card">
+          <h4>🟢 ChatGPT (OpenAI)</h4>
+          <p>Le plus connu du grand public. Très polyvalent, large écosystème de plugins et d'applications tierces.</p>
+        </div>
+        <div class="info-card">
+          <h4>🔵 Copilot (Microsoft)</h4>
+          <p>Intégré à l'environnement Microsoft 365 (Word, Excel, Teams, Outlook). Souvent déployé en version « entreprise » par l'employeur.</p>
+        </div>
+        <div class="info-card">
+          <h4>🔴 Gemini (Google)</h4>
+          <p>Intégré à Gmail, Docs et l'écosystème Google. Pratique si votre entreprise utilise déjà les outils Google Workspace.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Aucun de ces outils n'est « meilleur » dans l'absolu — chacun a ses points forts selon le contexte dans lequel vous l'utilisez.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">Tableau comparatif</div>
+        <div class="step-subtitle">Claude vs Copilot vs Gemini : les points à connaître pour un usage CSE</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <table class="compare-table">
+        <tr>
+          <th>Critère</th>
+          <th>Claude (Anthropic)</th>
+          <th>Copilot (Microsoft)</th>
+          <th>Gemini (Google)</th>
+        </tr>
+        <tr>
+          <td>Accès</td>
+          <td>Compte personnel gratuit ou payant sur claude.ai</td>
+          <td>Souvent fourni par l'employeur via Microsoft 365</td>
+          <td>Compte personnel Google ou via Workspace</td>
+        </tr>
+        <tr>
+          <td>Cadre d'usage CSE</td>
+          <td>Compte personnel → usages syndicaux et personnels possibles</td>
+          <td>Compte entreprise → à réserver aux tâches neutres, pas aux échanges syndicaux confidentiels</td>
+          <td>Selon le compte (personnel ou Workspace de l'entreprise)</td>
+        </tr>
+        <tr>
+          <td>Connexion à Canva</td>
+          <td>✅ Premier assistant connecté à Canva (depuis janvier 2026)</td>
+          <td>Non natif</td>
+          <td>Non natif</td>
+        </tr>
+        <tr>
+          <td>Intégration bureautique</td>
+          <td>Connecteurs (Google Drive, GitHub, Canva…)</td>
+          <td>Très intégré à Word, Excel, Teams, Outlook</td>
+          <td>Très intégré à Gmail, Docs, Sheets</td>
+        </tr>
+        <tr>
+          <td>Point de vigilance</td>
+          <td>Toujours vérifier le cadre (perso vs pro) avant de partager des infos sensibles</td>
+          <td>L'administrateur IT peut techniquement voir l'usage (logs, prompts selon configuration)</td>
+          <td>Idem : dépend du compte utilisé</td>
+        </tr>
+      </table>
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div>Ce tableau donne des repères généraux. Le détail des règles de confidentialité selon l'outil utilisé est développé dans le guide <strong>1.4 — Gérer les données sensibles avec une IA</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Pourquoi Claude pour cette formation ?</div>
+        <div class="step-subtitle">Un choix lié à la connexion Canva</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Cette formation s'appuie sur <strong>Claude</strong> pour une raison très concrète :</p>
+      <div class="callout">
+        <div class="callout-icon">🎨</div>
+        <div>Claude a été <strong>le premier assistant IA à bénéficier de la connexion Canva</strong> (janvier 2026). Cela permet de générer, adapter et publier des visuels directement depuis une conversation — un atout majeur pour la communication CSE.</div>
+      </div>
+      <p>C'est donc l'outil le plus pertinent pour suivre les guides « Canva » et « Prompts avancés » de cette formation (Parties 03 et 04), où l'on connecte directement l'IA à vos modèles Canva.</p>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Une compétence universelle</div>
+        <div class="step-subtitle">Les bons réflexes de prompt fonctionnent sur les 4 outils</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Le point le plus important à retenir :</p>
+      <div class="callout tip">
+        <div class="callout-icon">✅</div>
+        <div><strong>Pour cette formation, on travaille sur Claude — mais les compétences de prompt que vous apprenez fonctionnent sur tous les quatre.</strong> Rédiger un prompt clair, donner un rôle à l'IA, préciser le contexte et le format attendu : tout cela s'applique aussi bien sur ChatGPT, Copilot ou Gemini.</div>
+      </div>
+      <p>
+        <span class="tag navy">1.3 — Données sensibles</span>
+        <span class="tag blue">1.5 — 4 types de demandes</span>
+        <span class="tag orange">1.6 — Bon prompt</span>
+        <span class="tag green">Parties 03/04 — Canva</span>
+      </p>
+      <p>Si vous changez d'outil un jour, vous n'aurez pas à tout réapprendre : seule l'interface change, la méthode reste la même.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 01 : L'IA
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>

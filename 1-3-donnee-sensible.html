@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 1.3 : Qu'est-ce qu'une donnée sensible ?</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .info-card {
+    background: #f8fafc;
+    border: 1px solid #e8eaed;
+    border-radius: 10px;
+    padding: 14px 14px;
+    text-align: center;
+  }
+  .info-card .ic-emoji { font-size: 22px; margin-bottom: 6px; display:block; }
+  .info-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 0;
+  }
+
+  .level-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .level-card {
+    border-radius: 10px;
+    padding: 16px 18px;
+    border: 1px solid #e8eaed;
+  }
+  .level-card h4 {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .level-card p { font-size: 13.5px; color: #444; margin-bottom: 8px; line-height: 1.6; }
+  .level-card .level-rule { font-size: 12.5px; font-weight: 700; }
+  .level-card.l1 { background: #f0fff4; border-color: #bbf7d0; }
+  .level-card.l1 h4 { color: #1a7f37; }
+  .level-card.l1 .level-rule { color: #1a7f37; }
+  .level-card.l2 { background: #f0f7ff; border-color: #bfdbfe; }
+  .level-card.l2 h4 { color: #0969da; }
+  .level-card.l2 .level-rule { color: #0969da; }
+  .level-card.l3 { background: #fffbf0; border-color: #fde68a; }
+  .level-card.l3 h4 { color: #b45309; }
+  .level-card.l3 .level-rule { color: #b45309; }
+  .level-card.l4 { background: #fff0f0; border-color: #fecaca; }
+  .level-card.l4 h4 { color: #cf222e; }
+  .level-card.l4 .level-rule { color: #cf222e; }
+
+  .rule-list { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+  .rule-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .rule-item .rn {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--hop-navy); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; flex-shrink: 0;
+  }
+  .rule-item p { font-size: 13.5px; color: #444; margin: 0; line-height: 1.6; }
+
+  @media (max-width: 600px) {
+    .info-grid { grid-template-columns: repeat(2, 1fr); }
+    .level-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 01 — L'IA</div>
+  <div class="hop-guide-badge">Guide 1.3</div>
+  <h1>Qu'est-ce qu'une donnée sensible ?</h1>
+  <p>Savoir reconnaître ce qui est sensible — pour une personne, pour l'entreprise, ou pour le CSE — avant même de penser à l'IA.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> Définition</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> Vos données personnelles</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> 3 règles de décision</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> Niveaux CSE</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Une donnée sensible, c'est quoi ?</div>
+        <div class="step-subtitle">La définition de base, avant tout usage de l'IA</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Avant de parler d'intelligence artificielle, il faut d'abord savoir reconnaître ce qu'est une <strong>donnée sensible</strong> — la même définition s'applique d'ailleurs que vous utilisiez une IA, un mail, ou une clé USB.</p>
+      <div class="callout">
+        <div class="callout-icon">🔒</div>
+        <div><strong>Une donnée sensible est une information dont la divulgation pourrait causer un préjudice</strong> — à une personne, à l'entreprise, ou à vous en tant qu'élu·e.</div>
+      </div>
+      <p>Et cela inclut <strong>bien plus de choses qu'on ne le pense</strong> de prime abord : pas seulement les numéros de sécurité sociale ou les données médicales, mais aussi des informations qui semblent anodines mais qui, mises ensemble ou sorties de leur contexte, deviennent problématiques.</p>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">La carte de vos données personnelles</div>
+        <div class="step-subtitle">8 grandes catégories à connaître</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Vos « données personnelles » regroupent en réalité plusieurs grandes familles d'informations, toutes potentiellement sensibles selon le contexte :</p>
+      <div class="info-grid">
+        <div class="info-card"><span class="ic-emoji">🪪</span><h4>Données d'identification</h4></div>
+        <div class="info-card"><span class="ic-emoji">👨‍👩‍👧</span><h4>Données familiales</h4></div>
+        <div class="info-card"><span class="ic-emoji">📇</span><h4>Données de contact</h4></div>
+        <div class="info-card"><span class="ic-emoji">💰</span><h4>Données financières</h4></div>
+        <div class="info-card"><span class="ic-emoji">🔍</span><h4>Données d'enquêtes</h4></div>
+        <div class="info-card"><span class="ic-emoji">💼</span><h4>Données professionnelles</h4></div>
+        <div class="info-card"><span class="ic-emoji">🌐</span><h4>Données de connexion</h4></div>
+        <div class="info-card"><span class="ic-emoji">🎓</span><h4>Données de scolarité</h4></div>
+      </div>
+      <p>Au centre de toutes ces catégories : <strong>vos données personnelles</strong> — et celles de vos collègues, des salariés que vous représentez, et des personnes citées dans les dossiers que vous traitez en tant qu'élu·e CSE.</p>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">3 règles de décision rapide</div>
+        <div class="step-subtitle">À appliquer en quelques secondes, avant d'envoyer quoi que ce soit à une IA</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Pas besoin de mémoriser une liste interminable : trois questions simples suffisent pour repérer une donnée sensible.</p>
+      <div class="rule-list">
+        <div class="rule-item">
+          <div class="rn">1</div>
+          <p>Si la donnée concerne une <strong>personne identifiable</strong> → ne pas taper son nom.</p>
+        </div>
+        <div class="rule-item">
+          <div class="rn">2</div>
+          <p>Si c'est <strong>confidentiel dans votre entreprise</strong> → ça l'est aussi dans l'IA.</p>
+        </div>
+        <div class="rule-item">
+          <div class="rn">3</div>
+          <p><strong>En cas de doute</strong> → ne pas envoyer.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Ces trois règles seront mises en pratique très concrètement dans le guide <strong>1.4 — Comment gérer les données sensibles avec une IA</strong>, avec des exemples d'anonymisation avant/après.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Les 4 niveaux de confidentialité des documents CSE</div>
+        <div class="step-subtitle">Lequel partager avec qui — et lequel ne jamais mettre dans une IA</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Spécifiquement pour vos documents CSE, on peut distinguer 4 niveaux de confidentialité. Cette grille vous aide à savoir d'un coup d'œil ce qui peut circuler — et ce qui ne doit jamais sortir.</p>
+      <div class="level-grid">
+        <div class="level-card l1">
+          <h4>🟢 Public</h4>
+          <p>Peut être partagé avec tout le monde, y compris à l'extérieur de l'entreprise. Exemples : flyers d'événements CSE, newsletters, affiches, bilan annuel d'activité public, liste des avantages proposés.</p>
+          <div class="level-rule">→ IA sans restriction : Canva, mail, affichage, réseaux sociaux, tout va.</div>
+        </div>
+        <div class="level-card l2">
+          <h4>🔵 Interne entreprise</h4>
+          <p>Réservé aux salariés de l'entreprise uniquement. Exemples : comptes-rendus de réunion CSE standards, informations sur les droits collectifs, résultats d'enquête de satisfaction anonyme, planning des activités.</p>
+          <div class="level-rule">→ IA autorisée avec anonymisation des noms. Diffusion : mail interne, intranet, panneau d'affichage. Externe : non.</div>
+        </div>
+        <div class="level-card l3">
+          <h4>🟠 Confidentiel CSE</h4>
+          <p>Réservé aux élus du CSE uniquement. Exemples : PV de réunions à huis clos, positions de négociation, projets d'accords non encore signés, informations données par la direction sous confidentialité, situations individuelles signalées par des salariés.</p>
+          <div class="level-rule">→ IA utilisable seulement si tout est anonymisé et généralisé, avec prudence. Partage uniquement entre élus, en direct ou via messagerie sécurisée.</div>
+        </div>
+        <div class="level-card l4">
+          <h4>🔴 Strictement confidentiel</h4>
+          <p>Ne circule pas du tout, ou avec des précautions maximales. Exemples : contrats de travail individuels, fiches de paie, dossiers disciplinaires, données médicales, situations individuelles de harcèlement, informations couvertes par le secret professionnel.</p>
+          <div class="level-rule">→ Jamais dans une IA. Jamais. Sans exception. Jamais par mail non chiffré, jamais dans un groupe WhatsApp, accès strictement limité.</div>
+        </div>
+      </div>
+      <div class="callout danger">
+        <div class="callout-icon">🚫</div>
+        <div>Le niveau « Strictement confidentiel » est une <strong>ligne rouge absolue</strong> : aucune IA, quelle qu'elle soit (Claude, ChatGPT, Copilot, Gemini), ne doit jamais recevoir ce type d'information — même anonymisée.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 01 : L'IA
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 1.6 : Qu'est-ce qu'un bon prompt ?</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .analogy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .analogy-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px;
+    padding: 14px 16px; text-align: center;
+  }
+  .analogy-card .ac-emoji { font-size: 22px; display: block; margin-bottom: 6px; }
+  .analogy-card p { font-size: 13px; color: #444; margin: 0; line-height: 1.5; }
+  .analogy-card strong { color: #1a1a2e; }
+
+  .example-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 12px 0;
+  }
+  .example-box {
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .example-box.bad { background: #fff0f0; border: 1px solid #fecaca; color: #7f1d1d; }
+  .example-box.good { background: #f0fff4; border: 1px solid #bbf7d0; color: #14532d; }
+  .example-label {
+    font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+  }
+
+  .ingredient-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .ingredient-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .ingredient-card h4 {
+    font-size: 14px; font-weight: 800; color: #1a1a2e; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ingredient-card .ic-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--hop-navy); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+  .ingredient-card p { font-size: 13px; color: #555; margin: 0; line-height: 1.6; }
+  .ingredient-card .ic-examples {
+    font-family: 'Fira Code', monospace; font-size: 11.5px; color: #0969da;
+    margin-top: 6px;
+  }
+
+  @media (max-width: 600px) {
+    .analogy-grid, .example-row, .ingredient-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 01 — L'IA</div>
+  <div class="hop-guide-badge">Guide 1.6</div>
+  <h1>Qu'est-ce qu'un bon prompt ?</h1>
+  <p>La dernière pierre de la Partie 01 : tout ce qu'il faut savoir pour écrire des demandes efficaces à une IA — et obtenir un résultat immédiatement utilisable.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> Qu'est-ce qu'un prompt ?</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> Vague vs précis</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> 4 ingrédients</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> On peut toujours améliorer</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Qu'est-ce qu'un « prompt » ?</div>
+        <div class="step-subtitle">Votre message à l'IA, tout simplement</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Le mot « prompt » (prononcé « prompte ») fait peur, mais c'est en réalité très simple :</p>
+      <div class="callout">
+        <div class="callout-icon">💬</div>
+        <div>Un <strong>prompt</strong>, c'est simplement le <strong>message que vous envoyez à l'IA</strong>. C'est votre demande, votre question, votre consigne. Tout ce que vous tapez dans la barre de saisie est un prompt.</div>
+      </div>
+      <p>Pour bien comprendre ce que représente un prompt, voici trois analogies simples :</p>
+      <div class="analogy-grid">
+        <div class="analogy-card">
+          <span class="ac-emoji">📋</span>
+          <p><strong>Le briefing</strong> que vous donneriez à un prestataire avant qu'il commence une mission.</p>
+        </div>
+        <div class="analogy-card">
+          <span class="ac-emoji">🍽️</span>
+          <p><strong>La commande</strong> que vous passez au restaurant — plus elle est précise, plus le plat correspond à vos attentes.</p>
+        </div>
+        <div class="analogy-card">
+          <span class="ac-emoji">🎓</span>
+          <p><strong>La consigne</strong> que vous donneriez à un·e stagiaire pour qu'il/elle réalise une tâche correctement.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">Prompt vague vs prompt précis</div>
+        <div class="step-subtitle">Le prompt = votre consigne. Plus elle est précise, plus le résultat est bon. C'est logique !</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Reprenons l'exemple du mail d'invitation au repas de Noël, vu dans le guide 1.1, pour bien comprendre la différence :</p>
+      <div class="example-row">
+        <div class="example-box bad">
+          <div class="example-label">❌ Prompt vague</div>
+          <p>« Fais un mail pour inviter les salariés au repas de Noël. »</p>
+          <p style="margin-top:8px;">→ L'IA n'a aucune information sur qui, pour qui, quand, où, quel ton. Elle parcourt sa mémoire pour trouver les structures de courriels d'invitation les plus communes et produit quelque chose de générique.</p>
+        </div>
+        <div class="example-box good">
+          <div class="example-label">✅ Prompt précis</div>
+          <p>« Tu es l'assistant·e du CSE. Rédige un mail chaleureux d'environ 150 mots pour inviter les 80 salariés au repas de Noël du vendredi 20 décembre à 19h, au restaurant La Terrasse. »</p>
+          <p style="margin-top:8px;">→ Une consigne claire permet d'obtenir un résultat parfait : une suite logique et unique construite par l'IA, directement utilisable.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Vous remarquez la différence ? Le prompt précis ne fait pas que demander un résultat — il <strong>donne une identité à l'IA</strong> (« Tu es… »), un <strong>format</strong> (150 mots) et un <strong>contexte complet</strong> (qui, quand, où). C'est exactement ce que détaille l'étape suivante.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Les 4 ingrédients d'une demande parfaite</div>
+        <div class="step-subtitle">Rôle, Tâche, Contexte, Format — la recette de base</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Quatre ingrédients permettent de construire un prompt quasiment parfait. Pas besoin des 4 à chaque fois — une question simple n'en a pas besoin. Mais pour une demande importante, les 4 ensemble donnent un résultat immédiatement utilisable.</p>
+      <div class="ingredient-grid">
+        <div class="ingredient-card">
+          <h4><span class="ic-num">1</span> Le Rôle — « Tu es… »</h4>
+          <p>Donnez une identité à l'IA. Le rôle change complètement le registre de la réponse.</p>
+          <div class="ic-examples">"Tu es secrétaire du CSE." · "Tu es expert en communication interne." · "Tu es juriste spécialisé en droit du travail."</div>
+        </div>
+        <div class="ingredient-card">
+          <h4><span class="ic-num">2</span> La Tâche — « Résume… »</h4>
+          <p>Dites précisément ce que vous voulez — l'action concrète attendue.</p>
+          <div class="ic-examples">"Rédige." · "Résume." · "Traduis." · "Compare." · "Analyse."</div>
+        </div>
+        <div class="ingredient-card">
+          <h4><span class="ic-num">3</span> Le Contexte — « Pour… »</h4>
+          <p>Donnez les informations que l'IA ne peut pas deviner.</p>
+          <div class="ic-examples">Taille de l'entreprise, secteur, date, lieu, public cible, enjeux spécifiques.</div>
+        </div>
+        <div class="ingredient-card">
+          <h4><span class="ic-num">4</span> Le Format — « En… »</h4>
+          <p>Précisez la forme souhaitée pour le résultat.</p>
+          <div class="ic-examples">"3 paragraphes." · "150 mots." · "Ton chaleureux." · "Liste à puces." · "Tableau comparatif."</div>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">🧩</div>
+        <div>Vous retrouverez ces 4 ingrédients sous une forme pratique (un formulaire à remplir) dans le guide <strong>« Créer une page HTML avec Claude »</strong> de la section Bonus, et dans les prompts avancés de la Partie 04.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">On peut toujours améliorer son prompt</div>
+        <div class="step-subtitle">L'IA n'est jamais vexée — itérez sans hésiter</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Dernier point, et non des moindres : un prompt n'est jamais figé.</p>
+      <div class="callout tip">
+        <div class="callout-icon">🔁</div>
+        <div>Si le résultat ne vous convient pas, <strong>reformulez et recommencez</strong>. L'IA n'est jamais vexée — vous pouvez lui redemander autant de fois que nécessaire, ajouter des précisions, changer le ton, demander plus court ou plus long.</div>
+      </div>
+      <p>C'est la fin de la <strong>Partie 01 — L'IA</strong>. Vous savez maintenant :</p>
+      <p>
+        <span style="display:inline-block;background:rgba(0,22,46,.08);color:#00162E;font-size:11px;font-weight:700;letter-spacing:.5px;padding:3px 10px;border-radius:999px;margin:2px;">1.1 — Ce qu'est une IA générative</span>
+        <span style="display:inline-block;background:rgba(35,172,214,.14);color:#0969da;font-size:11px;font-weight:700;letter-spacing:.5px;padding:3px 10px;border-radius:999px;margin:2px;">1.2 — Quel assistant choisir</span>
+        <span style="display:inline-block;background:rgba(237,107,42,.12);color:#bc4c00;font-size:11px;font-weight:700;letter-spacing:.5px;padding:3px 10px;border-radius:999px;margin:2px;">1.3 — Donnée sensible</span>
+        <span style="display:inline-block;background:rgba(26,127,55,.12);color:#1a7f37;font-size:11px;font-weight:700;letter-spacing:.5px;padding:3px 10px;border-radius:999px;margin:2px;">1.4 — Gérer les données sensibles</span>
+        <span style="display:inline-block;background:rgba(0,64,132,.1);color:#004084;font-size:11px;font-weight:700;letter-spacing:.5px;padding:3px 10px;border-radius:999px;margin:2px;">1.5 — 4 types de demandes</span>
+      </p>
+      <p style="margin-top:14px;">Prochaine étape : <strong>Partie 02 — Communication</strong>, pour apprendre à transformer ces bases en messages percutants.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 01 : L'IA
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>

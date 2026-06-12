@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 1.1 : Qu'est-ce que l'IA générative ?</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  /* Grilles d'info */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .info-card {
+    background: #f8fafc;
+    border: 1px solid #e8eaed;
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .info-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .info-card p { font-size: 13.5px; color: #555; margin-bottom: 0; }
+
+  /* Avant / Après */
+  .example-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 12px 0;
+  }
+  .example-box {
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .example-box.bad { background: #fff0f0; border: 1px solid #fecaca; color: #7f1d1d; }
+  .example-box.good { background: #f0fff4; border: 1px solid #bbf7d0; color: #14532d; }
+  .example-label {
+    font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+  }
+
+  /* Tableau comparatif */
+  .compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+  .compare-table th, .compare-table td {
+    border: 1px solid #e8eaed; padding: 10px 12px; text-align: left; vertical-align: top;
+  }
+  .compare-table th { background: #f8fafc; font-weight: 700; color: #1a1a2e; }
+  .compare-table td { color: #444; }
+
+  /* Tags */
+  .tag {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .5px;
+    padding: 3px 10px; border-radius: 999px; margin: 2px;
+  }
+  .tag.navy { background: rgba(0,22,46,.08); color: #00162E; }
+  .tag.blue { background: rgba(35,172,214,.14); color: #0969da; }
+  .tag.orange { background: rgba(237,107,42,.12); color: #bc4c00; }
+
+  /* Étapes "comic" numérotées */
+  .comic-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .comic-step {
+    background: #f8fafc;
+    border: 1px solid #e8eaed;
+    border-radius: 10px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .comic-step .cs-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--hop-navy); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    margin: 0 auto 8px;
+  }
+  .comic-step p { font-size: 12.5px; color: #444; margin: 0; line-height: 1.5; }
+
+  @media (max-width: 600px) {
+    .info-grid, .example-row, .comic-steps { grid-template-columns: 1fr; }
+    .compare-table { font-size: 12px; }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 01 — L'IA</div>
+  <div class="hop-guide-badge">Guide 1.1</div>
+  <h1>Qu'est-ce que l'IA générative ?</h1>
+  <p>Comprendre en termes simples ce qu'est une IA générative, comment elle fonctionne, et où vous en croisez déjà au quotidien — sans jargon technique.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> Une définition simple</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> Déjà dans votre quotidien</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Comment ça fonctionne</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> Vague ou précis ?</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Une définition simple : l'IA, c'est quoi ?</div>
+        <div class="step-subtitle">Le « stagiaire ultra-cultivé » qui ne connaît pas votre entreprise</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Une <strong>IA générative</strong> est un outil capable de produire du texte, des images, du son ou même du code à partir d'une simple demande écrite en langage courant — un « prompt ».</p>
+      <p>Pour comprendre ce que c'est vraiment, imaginez un <strong>nouveau stagiaire ultra-cultivé</strong> qui aurait lu une quantité astronomique de livres, d'articles et de sites web. Il sait énormément de choses sur le monde en général…</p>
+      <div class="callout">
+        <div class="callout-icon">🎓</div>
+        <div>… mais ce stagiaire <strong>vient d'arriver</strong>. Il ne connaît rien de votre entreprise, de votre CSE, de vos collègues ou de vos dossiers en cours — sauf ce que <strong>vous lui expliquez</strong> dans votre demande.</div>
+      </div>
+      <p>C'est exactement comme ça qu'il faut voir Claude, ChatGPT ou les autres : des assistants très compétents sur le plan général, mais qui ont besoin que <strong>vous leur donniez le contexte</strong> pour être vraiment utiles.</p>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">L'IA que vous utilisez déjà sans le savoir</div>
+        <div class="step-subtitle">Au quotidien, vous croisez de l'IA générative et de l'IA « classique » bien plus souvent que vous ne le pensez</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>L'intelligence artificielle n'est pas une nouveauté réservée à Claude ou ChatGPT : elle est déjà partout dans vos outils du quotidien, sous une forme plus discrète.</p>
+      <div class="info-grid">
+        <div class="info-card">
+          <h4>📧 Correcteur orthographique</h4>
+          <p>Le correcteur de votre messagerie ou de Word qui souligne et corrige vos fautes en temps réel.</p>
+        </div>
+        <div class="info-card">
+          <h4>🎬 Recommandations Netflix / Spotify</h4>
+          <p>Les suggestions de films, séries ou musiques « parce que vous avez aimé… ».</p>
+        </div>
+        <div class="info-card">
+          <h4>🗺️ Itinéraires Google Maps / Waze</h4>
+          <p>Le calcul du trajet le plus rapide en tenant compte du trafic en temps réel.</p>
+        </div>
+        <div class="info-card">
+          <h4>✉️ Réponses suggérées</h4>
+          <p>Les phrases pré-écrites que Gmail ou Outlook vous proposent pour répondre vite.</p>
+        </div>
+        <div class="info-card">
+          <h4>🛡️ Filtres anti-spam</h4>
+          <p>Le tri automatique des mails indésirables dans votre boîte de réception.</p>
+        </div>
+        <div class="info-card">
+          <h4>🎙️ Assistants vocaux</h4>
+          <p>Siri, Alexa ou Google Assistant qui comprennent et répondent à vos questions orales.</p>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Ce qui change avec Claude, ChatGPT, Copilot ou Gemini, c'est que vous pouvez désormais <strong>dialoguer directement</strong> avec ce type d'intelligence — et lui demander de produire du contenu sur mesure pour vous.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Comment fonctionne une IA générative ?</div>
+        <div class="step-subtitle">En 4 étapes simples, de votre demande au résultat</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Quand vous envoyez une demande à une IA, voici ce qui se passe concrètement :</p>
+      <div class="comic-steps">
+        <div class="comic-step">
+          <div class="cs-num">1</div>
+          <p>Vous écrivez une <strong>demande</strong> (un prompt) dans la zone de saisie.</p>
+        </div>
+        <div class="comic-step">
+          <div class="cs-num">2</div>
+          <p>L'IA <strong>parcourt sa mémoire</strong> pour trouver les structures et informations les plus pertinentes.</p>
+        </div>
+        <div class="comic-step">
+          <div class="cs-num">3</div>
+          <p>Elle <strong>construit une réponse</strong> originale, mot après mot, adaptée à ce que vous avez demandé.</p>
+        </div>
+        <div class="comic-step">
+          <div class="cs-num">4</div>
+          <p>Vous obtenez un <strong>résultat</strong> — que vous pouvez ensuite ajuster si besoin.</p>
+        </div>
+      </div>
+      <p>Reprenons l'exemple d'un mail d'invitation au repas de Noël. Selon la précision de votre demande, le résultat change radicalement :</p>
+      <div class="example-row">
+        <div class="example-box bad">
+          <div class="example-label">❌ Prompt vague</div>
+          <p>« Fais un mail pour inviter les salariés. »</p>
+          <p style="margin-top:8px;">→ L'IA n'a aucune information sur le type d'événement, le destinataire, la date ou le ton. Elle produit quelque chose de très générique.</p>
+        </div>
+        <div class="example-box good">
+          <div class="example-label">✅ Prompt précis</div>
+          <p>« Tu es l'assistant·e du CSE. Rédige un mail chaleureux d'environ 150 mots pour inviter les 80 salariés au repas de Noël du vendredi 20 décembre à 19h, au restaurant La Terrasse. »</p>
+          <p style="margin-top:8px;">→ L'IA produit exactement ce dont vous avez besoin, prêt à envoyer.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Vague ou précis : tout est dans le prompt</div>
+        <div class="step-subtitle">La règle d'or à retenir avant d'aller plus loin</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Cette démonstration illustre la règle la plus importante de toute cette formation :</p>
+      <div class="callout">
+        <div class="callout-icon">🎯</div>
+        <div><strong>Le prompt, c'est votre consigne. Plus elle est précise, plus le résultat est bon.</strong> C'est logique : on ne peut pas attendre d'un résultat sur mesure si on n'a donné aucune information sur mesure.</div>
+      </div>
+      <p>Dans les prochains guides, vous découvrirez :</p>
+      <p>
+        <span class="tag navy">1.2 — Quel assistant IA choisir</span>
+        <span class="tag blue">1.5 — Les 4 types de demandes</span>
+        <span class="tag orange">1.6 — Les ingrédients d'un bon prompt</span>
+      </p>
+      <div class="callout tip">
+        <div class="callout-icon">✅</div>
+        <div>Retenez simplement ceci pour l'instant : une IA générative est un outil très puissant, mais <strong>elle ne devine rien</strong> — c'est à vous de lui donner le contexte.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 01 : L'IA
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>

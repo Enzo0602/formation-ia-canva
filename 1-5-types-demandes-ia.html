@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 1.5 : Les 4 types de demandes qu'on peut faire à une IA</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .example-list { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+  .example-pill {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 8px;
+    padding: 10px 14px; font-size: 13.5px; color: #1a1a2e;
+    font-family: 'Fira Code', monospace; font-size: 12.5px;
+    line-height: 1.6;
+  }
+  .example-pill::before { content: '“'; color: #9fb6cc; }
+  .example-pill::after { content: '”'; color: #9fb6cc; }
+
+  .tag {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .5px;
+    padding: 3px 10px; border-radius: 999px; margin: 2px;
+  }
+  .tag.navy { background: rgba(0,22,46,.08); color: #00162E; }
+  .tag.blue { background: rgba(35,172,214,.14); color: #0969da; }
+  .tag.orange { background: rgba(237,107,42,.12); color: #bc4c00; }
+  .tag.green { background: rgba(26,127,55,.12); color: #1a7f37; }
+  .tag.purple { background: rgba(0,64,132,.1); color: #004084; }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 01 — L'IA</div>
+  <div class="hop-guide-badge">Guide 1.5</div>
+  <h1>Les 4 types de demandes qu'on peut faire à une IA</h1>
+  <p>Quatre grandes familles de demandes — et une cinquième, émergente, particulièrement utile pour le CSE.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> Information</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> Création</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Analyse</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> Vérification &amp; +</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">La demande d'information</div>
+        <div class="step-subtitle">« Explique-moi », « qu'est-ce que », « quelle est la différence… »</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>La première famille de demandes consiste à <strong>interroger l'IA sur un sujet</strong> pour obtenir une explication, une définition ou une comparaison.</p>
+      <div class="example-list">
+        <div class="example-pill">Qu'est-ce que le droit de retrait ?</div>
+        <div class="example-pill">Quelle est la différence entre le CE et le CSE ?</div>
+        <div class="example-pill">Comment fonctionne le chèque vacances ?</div>
+        <div class="example-pill">Explique la réforme des retraites simplement.</div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Idéal pour se faire une première idée rapide sur un sujet — mais pensez à <strong>vérifier les informations importantes</strong> auprès d'une source officielle (voir le type 4 : la vérification).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">La demande de création</div>
+        <div class="step-subtitle">« Rédige », « crée », « propose-moi des idées… »</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>La deuxième famille consiste à demander à l'IA de <strong>produire un contenu nouveau</strong> : un texte, une affiche, une liste d'idées, un compte-rendu.</p>
+      <div class="example-list">
+        <div class="example-pill">Rédige un mail d'invitation au repas de Noël.</div>
+        <div class="example-pill">Crée le texte d'une affiche pour la réunion du 15.</div>
+        <div class="example-pill">Propose 5 idées pour la newsletter de mars.</div>
+        <div class="example-pill">Rédige un compte-rendu à partir de ces notes.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">✨</div>
+        <div>C'est souvent la famille de demandes la plus utile pour la communication CSE — elle sera détaillée dans les guides de la Partie 02 (Communication).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">La demande d'analyse</div>
+        <div class="step-subtitle">« Résume », « améliore », « corrige », « traduis… »</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>La troisième famille consiste à donner un contenu existant à l'IA pour qu'elle le <strong>retravaille</strong> : résumer, reformuler, corriger ou traduire.</p>
+      <div class="example-list">
+        <div class="example-pill">Résume ce PV de réunion en 5 points.</div>
+        <div class="example-pill">Améliore la formulation de ce paragraphe.</div>
+        <div class="example-pill">Corrige les fautes de ce texte.</div>
+        <div class="example-pill">Traduis ce document en anglais pour nos salariés.</div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Très pratique pour gagner du temps sur des tâches répétitives — mais relisez toujours le résultat avant diffusion.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">La demande de vérification — et une 5ᵉ famille émergente</div>
+        <div class="step-subtitle">« Est-ce que ce texte est juridiquement correct ? »</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>La quatrième famille consiste à demander à l'IA de <strong>relire et vérifier</strong> un contenu — notamment sa conformité ou ses erreurs.</p>
+      <div class="example-list">
+        <div class="example-pill">Est-ce que ce texte est juridiquement correct ?</div>
+        <div class="example-pill">Vérifie les erreurs dans ce règlement.</div>
+      </div>
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div>L'IA peut repérer des incohérences ou des formulations à risque, mais elle <strong>ne remplace pas un avis juridique professionnel</strong> sur les sujets sensibles.</div>
+      </div>
+      <p style="margin-top:18px;">Au-delà de ces quatre familles « classiques », une <strong>cinquième famille émergente</strong> est particulièrement utile pour le CSE :</p>
+      <div class="callout">
+        <div class="callout-icon">🗂️</div>
+        <div><strong>L'organisation / la planification</strong> — par exemple construire un calendrier de communication, structurer un ordre du jour, ou organiser le suivi d'un dossier. Cette famille sera développée dans le guide <strong>2.6 — Construire un calendrier de communication CSE</strong> (Partie 02).</div>
+      </div>
+      <p>
+        <span class="tag navy">1.6 — Qu'est-ce qu'un bon prompt ?</span>
+        <span class="tag blue">Partie 02 — Communication</span>
+        <span class="tag green">2.6 — Calendrier de communication</span>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 01 : L'IA
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>
