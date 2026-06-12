@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 4.2 : Bonnes pratiques, erreurs à éviter et exercices</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .rappel-list { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+  .rappel-item {
+    display: flex; gap: 12px; align-items: center;
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .rappel-item .ri-num {
+    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+    background: var(--hop-secondary, #23ACD6); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800;
+  }
+  .rappel-item p { font-size: 13.5px; color: #1a1a2e; font-weight: 600; margin: 0; }
+
+  .error-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0;
+  }
+  .error-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 14px 16px;
+  }
+  .error-card h4 { font-size: 13px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+  .error-card .err-bad {
+    font-size: 12px; color: #bc4c00; background: rgba(188,76,0,.08);
+    border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; line-height: 1.5;
+  }
+  .error-card .err-good {
+    font-size: 12px; color: #1a7f37; background: rgba(26,127,55,.08);
+    border-radius: 8px; padding: 8px 10px; line-height: 1.5;
+  }
+
+  .exercise-box {
+    border: 1.5px dashed #c7d4de; border-radius: 12px; padding: 16px 18px; margin: 14px 0;
+  }
+  .exercise-box .ex-head {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;
+  }
+  .exercise-box .ex-title { font-size: 14px; font-weight: 800; color: #1a1a2e; }
+  .exercise-box .ex-meta {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 700; color: #5a7390;
+    background: #f4f8fb; border-radius: 999px; padding: 3px 10px;
+  }
+  .exercise-box p { font-size: 13px; color: #444; line-height: 1.6; margin-bottom: 8px; }
+  .exercise-box .ex-prompt {
+    font-family: 'Fira Code', monospace; font-size: 11.5px; color: #1a1a2e;
+    background: #fff; border: 1px solid #e8eaed; border-radius: 8px; padding: 10px 12px;
+    line-height: 1.7; margin: 8px 0;
+  }
+  .exercise-box .ex-phase {
+    display: flex; gap: 10px; align-items: center;
+    background: #fff; border: 1px solid #e8eaed; border-radius: 8px;
+    padding: 8px 12px; margin-bottom: 6px; font-size: 12.5px; color: #1a1a2e; font-weight: 600;
+  }
+  .exercise-box .ex-phase .ep-num {
+    width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+    background: var(--hop-primary, #004084); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800;
+  }
+
+  @media (max-width: 700px) {
+    .error-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 04 — Prompts avancés</div>
+  <div class="hop-guide-badge">Guide 4.2</div>
+  <h1>Bonnes pratiques, erreurs à éviter et exercices</h1>
+  <p>Les derniers réflexes à adopter avant de vous lancer, et deux exercices pour mettre en pratique l'ensemble de la formation.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> Personnaliser une trame Canva</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> Les 3 erreurs à éviter</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Exercice 9</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> Exercice 10</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Rappel : personnaliser une trame Canva reçue d'un collègue</div>
+        <div class="step-subtitle">4 étapes simples, dans cet ordre</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="rappel-list">
+        <div class="rappel-item"><span class="ri-num">1</span><p>Toujours dupliquer d'abord</p></div>
+        <div class="rappel-item"><span class="ri-num">2</span><p>Identifier les zones fixes et variables</p></div>
+        <div class="rappel-item"><span class="ri-num">3</span><p>Utiliser l'IA pour adapter le texte</p></div>
+        <div class="rappel-item"><span class="ri-num">4</span><p>Adapter les couleurs si nécessaire</p></div>
+      </div>
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div>Ne changez jamais les <strong>tailles de police</strong> ou les <strong>alignements</strong> dans le template reçu — ça casse la mise en page. Changez uniquement le <strong>texte</strong> et les <strong>couleurs</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">Les 3 erreurs avec l'IA à ne plus jamais faire</div>
+        <div class="step-subtitle">À partir d'aujourd'hui</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="error-grid">
+        <div class="error-card">
+          <h4>Erreur 1 — Copier sans relire</h4>
+          <div class="err-bad">❌ « L'IA l'a écrit donc c'est forcément bon »</div>
+          <div class="err-good">✅ Relisez systématiquement comme si c'était un brouillon de stagiaire — avec bienveillance mais avec rigueur.</div>
+        </div>
+        <div class="error-card">
+          <h4>Erreur 2 — Prompts trop vagues</h4>
+          <div class="err-bad">❌ « Aide-moi pour mon affiche »</div>
+          <div class="err-good">✅ Méthode PROMPT : Rôle + Tâche + Contexte + Format → résultat prêt à l'emploi.</div>
+        </div>
+        <div class="error-card">
+          <h4>Erreur 3 — Croire tous les chiffres</h4>
+          <div class="err-bad">❌ « L'IA dit que le SMIC est X — c'est forcément à jour »</div>
+          <div class="err-good">✅ Tout chiffre important → vérification sur legifrance.fr ou service-public.fr.</div>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">🤝</div>
+        <div>L'IA accélère votre travail. Votre jugement le valide. Ce duo — IA + humain — est toujours meilleur que l'un ou l'autre seul.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Exercice 9 — Résumé de réunion avec Claude</div>
+        <div class="step-subtitle">À vous de jouer</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="exercise-box">
+        <div class="ex-head">
+          <span class="ex-title">Exercice 9</span>
+          <span class="ex-meta">⏱ 30 minutes</span>
+          <span class="ex-meta">👤 Individuel</span>
+        </div>
+        <p>Rédigez rapidement les notes d'une réunion passée (réelle ou fictive). Utilisez le prompt :</p>
+        <div class="ex-prompt">"Tu es secrétaire de séance du CSE. Transforme ces notes en CR officiel avec : participants, ordre du jour, points discutés, décisions prises, actions à mener (qui/quoi/avant quand). Voici les notes : [COLLEZ]"</div>
+        <p>Pour transformer vos notes en compte-rendu, relisez et améliorez le résultat. Faites ensuite un constat du temps réellement passé sur cette création et comparez-le au temps avant la formation.</p>
+        <p style="margin-bottom:0;"><strong>Mise en commun</strong> sur les gains et les limites de ce processus.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Exercice 10 — Plan de com annuelle</div>
+        <div class="step-subtitle">L'exercice de clôture, en 4 phases</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="exercise-box">
+        <div class="ex-head">
+          <span class="ex-title">Exercice 10</span>
+          <span class="ex-meta">⏱ 1h30</span>
+          <span class="ex-meta">👥 3 groupes</span>
+        </div>
+        <div class="ex-phase"><span class="ep-num">1</span> Demande IA (20 min)</div>
+        <div class="ex-phase"><span class="ep-num">2</span> Mise en page Canva (30 min)</div>
+        <div class="ex-phase"><span class="ep-num">3</span> Partage inter-groupes (20 min)</div>
+        <div class="ex-phase"><span class="ep-num">4</span> Restitution plénière (15 min)</div>
+        <p style="margin:8px 0 0;">Pour finir : <strong>discussion finale</strong> sur l'ensemble de la formation.</p>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">🏁</div>
+        <div>Vous avez parcouru les prompts, la communication et Canva. Le <strong>Guide 5.1</strong> rassemble tout ce qu'il faut retenir et emporter avec vous.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 04 : Prompts avancés
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>

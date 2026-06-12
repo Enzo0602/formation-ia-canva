@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 4.1 : Prompts avancés pour situations CSE</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .prompt-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0;
+  }
+  .prompt-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 14px 16px;
+  }
+  .prompt-card h4 { font-size: 13.5px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+  .prompt-card p { font-size: 12.5px; color: #555; line-height: 1.6; margin: 0; }
+  .prompt-card.is-prompt {
+    background: #fff; border: 1.5px dashed #c7d4de; grid-column: 1 / -1;
+  }
+  .prompt-card.is-prompt p {
+    font-family: 'Fira Code', monospace; font-size: 11.5px; color: #1a1a2e; line-height: 1.7;
+  }
+
+  .situation-list { display: flex; flex-direction: column; gap: 12px; margin: 14px 0; }
+  .situation-item {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 14px 16px;
+  }
+  .situation-item h4 {
+    font-size: 13px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .situation-item .prompt-text {
+    font-family: 'Fira Code', monospace; font-size: 11.5px; color: #1a1a2e;
+    background: #fff; border: 1px solid #e8eaed; border-radius: 8px; padding: 10px 12px; line-height: 1.7;
+  }
+
+  .timeline { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+  .timeline-item {
+    flex: 1; min-width: 110px; background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px;
+    padding: 12px 14px; text-align: center;
+  }
+  .timeline-item .tl-when {
+    font-family: 'Fira Code', monospace; font-weight: 800; font-size: 12px; color: var(--hop-secondary, #23ACD6);
+    margin-bottom: 4px;
+  }
+  .timeline-item p { font-size: 12px; color: #1a1a2e; font-weight: 600; line-height: 1.4; margin: 0; }
+  .timeline-item.is-day { background: rgba(26,127,55,.1); border-color: rgba(26,127,55,.25); }
+  .timeline-item.is-day .tl-when { color: #1a7f37; }
+  .timeline-arrow { display: flex; align-items: center; color: #c7d4de; font-size: 16px; }
+
+  @media (max-width: 700px) {
+    .prompt-grid { grid-template-columns: 1fr; }
+    .prompt-card.is-prompt { grid-column: 1; }
+    .timeline { flex-direction: column; }
+    .timeline-arrow { display: none; }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 04 — Prompts avancés</div>
+  <div class="hop-guide-badge">Guide 4.1</div>
+  <h1>Prompts avancés pour situations CSE</h1>
+  <p>Mettre en pratique tout ce que vous avez appris, sur des situations réelles : compte-rendu de réunion, communications types et calendrier d'événement.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> Le résumé de réunion</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> 4 situations clés</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Calendrier d'événement</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Le résumé de réunion automatique</div>
+        <div class="step-subtitle">Une première mise en pratique, sur une tâche que vous faites déjà</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="prompt-grid">
+        <div class="prompt-card">
+          <h4>📝 Ce dont vous avez besoin</h4>
+          <p>Vos notes de réunion (même en vrac, même avec des abréviations), les prénoms des participants, la date, l'ordre du jour si vous l'avez. Pas besoin d'un enregistrement audio — vos notes suffisent.</p>
+        </div>
+        <div class="prompt-card">
+          <h4>🤖 Ce que l'IA produit</h4>
+          <p>Un compte-rendu officiel structuré et professionnel, avec une mise en forme claire. Les décisions sont bien séparées des discussions. Le tableau des actions (qui fait quoi avant quand) est généré automatiquement. Prêt à être envoyé après relecture.</p>
+        </div>
+        <div class="prompt-card is-prompt">
+          <h4>💬 Le prompt parfait</h4>
+          <p>"Tu es secrétaire de séance professionnel du CSE. Transforme ces notes de réunion en compte-rendu officiel structuré : 1) Participants et absents, 2) Ordre du jour, 3) Points discutés, 4) Décisions prises, 5) Actions à mener (qui / quoi / avant quand). Voici les notes : [COLLEZ VOS NOTES]"</p>
+        </div>
+        <div class="prompt-card" style="grid-column: 1 / -1;">
+          <h4>✅ Votre rôle de validation</h4>
+          <p>Relisez pour corriger : noms mal orthographiés, chiffres imprécis, délais à ajuster, nuances politiques que l'IA ne peut pas saisir. Ajoutez les informations confidentielles que vous n'avez pas dictées à l'IA. Signez et envoyez.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">4 situations clés supplémentaires</div>
+        <div class="step-subtitle">Les prompts les plus utiles à garder sous la main</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Ces 4 prompts couvrent les situations CSE les plus fréquentes. Sauvegardez-les dans un fichier texte pour les réutiliser.</p>
+      <div class="situation-list">
+        <div class="situation-item">
+          <h4>🗳️ Communication élections</h4>
+          <div class="prompt-text">"Tu es responsable de la communication électorale du CSE. Rédige [une affiche / un mail] pour informer les salariés des élections professionnelles. Dates : [DATE]. Comment voter : [MODALITÉS]. Importance du vote : [CONTEXTE]. Ton : sérieux mais accessible, neutre politiquement. Format : [affiche A4 / mail 200 mots]."</div>
+        </div>
+        <div class="situation-item">
+          <h4>⚖️ Information sur les droits</h4>
+          <div class="prompt-text">"Tu es juriste spécialisé en droit du travail. Explique [CE DROIT] en langage simple et accessible pour des salariés non-cadres. Inclus : définition simple, conditions pour en bénéficier, démarche à suivre, qui contacter. Format : fiche d'information A5 avec titre, 3 sections et contact CSE."</div>
+        </div>
+        <div class="situation-item">
+          <h4>📰 Newsletter mensuelle</h4>
+          <div class="prompt-text">"Tu es rédacteur en chef de la newsletter mensuelle du CSE. Pour ce mois de [MOIS], rédige le contenu de 3 rubriques : 1) L'info du mois (sujet : [SUJET]), 2) L'événement à venir (sujet : [ÉVÉNEMENT]), 3) Le bon plan du mois (sujet : [BON PLAN]). Chaque rubrique : titre accrocheur + 3-4 lignes. Ton : dynamique et chaleureux."</div>
+        </div>
+        <div class="situation-item">
+          <h4>📊 Bilan annuel d'activité</h4>
+          <div class="prompt-text">"Tu es secrétaire du CSE. Rédige le bilan annuel d'activité sous forme de rapport synthétique. Données : [NOMBRE] événements organisés, [NOMBRE] salariés touchés, [MONTANT €] de budget ASC utilisé, [LISTE] des actions majeures. Format : introduction + 4 sections thématiques + conclusion sur l'année à venir. Ton : professionnel et valorisant."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Le calendrier de préparation d'un événement</div>
+        <div class="step-subtitle">Planifier à l'avance pour ne jamais communiquer dans l'urgence</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Pour chaque événement clé, voici le délai de préparation recommandé et les supports à créer.</p>
+      <div class="timeline">
+        <div class="timeline-item"><div class="tl-when">J–6 semaines</div><p>Décision et planification</p></div>
+        <div class="timeline-arrow">→</div>
+        <div class="timeline-item"><div class="tl-when">J–4 semaines</div><p>Production des supports</p></div>
+        <div class="timeline-arrow">→</div>
+        <div class="timeline-item"><div class="tl-when">J–3 semaines</div><p>1ère communication</p></div>
+        <div class="timeline-arrow">→</div>
+        <div class="timeline-item"><div class="tl-when">J–10 jours</div><p>Relance et inscriptions</p></div>
+        <div class="timeline-arrow">→</div>
+        <div class="timeline-item"><div class="tl-when">J–3 jours</div><p>Derniers rappels</p></div>
+        <div class="timeline-arrow">→</div>
+        <div class="timeline-item is-day"><div class="tl-when">Jour J</div><p>L'événement !</p></div>
+        <div class="timeline-arrow">→</div>
+        <div class="timeline-item"><div class="tl-when">J+7 jours</div><p>Bilan et remerciements</p></div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Planifiez à l'avance — ne communiquez jamais dans l'urgence. Ce calendrier s'applique aussi bien à un repas de Noël qu'à une élection professionnelle.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">➡️</div>
+        <div>Vous avez les prompts et le planning. Le <strong>Guide 4.2</strong> couvre les bonnes pratiques essentielles — et propose deux derniers exercices pour mettre tout cela en application.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 04 : Prompts avancés
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>
