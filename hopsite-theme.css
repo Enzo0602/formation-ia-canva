@@ -114,3 +114,163 @@ h1, h2, h3, h4, .hop-logo text, .hop-guide-badge, .hop-topbar__back, button, .bt
   .hop-topbar { padding: 12px 16px; flex-wrap: wrap; }
   .hop-logo { height: 28px; }
 }
+
+/* ============================================================
+   TEMPLATE DE BASE DES GUIDES — commun à tous les guides
+   (corps de page, en-tête, navigation par ancres, cartes
+   d'étapes, callouts, pied de page texte)
+   ============================================================ */
+
+body.hop-guide {
+  font-family: 'Inter', sans-serif;
+  background: #f0f2f5;
+  color: #1a1a2e;
+  line-height: 1.6;
+}
+
+/* EN-TÊTE */
+.header { padding: 60px 40px; text-align: center; color: #fff; }
+.header-badge, .header-tag {
+  display: inline-block;
+  background: rgba(35,172,214,.18);
+  border: 1px solid rgba(35,172,214,.4);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  color: var(--hop-secondary);
+}
+.header h1 { font-size: 36px; font-weight: 700; margin-bottom: 12px; line-height: 1.2; color: #fff; }
+.header p { font-size: 16px; max-width: 540px; margin: 0 auto; }
+
+/* NAVIGATION PAR ÉTAPES (liens-ancres vers chaque carte) */
+.overview {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  overflow-x: auto;
+  padding: 0 20px;
+}
+.ov-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 24px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  white-space: nowrap;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color .15s;
+}
+.ov-step:hover { color: var(--hop-primary); }
+.ov-step .num {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: #e8e8e8;
+  color: #666;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  flex-shrink: 0;
+  transition: background .15s, color .15s;
+}
+.ov-step.active .num, .ov-step:hover .num { background: var(--hop-navy); color: #fff; }
+.ov-step.active { color: var(--hop-navy); }
+.ov-arrow { color: #ccc; font-size: 14px; align-self: center; flex-shrink: 0; }
+
+/* CONTENEUR PRINCIPAL */
+.container { max-width: 860px; margin: 0 auto; padding: 48px 24px; }
+
+/* CARTES D'ÉTAPE */
+.step-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 40px;
+  overflow: hidden;
+  border: 1px solid #e8eaed;
+  scroll-margin-top: 16px;
+}
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 28px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.step-num {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--hop-navy);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 700;
+  flex-shrink: 0;
+}
+.step-num.green  { background: #1a7f37; }
+.step-num.blue   { background: var(--hop-secondary); }
+.step-num.purple { background: var(--hop-primary); }
+.step-num.orange { background: var(--hop-orange); }
+.step-title { font-size: 20px; font-weight: 700; color: #1a1a2e; }
+.step-subtitle { font-size: 14px; color: #666; margin-top: 2px; }
+.step-body { padding: 28px; }
+
+/* CALLOUTS */
+.callout {
+  display: flex;
+  gap: 14px;
+  background: #f0f7ff;
+  border-left: 3px solid #0969da;
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 14px;
+  color: #1a1a2e;
+  align-items: flex-start;
+}
+.callout-icon { font-size: 18px; flex-shrink: 0; }
+.callout.tip     { background: #f0fff4; border-left-color: #1a7f37; }
+.callout.warning { background: #fffbf0; border-left-color: #d1a400; }
+.callout.danger  { background: #fff0f0; border-left-color: #cf222e; }
+
+/* TEXTE */
+.container p, .step-body p { font-size: 15px; color: #444; margin-bottom: 12px; line-height: 1.7; }
+.container strong, .step-body strong { color: #1a1a2e; }
+.container code, .step-body code {
+  font-family: 'Fira Code', monospace;
+  background: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--hop-primary);
+}
+
+/* PIED DE PAGE TEXTE (au-dessus du bandeau hop-footer) */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  background: #fff;
+  border-top: 1px solid #e8eaed;
+  font-size: 14px;
+  color: #999;
+}
+
+@media (max-width: 600px) {
+  .header { padding: 40px 20px; }
+  .header h1 { font-size: 26px; }
+  .overview { padding: 0 8px; }
+  .ov-step { padding: 14px 14px; font-size: 12px; }
+  .container { padding: 32px 16px; }
+  .step-header { padding: 18px 20px; }
+  .step-body { padding: 20px; }
+}
+@media (max-width: 380px) {
+  .ov-step span:not(.num) { display: none; }
+}
