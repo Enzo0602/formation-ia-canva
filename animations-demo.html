@@ -7,19 +7,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0A0A0F;
-    --bg2: #12121A;
-    --bg3: #1A1A28;
+    --bg: #f0f2f5;
+    --bg2: #ffffff;
+    --bg3: #f3f4f6;
     --violet: #7C3AED;
     --violet-light: #A78BFA;
     --cyan: #06B6D4;
     --cyan-light: #67E8F9;
     --pink: #EC4899;
     --green: #10B981;
-    --text: #F1F0F5;
-    --muted: #6B7280;
-    --border: rgba(124,58,237,0.25);
-    --card: rgba(255,255,255,0.03);
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e8eaed;
+    --card: #f7f8fa;
     --radius: 16px;
     --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
   }
@@ -28,170 +28,27 @@
 
   html { scroll-behavior: smooth; }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    display: flex;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
 
-  /* ─── SIDEBAR ────────────────────────────────────── */
-  .sidebar {
-    width: 260px;
-    min-width: 260px;
-    background: var(--bg2);
-    border-right: 1px solid var(--border);
-    position: fixed;
-    top: 0; left: 0; bottom: 0;
-    padding: 32px 20px;
-    display: flex;
-    flex-direction: column;
-    z-index: 100;
-    overflow-y: auto;
-  }
 
-  .sidebar-logo {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--violet-light);
-    margin-bottom: 8px;
-  }
-
-  .sidebar-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.25;
-    margin-bottom: 32px;
-    color: var(--text);
-  }
-
-  .sidebar-title span { color: var(--cyan); }
-
-  .nav-list { list-style: none; flex: 1; }
-
-  .nav-list li { margin-bottom: 4px; }
-
-  .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    text-decoration: none;
-    color: var(--muted);
-    font-size: 13.5px;
-    font-weight: 500;
-    transition: all var(--transition);
-    position: relative;
-    cursor: pointer;
-  }
-
-  .nav-link .nav-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--muted);
-    flex-shrink: 0;
-    transition: all var(--transition);
-  }
-
-  .nav-link:hover, .nav-link.active {
-    color: var(--text);
-    background: rgba(124,58,237,0.15);
-  }
-
-  .nav-link.active { color: var(--violet-light); }
-
-  .nav-link.active .nav-dot {
-    background: var(--violet);
-    box-shadow: 0 0 8px var(--violet);
-    transform: scale(1.4);
-  }
-
-  .nav-badge {
-    margin-left: auto;
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 20px;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    background: rgba(124,58,237,0.2);
-    color: var(--violet-light);
-  }
-
-  .sidebar-footer {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 24px;
-    line-height: 1.6;
-    border-top: 1px solid var(--border);
-    padding-top: 16px;
-  }
-
-  /* ─── MAIN ───────────────────────────────────────── */
-  .main {
-    margin-left: 260px;
-    flex: 1;
-    padding: 0 48px 80px;
-    max-width: calc(100vw - 260px);
-  }
-
-  /* ─── HERO ───────────────────────────────────────── */
-  .hero {
-    padding: 80px 0 60px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--cyan);
-    font-weight: 600;
-    margin-bottom: 16px;
-  }
-
-  .hero h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(36px, 5vw, 64px);
-    font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 20px;
-  }
-
-  .hero h1 .gradient {
-    background: linear-gradient(135deg, var(--violet-light), var(--cyan));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-sub {
-    font-size: 17px;
-    color: var(--muted);
-    max-width: 560px;
-    line-height: 1.7;
-    margin-bottom: 40px;
-  }
-
+  /* ─── STATS STRIP ────────────────────────────────── */
   .hero-stats {
     display: flex;
     gap: 32px;
+    justify-content: center;
+    background: #fff;
+    border: 1px solid #e8eaed;
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
   }
 
-  .stat-item { text-align: left; }
+  .stat-item { text-align: center; }
 
   .stat-num {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 28px;
     font-weight: 700;
-    color: var(--violet-light);
+    color: var(--hop-primary);
   }
 
   .stat-label {
@@ -199,53 +56,7 @@
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-  }
-
-  .hero-bg-orb {
-    position: absolute;
-    top: -60px; right: -100px;
-    width: 500px; height: 500px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
-    pointer-events: none;
-    animation: orbFloat 8s ease-in-out infinite;
-  }
-
-  @keyframes orbFloat {
-    0%, 100% { transform: translate(0,0) scale(1); }
-    33% { transform: translate(-20px, 30px) scale(1.05); }
-    66% { transform: translate(20px,-20px) scale(0.97); }
-  }
-
-  /* ─── SECTION ────────────────────────────────────── */
-  .section {
-    padding: 64px 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .section-header { margin-bottom: 40px; }
-
-  .section-eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--cyan);
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  .section-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 30px;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-
-  .section-desc {
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.7;
-    max-width: 600px;
+    margin-top: 4px;
   }
 
   .code-tag {
@@ -267,7 +78,6 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 40px;
-    backdrop-filter: blur(10px);
     margin-bottom: 24px;
   }
 
@@ -653,7 +463,7 @@
     left: 50%;
     transform: translateX(-50%);
     font-size: 12px;
-    color: var(--muted);
+    color: rgba(255,255,255,.85);
     background: rgba(10,10,15,0.7);
     padding: 6px 14px;
     border-radius: 20px;
@@ -774,7 +584,7 @@
   .skel-line {
     height: 10px;
     border-radius: 6px;
-    background: linear-gradient(90deg, var(--bg3) 0%, rgba(255,255,255,0.07) 50%, var(--bg3) 100%);
+    background: linear-gradient(90deg, #e5e7eb 0%, #f9fafb 50%, #e5e7eb 100%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }
@@ -996,10 +806,9 @@
 
   /* ─── RESPONSIVE UTILS ───────────────────────────── */
   @media (max-width: 900px) {
-    .sidebar { display: none; }
-    .main { margin-left: 0; max-width: 100vw; padding: 0 20px 60px; }
     .flip-grid, .hover-grid, .counter-grid { grid-template-columns: 1fr 1fr; }
     .scroll-grid { grid-template-columns: 1fr; }
+    .hero-stats { flex-wrap: wrap; gap: 16px 28px; }
   }
 
   /* ─── SCROLLBAR ──────────────────────────────────── */
@@ -1021,7 +830,7 @@
 </style>
   <link rel="stylesheet" href="hopsite-theme.css?v=4">
 </head>
-<body>
+<body class="hop-guide">
 <header class="hop-topbar">
   <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
     <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
@@ -1029,65 +838,63 @@
   <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
 </header>
 
+<div class="header">
+  <div class="header-badge">✦ Communication Digitale · Animation Web</div>
+  <div class="hop-guide-badge">Guide 6</div>
+  <h1>Les animations<br><span class="gradient">qui captivent</span></h1>
+  <p>Tour d'horizon interactif des techniques d'animation JavaScript et CSS qui transforment une page statique en expérience immersive.</p>
+</div>
 
-<!-- ─── SIDEBAR ─────────────────────────────────── -->
-<aside class="sidebar">
-  <div class="sidebar-logo">Com. 4.0</div>
-  <div class="sidebar-title">Animations<br><span>Web</span></div>
-  <nav>
-    <ul class="nav-list">
-      <li><a class="nav-link active" href="#s-carousel"><span class="nav-dot"></span>Carrousel</a></li>
-      <li><a class="nav-link" href="#s-flip"><span class="nav-dot"></span>Flip Card <span class="nav-badge">3D</span></a></li>
-      <li><a class="nav-link" href="#s-hover"><span class="nav-dot"></span>Hover Effects</a></li>
-      <li><a class="nav-link" href="#s-scroll"><span class="nav-dot"></span>Scroll Reveal</a></li>
-      <li><a class="nav-link" href="#s-typing"><span class="nav-dot"></span>Effet Typing</a></li>
-      <li><a class="nav-link" href="#s-counter"><span class="nav-dot"></span>Compteurs</a></li>
-      <li><a class="nav-link" href="#s-particles"><span class="nav-dot"></span>Particules</a></li>
-      <li><a class="nav-link" href="#s-loaders"><span class="nav-dot"></span>Loaders & Progress</a></li>
-      <li><a class="nav-link" href="#s-modal"><span class="nav-dot"></span>Modal & Notifs</a></li>
-      <li><a class="nav-link" href="#s-morph"><span class="nav-dot"></span>Morphing CSS</a></li>
-    </ul>
-  </nav>
-  <div class="sidebar-footer">
-    Démo pédagogique<br>
-    Communication 4.0<br>
-    10 techniques essentielles
-  </div>
-</aside>
+<div class="overview">
+  <a href="#step-1" class="ov-step nav-link active"><span class="num">1</span> Carrousel</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step nav-link"><span class="num">2</span> Flip Card</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step nav-link"><span class="num">3</span> Hover</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step nav-link"><span class="num">4</span> Scroll Reveal</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-5" class="ov-step nav-link"><span class="num">5</span> Typing</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-6" class="ov-step nav-link"><span class="num">6</span> Compteurs</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-7" class="ov-step nav-link"><span class="num">7</span> Particules</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-8" class="ov-step nav-link"><span class="num">8</span> Loaders</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-9" class="ov-step nav-link"><span class="num">9</span> Modal</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-10" class="ov-step nav-link"><span class="num">10</span> Morphing</a>
+</div>
 
-<!-- ─── MAIN ─────────────────────────────────────── -->
-<main class="main">
+<div class="container">
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg-orb"></div>
-    <div class="hero-eyebrow">Communication Digitale · Animation Web</div>
-    <div class="hop-guide-badge">Guide 6</div>
-      <h1>Les animations<br><span class="gradient">qui captivent</span></h1>
-    <p class="hero-sub">Tour d'horizon interactif des techniques d'animation JavaScript et CSS qui transforment une page statique en expérience immersive.</p>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <div class="stat-num">10</div>
-        <div class="stat-label">Techniques</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">100%</div>
-        <div class="stat-label">Interactif</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">0</div>
-        <div class="stat-label">Librairie externe</div>
-      </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">10</div>
+      <div class="stat-label">Techniques</div>
     </div>
-  </section>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Interactif</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Librairie externe</div>
+    </div>
+  </div>
 
   <!-- 1. CARROUSEL -->
-  <section class="section section-animate" id="s-carousel">
-    <div class="section-header">
-      <div class="section-eyebrow">01 · Classique indémodable</div>
-      <div class="section-title">Carrousel <span class="code-tag">translate()</span></div>
-      <p class="section-desc">Navigation entre contenus avec translation CSS. Indispensable pour galeries, témoignages ou mises en avant produit.</p>
+  <div class="step-card section-animate section" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Carrousel <span class="code-tag">translate()</span></div>
+        <div class="step-subtitle">Classique indémodable</div>
+      </div>
     </div>
+    <div class="step-body">
+      <p>Navigation entre contenus avec translation CSS. Indispensable pour galeries, témoignages ou mises en avant produit.</p>
     <div class="demo-card">
       <div class="carousel-wrapper">
         <div class="carousel-track" id="carouselTrack">
@@ -1106,15 +913,20 @@
         <button class="carousel-dot" data-index="3"></button>
       </div>
     </div>
-  </section>
+    </div>
+  </div>
 
   <!-- 2. FLIP CARD -->
-  <section class="section section-animate" id="s-flip">
-    <div class="section-header">
-      <div class="section-eyebrow">02 · Interaction 3D</div>
-      <div class="section-title">Flip Card <span class="code-tag">rotateY(180deg)</span></div>
-      <p class="section-desc">Retournement 3D sur hover. Parfait pour présenter recto/verso d'un produit, avant/après, question/réponse.</p>
+  <div class="step-card section-animate section" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">Flip Card <span class="code-tag">rotateY(180deg)</span></div>
+        <div class="step-subtitle">Interaction 3D</div>
+      </div>
     </div>
+    <div class="step-body">
+      <p>Retournement 3D sur hover. Parfait pour présenter recto/verso d'un produit, avant/après, question/réponse.</p>
     <div class="demo-card">
       <div class="flip-grid">
         <div class="flip-card">
@@ -1161,15 +973,20 @@
         </div>
       </div>
     </div>
-  </section>
+    </div>
+  </div>
 
   <!-- 3. HOVER -->
-  <section class="section section-animate" id="s-hover">
-    <div class="section-header">
-      <div class="section-eyebrow">03 · Micro-interactions</div>
-      <div class="section-title">Hover Effects <span class="code-tag">:hover + transition</span></div>
-      <p class="section-desc">Retour visuel immédiat au survol. Améliore drastiquement le ressenti "premium" d'une interface.</p>
+  <div class="step-card section-animate section" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Hover Effects <span class="code-tag">:hover + transition</span></div>
+        <div class="step-subtitle">Micro-interactions</div>
+      </div>
     </div>
+    <div class="step-body">
+      <p>Retour visuel immédiat au survol. Améliore drastiquement le ressenti "premium" d'une interface.</p>
     <div class="demo-card">
       <div class="hover-grid">
         <div class="hover-card hover-lift">
@@ -1198,15 +1015,20 @@
         </div>
       </div>
     </div>
-  </section>
+    </div>
+  </div>
 
   <!-- 4. SCROLL REVEAL -->
-  <section class="section section-animate" id="s-scroll">
-    <div class="section-header">
-      <div class="section-eyebrow">04 · Au fil du scroll</div>
-      <div class="section-title">Scroll Reveal <span class="code-tag">IntersectionObserver</span></div>
-      <p class="section-desc">Les éléments apparaissent au moment où ils entrent dans le viewport. Crée un rythme narratif et maintient l'attention.</p>
+  <div class="step-card section-animate section" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Scroll Reveal <span class="code-tag">IntersectionObserver</span></div>
+        <div class="step-subtitle">Au fil du scroll</div>
+      </div>
     </div>
+    <div class="step-body">
+      <p>Les éléments apparaissent au moment où ils entrent dans le viewport. Crée un rythme narratif et maintient l'attention.</p>
     <div class="demo-card">
       <div class="scroll-grid">
         <div class="reveal-item" data-reveal>
@@ -1226,15 +1048,20 @@
         </div>
       </div>
     </div>
-  </section>
+    </div>
+  </div>
 
   <!-- 5. TYPING -->
-  <section class="section section-animate" id="s-typing">
-    <div class="section-header">
-      <div class="section-eyebrow">05 · Effet éditorial</div>
-      <div class="section-title">Effet Typewriter <span class="code-tag">setTimeout()</span></div>
-      <p class="section-desc">Simule une frappe en direct. Capte l'attention sur un titre hero, une tagline ou un message fort.</p>
+  <div class="step-card section-animate section" id="step-5">
+    <div class="step-header">
+      <div class="step-num blue">5</div>
+      <div>
+        <div class="step-title">Effet Typewriter <span class="code-tag">setTimeout()</span></div>
+        <div class="step-subtitle">Effet éditorial</div>
+      </div>
     </div>
+    <div class="step-body">
+      <p>Simule une frappe en direct. Capte l'attention sur un titre hero, une tagline ou un message fort.</p>
     <div class="demo-card">
       <div class="typing-demo">
         <div class="typing-label">Message en cours de frappe…</div>
@@ -1242,15 +1069,20 @@
         <button class="typing-btn" id="typingRestartBtn">↺ Rejouer</button>
       </div>
     </div>
-  </section>
+    </div>
+  </div>
 
   <!-- 6. COUNTER -->
-  <section class="section section-animate" id="s-counter">
-    <div class="section-header">
-      <div class="section-eyebrow">06 · Impact chiffré</div>
-      <div class="section-title">Compteurs animés <span class="code-tag">requestAnimationFrame</span></div>
-      <p class="section-desc">Donne vie aux statistiques. Un chiffre qui monte crée une tension dramatique et renforce la crédibilité.</p>
+  <div class="step-card section-animate section" id="step-6">
+    <div class="step-header">
+      <div class="step-num purple">6</div>
+      <div>
+        <div class="step-title">Compteurs animés <span class="code-tag">requestAnimationFrame</span></div>
+        <div class="step-subtitle">Impact chiffré</div>
+      </div>
     </div>
+    <div class="step-body">
+      <p>Donne vie aux statistiques. Un chiffre qui monte crée une tension dramatique et renforce la crédibilité.</p>
     <div class="demo-card">
       <div class="counter-grid">
         <div class="counter-item">
@@ -1272,30 +1104,40 @@
       </div>
       <button class="counter-trigger-btn" id="counterBtn">▶ Lancer les compteurs</button>
     </div>
-  </section>
+    </div>
+  </div>
 
   <!-- 7. PARTICLES -->
-  <section class="section section-animate" id="s-particles">
-    <div class="section-header">
-      <div class="section-eyebrow">07 · Ambiance & Atmosphère</div>
-      <div class="section-title">Particules Canvas <span class="code-tag">&lt;canvas&gt; + requestAnimationFrame</span></div>
-      <p class="section-desc">Système de particules interactif. Bougez la souris sur la zone. Idéal pour heroes de page ou landing pages premium.</p>
+  <div class="step-card section-animate section" id="step-7">
+    <div class="step-header">
+      <div class="step-num green">7</div>
+      <div>
+        <div class="step-title">Particules Canvas <span class="code-tag">&lt;canvas&gt; + requestAnimationFrame</span></div>
+        <div class="step-subtitle">Ambiance & Atmosphère</div>
+      </div>
     </div>
+    <div class="step-body">
+      <p>Système de particules interactif. Bougez la souris sur la zone. Idéal pour heroes de page ou landing pages premium.</p>
     <div class="demo-card" style="padding:0">
       <div class="canvas-wrapper">
         <canvas id="particle-canvas"></canvas>
         <div class="canvas-label">✦ Bougez la souris dans cette zone</div>
       </div>
     </div>
-  </section>
+    </div>
+  </div>
 
   <!-- 8. LOADERS -->
-  <section class="section section-animate" id="s-loaders">
-    <div class="section-header">
-      <div class="section-eyebrow">08 · UX & Attente</div>
-      <div class="section-title">Loaders & Barres de progression <span class="code-tag">@keyframes + CSS</span></div>
-      <p class="section-desc">Gestion de l'attente perçue. Un bon loader transforme la frustration en anticipation.</p>
+  <div class="step-card section-animate section" id="step-8">
+    <div class="step-header">
+      <div class="step-num orange">8</div>
+      <div>
+        <div class="step-title">Loaders & Barres de progression <span class="code-tag">@keyframes + CSS</span></div>
+        <div class="step-subtitle">UX & Attente</div>
+      </div>
     </div>
+    <div class="step-body">
+      <p>Gestion de l'attente perçue. Un bon loader transforme la frustration en anticipation.</p>
     <div class="demo-card">
       <div class="progress-section" id="progressBars">
         <div class="progress-item">
@@ -1343,30 +1185,40 @@
         </div>
       </div>
     </div>
-  </section>
+    </div>
+  </div>
 
   <!-- 9. MODAL + NOTIFS -->
-  <section class="section section-animate" id="s-modal">
-    <div class="section-header">
-      <div class="section-eyebrow">09 · Feedback utilisateur</div>
-      <div class="section-title">Modales & Notifications <span class="code-tag">scale() + translateX()</span></div>
-      <p class="section-desc">Interrompre sans frustrer. Les animations d'entrée/sortie définissent la personnalité de l'interface.</p>
+  <div class="step-card section-animate section" id="step-9">
+    <div class="step-header">
+      <div class="step-num blue">9</div>
+      <div>
+        <div class="step-title">Modales & Notifications <span class="code-tag">scale() + translateX()</span></div>
+        <div class="step-subtitle">Feedback utilisateur</div>
+      </div>
     </div>
+    <div class="step-body">
+      <p>Interrompre sans frustrer. Les animations d'entrée/sortie définissent la personnalité de l'interface.</p>
     <div class="demo-card">
       <div class="modal-demo-area">
         <button class="modal-trigger-btn btn-violet" id="openModal">Ouvrir une modale</button>
         <button class="modal-trigger-btn btn-outline" id="triggerNotif">Déclencher une notif</button>
       </div>
     </div>
-  </section>
+    </div>
+  </div>
 
   <!-- 10. MORPHING -->
-  <section class="section section-animate" id="s-morph">
-    <div class="section-header">
-      <div class="section-eyebrow">10 · Animation pure CSS</div>
-      <div class="section-title">Morphing de formes <span class="code-tag">border-radius + clip-path</span></div>
-      <p class="section-desc">Des formes qui se métamorphosent en boucle. Aucun JS requis — tout est géré par les keyframes CSS.</p>
+  <div class="step-card section-animate section" id="step-10">
+    <div class="step-header">
+      <div class="step-num purple">10</div>
+      <div>
+        <div class="step-title">Morphing de formes <span class="code-tag">border-radius + clip-path</span></div>
+        <div class="step-subtitle">Animation pure CSS</div>
+      </div>
     </div>
+    <div class="step-body">
+      <p>Des formes qui se métamorphosent en boucle. Aucun JS requis — tout est géré par les keyframes CSS.</p>
     <div class="demo-card">
       <div class="morph-stage">
         <div class="morph-item">
@@ -1387,9 +1239,10 @@
         </div>
       </div>
     </div>
-  </section>
+    </div>
+  </div>
 
-</main>
+</div>
 
 <!-- MODAL -->
 <div class="modal-backdrop" id="modalBackdrop">
