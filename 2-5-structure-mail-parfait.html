@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 2.5 : La structure du mail parfait</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .stat-callout {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(35,172,214,.1); border: 1px solid rgba(35,172,214,.25);
+    border-radius: 10px; padding: 12px 16px; margin: 14px 0;
+  }
+  .stat-callout .sc-num { font-size: 28px; font-weight: 800; color: var(--hop-secondary, #23ACD6); flex-shrink: 0; }
+  .stat-callout p { font-size: 13px; color: #1a1a2e; margin: 0; line-height: 1.5; }
+
+  .checklist { display: flex; flex-direction: column; gap: 6px; margin: 14px 0; }
+  .checklist .ci {
+    display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: #444; line-height: 1.5;
+  }
+  .checklist .ci::before { content: '✓'; color: #1a7f37; font-weight: 800; flex-shrink: 0; }
+
+  .mail-mockup {
+    border: 1px solid #e8eaed; border-radius: 12px; overflow: hidden; margin: 18px 0;
+    font-size: 13px; line-height: 1.6;
+  }
+  .mail-mockup .mm-objet {
+    background: #f8fafc; border-bottom: 1px solid #e8eaed; padding: 10px 16px;
+    font-weight: 700; color: #1a1a2e;
+  }
+  .mail-mockup .mm-objet .mm-tag { margin-right: 6px; }
+  .mail-mockup .mm-body { padding: 16px; color: #333; }
+  .mail-mockup .mm-body p { margin-bottom: 10px; }
+  .mail-mockup .mm-body ul { list-style: none; margin: 8px 0 10px 0; }
+  .mail-mockup .mm-body li { padding-left: 16px; position: relative; margin-bottom: 4px; }
+  .mail-mockup .mm-body li::before { content: '•'; position: absolute; left: 0; color: #9fb6cc; }
+  .mail-mockup .mm-sign { color: #5a7390; font-size: 12px; }
+
+  .mm-tag {
+    display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .5px;
+    padding: 2px 8px; border-radius: 999px; text-transform: uppercase; vertical-align: middle;
+  }
+  .mm-tag.blue { background: rgba(35,172,214,.14); color: #0969da; }
+  .mm-tag.purple { background: rgba(0,64,132,.1); color: #004084; }
+  .mm-tag.green { background: rgba(26,127,55,.12); color: #1a7f37; }
+  .mm-tag.orange { background: rgba(237,107,42,.12); color: #bc4c00; }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 02 — Communication</div>
+  <div class="hop-guide-badge">Guide 2.5</div>
+  <h1>La structure du mail parfait</h1>
+  <p>Le mail reste le canal le plus utilisé du CSE. Quatre parties suffisent pour qu'il soit lu, compris, et suivi d'une action.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> L'objet</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> L'introduction</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Le corps</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> CTA &amp; signature</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">L'objet du mail</div>
+        <div class="step-subtitle">La partie la plus importante — et souvent la plus négligée</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="stat-callout">
+        <span class="sc-num">80%</span>
+        <p>des gens décident d'ouvrir ou non un mail <strong>uniquement sur son objet</strong>.</p>
+      </div>
+      <p>L'objet, c'est la première chose lue — parfois la seule. Soyez précis et incitatif : incluez <strong>date + événement + bénéfice</strong>.</p>
+      <div class="example-list" style="display:flex; flex-direction:column; gap:8px; margin:14px 0;">
+        <div style="background:#fff0f0; border:1px solid #fecaca; border-radius:8px; padding:10px 14px; font-size:13px; color:#7f1d1d; font-family:'Fira Code',monospace;">❌ « Information CSE »</div>
+        <div style="background:#f0fff4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; font-size:13px; color:#14532d; font-family:'Fira Code',monospace;">✅ « Repas de Noël le 20/12 — inscrivez-vous avant le 10/12 »</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">L'introduction</div>
+        <div class="step-subtitle">1 à 2 phrases maximum — pas plus</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>L'introduction rappelle le contexte et présente l'objet du mail, sans plus.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Accrochez dès la première phrase avec le <strong>bénéfice pour le lecteur</strong>, pas avec votre démarche. Évitez « Suite à la réunion du CSE du… » — préférez « Le repas de Noël approche, voici comment vous inscrire. »</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Le corps</div>
+        <div class="step-subtitle">Les informations pratiques, structurées</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="checklist">
+        <div class="ci">Paragraphes courts : 3-4 lignes maximum</div>
+        <div class="ci">Éléments clés en gras (date, heure, lieu)</div>
+        <div class="ci">Listes à puces pour les étapes ou informations multiples</div>
+        <div class="ci">Pas de blocs de texte denses</div>
+      </div>
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div>Un corps de mail dense, sans mise en forme, est souvent abandonné en cours de lecture — même si l'information qu'il contient est importante.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">L'appel à l'action + signature</div>
+        <div class="step-subtitle">Une seule action, clairement formulée</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Terminez avec une <strong>seule action demandée et claire</strong>. Puis signez avec votre prénom, votre rôle dans le CSE, et vos coordonnées.</p>
+
+      <p style="margin-top:18px;"><strong>Exemple complet — les 4 parties assemblées :</strong></p>
+      <div class="mail-mockup">
+        <div class="mm-objet"><span class="mm-tag blue">Objet</span>Repas de Noël le 20/12 — inscrivez-vous avant le 10/12</div>
+        <div class="mm-body">
+          <p><span class="mm-tag purple">Intro</span> Le repas de Noël du CSE approche : voici toutes les informations pour vous inscrire.</p>
+          <p><span class="mm-tag green">Corps</span></p>
+          <ul>
+            <li>📅 <strong>Date</strong> : vendredi 20 décembre, 19h</li>
+            <li>📍 <strong>Lieu</strong> : restaurant La Terrasse</li>
+            <li>👥 <strong>Accompagnant·e</strong> : possible sur demande</li>
+            <li>🥗 <strong>Régime alimentaire</strong> : à préciser lors de l'inscription</li>
+          </ul>
+          <p><span class="mm-tag orange">CTA</span> 👉 <strong>Inscrivez-vous avant le 10 décembre</strong> en répondant à ce mail.</p>
+          <p class="mm-sign">Camille Martin<br>Secrétaire du CSE — camille.martin@entreprise.fr</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">🤖</div>
+        <div><strong>L'IA peut générer toutes ces parties en une seule fois</strong> si vous lui donnez les bonnes informations dans votre prompt — reprenez les 5 questions du Guide 2.3 et les 4 ingrédients du Guide 1.6 pour construire ce prompt.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">➡️</div>
+        <div>Reste un dernier sujet : <strong>quoi communiquer, et quand ?</strong> Le <strong>Guide 2.6</strong> propose un calendrier de communication CSE complet, à construire en 10 minutes avec l'IA.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 02 : Communication
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>

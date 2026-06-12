@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 2.2 : La forme compte autant que le fond</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .ratio-bar {
+    display: flex; width: 100%; border-radius: 10px; overflow: hidden;
+    margin: 16px 0 10px; height: 56px; font-family: 'Fira Code', monospace;
+  }
+  .ratio-bar .rb-seg {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: #fff; font-size: 12px; line-height: 1.3; text-align: center; padding: 4px;
+  }
+  .ratio-bar .rb-seg strong { font-size: 18px; font-weight: 800; }
+  .ratio-bar .rb-mots { flex: 7; background: #b8c4ce; color: #00162E; }
+  .ratio-bar .rb-ton { flex: 38; background: var(--hop-secondary, #23ACD6); }
+  .ratio-bar .rb-forme { flex: 55; background: var(--hop-primary, #004084); }
+  .ratio-caption { font-size: 12px; color: #5a7390; text-align: center; margin-bottom: 14px; }
+
+  .example-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+  .example-box { border-radius: 10px; padding: 14px 16px; font-size: 13px; line-height: 1.6; }
+  .example-box.bad { background: #fff0f0; border: 1px solid #fecaca; color: #7f1d1d; }
+  .example-box.good { background: #f0fff4; border: 1px solid #bbf7d0; color: #14532d; }
+  .example-label {
+    font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+  }
+  .example-box.bad blockquote {
+    font-family: 'Fira Code', monospace; font-size: 10.5px; line-height: 1.7;
+    background: #fff; border: 1px solid #fecaca; border-radius: 8px; padding: 10px 12px;
+    color: #7f1d1d; margin: 6px 0;
+  }
+
+  .vs-list { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+  .vs-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    font-size: 12.5px; line-height: 1.5;
+  }
+  .vs-row .vs-bad, .vs-row .vs-good {
+    border-radius: 8px; padding: 8px 12px; display: flex; gap: 8px; align-items: flex-start;
+  }
+  .vs-row .vs-bad { background: #fff0f0; color: #7f1d1d; }
+  .vs-row .vs-good { background: #f0fff4; color: #14532d; }
+  .vs-row .vs-icon { flex-shrink: 0; font-weight: 800; }
+
+  .rule-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 16px 0;
+  }
+  .rule-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 14px 16px;
+  }
+  .rule-card h4 {
+    font-size: 12px; font-weight: 800; letter-spacing: 1px; color: var(--hop-primary, #004084);
+    margin-bottom: 8px; text-transform: uppercase;
+  }
+  .rule-card p, .rule-card li { font-size: 12.5px; color: #555; line-height: 1.55; }
+  .rule-card ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .rule-card li::before { content: '— '; color: #9fb6cc; }
+  .rule-card .rc-bars { display: flex; gap: 6px; margin-top: 8px; }
+  .rule-card .rc-bar {
+    height: 8px; border-radius: 4px; background: var(--hop-secondary, #23ACD6);
+  }
+  .rule-card .rc-contrast-good { color: #1a7f37; font-weight: 700; }
+  .rule-card .rc-contrast-bad { color: #bc4c00; font-weight: 700; }
+
+  @media (max-width: 600px) {
+    .example-row, .vs-row, .rule-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 02 — Communication</div>
+  <div class="hop-guide-badge">Guide 2.2</div>
+  <h1>La forme compte autant que le fond</h1>
+  <p>À l'écrit, le ton passe par la mise en forme. La mise en page parle avant les mots.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> La règle 7-38-55%</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> Affiche inefficace vs efficace</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Mauvaise vs bonne affiche</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> Règles de mise en forme</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">La règle des 7-38-55%</div>
+        <div class="step-subtitle">La communication, c'est bien plus que les mots</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>À l'oral, on sait qu'un message passe rarement uniquement par les mots : le ton de la voix et le langage corporel comptent énormément. <strong>À l'écrit, c'est la mise en forme qui joue ce rôle.</strong> Une même information peut sembler officielle, chaleureuse, urgente ou négligée — uniquement selon sa mise en page.</p>
+      <div class="ratio-bar">
+        <div class="rb-seg rb-mots"><strong>7%</strong> Les mots</div>
+        <div class="rb-seg rb-ton"><strong>38%</strong> Le ton</div>
+        <div class="rb-seg rb-forme"><strong>55%</strong> La mise en forme</div>
+      </div>
+      <p class="ratio-caption">Adaptation à l'écrit d'une règle bien connue en communication : le contenu seul ne suffit jamais.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Avant d'envoyer un document, demandez-vous : <strong>« Si quelqu'un regarde cette affiche ou ce mail 2 secondes sans le lire, quel message en retire-t-il ? »</strong> C'est la réponse à cette question qui détermine si votre communication fonctionne.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">Exemple : affiche inefficace vs affiche efficace</div>
+        <div class="step-subtitle">Même information, deux résultats radicalement différents</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Voici une annonce de réunion d'information — exactement la même information, présentée de deux façons :</p>
+      <div class="example-row">
+        <div class="example-box bad">
+          <div class="example-label">❌ Affiche inefficace</div>
+          <blockquote>« Nous souhaitons vous informer que dans le cadre de notre mission de représentation des salariés […], le Comité Social et Economique organise une réunion d'information qui se tiendra le vingtième jour du mois de décembre […] dans la salle de réunion du premier étage du bâtiment administratif à dix-neuf heures précises. »</blockquote>
+          <p>Titre pompeux, texte en bloc dense, aucune mise en évidence de la date, pas d'appel à l'action.</p>
+        </div>
+        <div class="example-box good">
+          <div class="example-label">✅ Affiche efficace</div>
+          <p><strong>Réunion d'information CSE</strong></p>
+          <p style="margin-top:6px;">📅 <strong>20 décembre — 19h</strong><br>📍 Salle de réunion, 1er étage</p>
+          <p style="margin-top:6px;">👉 <strong>Inscrivez-vous</strong> auprès de votre représentant CSE</p>
+        </div>
+      </div>
+      <div class="vs-list">
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> Titre illisible et pompeux</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> Titre court et accrocheur</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> Texte en bloc dense, pas de hiérarchie</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> Date/heure/lieu mis en valeur visuellement</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> Aucune mise en évidence de la date/heure</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> Hiérarchie visuelle claire</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> Pas d'appel à l'action, pas de contact</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> Appel à l'action clair (RSVP)</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> Résultat : 90% des lecteurs abandonnent</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> Résultat : lu en 5 secondes, compris en 10</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Une mauvaise affiche vs une bonne affiche</div>
+        <div class="step-subtitle">Le check-list à garder sous la main avant de publier</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Quels que soient le sujet et le ton, ces 8 critères font la différence entre une affiche qui finit ignorée et une affiche qui fonctionne :</p>
+      <div class="vs-list">
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> Contient 10 informations différentes</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> A UN seul message principal</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> A un titre en petites lettres ou cursives illisibles</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> A un titre lisible à 3 mètres (min 40pt)</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> N'a ni date précise, ni lieu, ni heure</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> Indique date, heure ET lieu clairement</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> Utilise 8 couleurs qui se disputent l'attention</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> Utilise 2-3 couleurs cohérentes max</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> N'a aucun visuel ou une image hors-sujet</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> A une image ou illustration pertinente</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> Plein de fautes (jamais relue !)</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> A été relue par quelqu'un d'externe</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> Ne dit pas qui a émis le message (pas de logo)</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> Indique comment répondre / s'inscrire</div>
+        </div>
+        <div class="vs-row">
+          <div class="vs-bad"><span class="vs-icon">✘</span> Police décorative illisible, texte trop petit</div>
+          <div class="vs-good"><span class="vs-icon">✔</span> Police lisible (sans-serif, min 14pt)</div>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">🎨</div>
+        <div>C'est précisément sur ces critères que <strong>Canva</strong> va vous aider — gabarits, palettes limitées, polices lisibles déjà calibrées. La Partie 03 y est entièrement consacrée.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">5 règles essentielles de mise en forme</div>
+        <div class="step-subtitle">Hiérarchie, couleurs, alignement, polices, contraste</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="rule-grid">
+        <div class="rule-card">
+          <h4>01 · Hiérarchie</h4>
+          <ul>
+            <li>Titre : 36–44 pt</li>
+            <li>Sous-titre : 20–24 pt</li>
+            <li>Corps de texte lisible : 14–16 pt</li>
+            <li>Légende ou note : 10–12 pt</li>
+          </ul>
+          <p style="margin-top:8px;"><strong>Max 3 tailles par affiche.</strong></p>
+        </div>
+        <div class="rule-card">
+          <h4>02 · Couleurs</h4>
+          <p>Répartissez vos couleurs selon la règle 60 / 30 / 10 :</p>
+          <div class="rc-bars">
+            <div class="rc-bar" style="flex:60; background: var(--hop-primary, #004084);"></div>
+            <div class="rc-bar" style="flex:30; background: var(--hop-secondary, #23ACD6);"></div>
+            <div class="rc-bar" style="flex:10; background: var(--hop-orange, #ED6B2A);"></div>
+          </div>
+          <p style="margin-top:8px;">60% Principale · 30% Secondaire · 10% Accent.<br><strong>Plus de 3 couleurs = visuellement agressif.</strong></p>
+        </div>
+        <div class="rule-card">
+          <h4>03 · Alignement</h4>
+          <p>Tous les éléments — titre, sous-titre, corps de texte, bouton, note — doivent être <strong>alignés sur les mêmes lignes verticales</strong>.</p>
+          <p style="margin-top:8px;" class="rc-contrast-good">✓ Aligné = professionnel et apaisant pour l'œil</p>
+          <p class="rc-contrast-bad">✗ Non aligné = impression de désordre, même avec un bon contenu</p>
+        </div>
+        <div class="rule-card">
+          <h4>04 · Polices</h4>
+          <ul>
+            <li><strong>Police titre</strong> : peut avoir de la personnalité (serif ou display)</li>
+            <li><strong>Police corps de texte</strong> : propre et lisible (sans-serif)</li>
+          </ul>
+          <p style="margin-top:8px;"><strong>2 polices maximum</strong> sur tout le document.</p>
+        </div>
+        <div class="rule-card" style="grid-column: 1 / -1;">
+          <h4>05 · Contraste</h4>
+          <p class="rc-contrast-good">✓ Texte clair sur fond foncé, ou texte foncé sur fond clair.</p>
+          <p class="rc-contrast-bad">✗ Jamais de texte gris sur fond beige.</p>
+          <p style="margin-top:8px;"><strong>Test rapide :</strong> imprimez (ou imaginez) le document en noir et blanc. Si le texte devient illisible, le contraste est insuffisant.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">➡️</div>
+        <div>Maintenant que la mise en forme n'a plus de secret, le <strong>Guide 2.3</strong> aborde la question du fond : <strong>à qui s'adresse-t-on, et par quel canal</strong> ?</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 02 : Communication
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>

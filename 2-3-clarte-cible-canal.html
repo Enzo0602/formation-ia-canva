@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 2.3 : Clarté, cible, canal</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .ccc-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0;
+  }
+  .ccc-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 14px 16px;
+  }
+  .ccc-card h4 {
+    font-size: 13.5px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px;
+    padding-bottom: 6px; border-bottom: 1px solid #e8eaed;
+  }
+  .ccc-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .ccc-card li { font-size: 12.5px; color: #555; line-height: 1.5; padding-left: 14px; position: relative; }
+  .ccc-card li::before { content: '—'; position: absolute; left: 0; color: #9fb6cc; }
+
+  .question-list { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+  .question-item {
+    display: flex; gap: 12px; align-items: center;
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .question-item .qi-num {
+    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+    background: var(--hop-secondary, #23ACD6); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800;
+  }
+  .question-item p { font-size: 13.5px; color: #1a1a2e; font-weight: 600; margin: 0; }
+
+  .canal-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 16px 0;
+  }
+  .canal-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 14px 16px;
+  }
+  .canal-card h4 {
+    font-size: 13.5px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .canal-card ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .canal-card li { font-size: 12.5px; color: #555; line-height: 1.5; padding-left: 14px; position: relative; }
+  .canal-card li::before { content: '—'; position: absolute; left: 0; color: #9fb6cc; }
+  .canal-card .ai-tip {
+    margin-top: 8px; font-size: 11.5px; color: #0969da; font-weight: 700;
+  }
+
+  .quality-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0;
+  }
+  .quality-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 14px 16px;
+  }
+  .quality-card h4 {
+    font-size: 13px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .quality-card p { font-size: 12.5px; color: #555; line-height: 1.55; margin: 0; }
+
+  @media (max-width: 600px) {
+    .ccc-grid, .canal-grid, .quality-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 02 — Communication</div>
+  <div class="hop-guide-badge">Guide 2.3</div>
+  <h1>Clarté, cible, canal</h1>
+  <p>Les 3 questions à se poser systématiquement avant d'écrire — et ce qui fait qu'un message est compris, retient l'attention, et reste en mémoire.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> Clarté · Cible · Canal</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> 5 questions avant d'écrire</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Le bon canal</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> Un bon message</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">La Clarté, la Cible, le Canal</div>
+        <div class="step-subtitle">Trois filtres à appliquer avant de rédiger quoi que ce soit</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="ccc-grid">
+        <div class="ccc-card">
+          <h4>✏️ La Clarté</h4>
+          <ul>
+            <li>Phrases courtes : 15 mots maximum</li>
+            <li>Un seul verbe d'action demandé</li>
+            <li>Titre lisible à 3 mètres</li>
+            <li>Zéro jargon, zéro abréviation</li>
+            <li>Test : lisez à voix haute à votre voisin</li>
+          </ul>
+        </div>
+        <div class="ccc-card">
+          <h4>🎯 La Cible</h4>
+          <ul>
+            <li>Qui est-il ? Quel est son poste ?</li>
+            <li>Qu'est-ce qui l'intéresse / l'ennuie ?</li>
+            <li>Quel vocabulaire utilise-t-il ?</li>
+            <li>Que veut-il savoir / obtenir ?</li>
+            <li>Quand et où va-t-il recevoir le message ?</li>
+          </ul>
+        </div>
+        <div class="ccc-card">
+          <h4>📡 Le Canal</h4>
+          <ul>
+            <li><strong>Affiche</strong> : urgent, visible par tous</li>
+            <li><strong>Mail</strong> : formel, traçable, officiel</li>
+            <li><strong>Newsletter</strong> : régulier, complet</li>
+            <li><strong>Réunion</strong> : important, débat possible</li>
+            <li><strong>Panneau légal</strong> : obligations légales</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Ces trois filtres se posent <strong>dans n'importe quel ordre</strong>, mais aucun ne doit être oublié : un message clair envoyé sur le mauvais canal, ou parfaitement calibré pour la mauvaise cible, perdra une grande partie de son efficacité.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">5 questions à se poser AVANT d'écrire quoi que ce soit</div>
+        <div class="step-subtitle">Une check-list rapide, à faire dans sa tête en 30 secondes</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="question-list">
+        <div class="question-item"><span class="qi-num">1</span><p>À qui je parle exactement ?</p></div>
+        <div class="question-item"><span class="qi-num">2</span><p>Qu'est-ce qu'ils savent déjà ?</p></div>
+        <div class="question-item"><span class="qi-num">3</span><p>Qu'est-ce que je veux qu'ils fassent ?</p></div>
+        <div class="question-item"><span class="qi-num">4</span><p>Qu'est-ce qui pourrait les bloquer ?</p></div>
+        <div class="question-item"><span class="qi-num">5</span><p>Quand et où vont-ils recevoir le message ?</p></div>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">🤖</div>
+        <div>Ces 5 réponses font un excellent <strong>contexte à donner à l'IA</strong> : copiez-les dans votre prompt avant de demander une rédaction, et le résultat sera nettement plus pertinent dès le premier essai.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Le bon canal</div>
+        <div class="step-subtitle">Forces et limites de chaque canal de communication du CSE</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="canal-grid">
+        <div class="canal-card">
+          <h4>🖼️ L'affiche</h4>
+          <ul>
+            <li>Visible par tous, sans effort</li>
+            <li>Peu d'infos, pas de retour possible</li>
+            <li>1 affiche = 1 info</li>
+            <li>Renouvelez régulièrement</li>
+          </ul>
+        </div>
+        <div class="canal-card">
+          <h4>✉️ Le mail</h4>
+          <ul>
+            <li>Traçable, relisable, archivable</li>
+            <li>Peut être ignoré ou noyé</li>
+            <li>Objet clair et accrocheur indispensable</li>
+            <li>Envoyez mardi-jeudi matin</li>
+          </ul>
+        </div>
+        <div class="canal-card">
+          <h4>📰 La newsletter</h4>
+          <ul>
+            <li>Bilan mensuel, riche en contenu</li>
+            <li>Crée une habitude de lecture</li>
+            <li>Long à préparer</li>
+            <li>Choisissez un rythme et tenez-le</li>
+          </ul>
+          <div class="ai-tip">🤖 L'IA peut rédiger 80% du contenu.</div>
+        </div>
+        <div class="canal-card">
+          <h4>🗣️ La réunion d'information</h4>
+          <ul>
+            <li>Sujet important, questions-réponses</li>
+            <li>Échanges directs</li>
+            <li>Chronophage, contrainte de disponibilité</li>
+            <li>Prévoyez un support visuel</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Qu'est-ce qu'un bon message ?</div>
+        <div class="step-subtitle">Clarté, Impact, Mémorabilité</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="quality-grid">
+        <div class="quality-card">
+          <h4>✅ Compris du premier coup</h4>
+          <p>Un message clair est celui que votre public comprend sans effort, sans relire, sans se poser de questions. Ce n'est pas de la facilité — c'est du respect pour le temps et l'attention de votre lecteur.</p>
+        </div>
+        <div class="quality-card">
+          <h4>⚡ Déclenche une réaction</h4>
+          <p>Un message impactant provoque quelque chose chez le lecteur : une émotion (curiosité, enthousiasme, sécurité), une prise de conscience, ou directement une action. L'impact vient du titre, de l'accroche, et du bénéfice mis en avant.</p>
+        </div>
+        <div class="quality-card">
+          <h4>🧠 Reste en tête</h4>
+          <p>Un message mémorable est celui dont le lecteur se souvient le lendemain, la semaine d'après. Il utilise des images mentales fortes, des chiffres concrets, des histoires courtes, ou des répétitions.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">➡️</div>
+        <div>Vous savez maintenant <strong>pour qui</strong> écrire et <strong>par où</strong> passer. Le <strong>Guide 2.4</strong> propose une méthode en 8 étapes pour transformer tout cela en plan d'action, de l'idée jusqu'à la diffusion.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 02 : Communication
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>

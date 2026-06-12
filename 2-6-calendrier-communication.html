@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide 2.6 : Construire un calendrier de communication CSE</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+  .cat-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0;
+  }
+  .cat-card {
+    border-radius: 10px; padding: 14px 16px;
+  }
+  .cat-card.blue { background: rgba(35,172,214,.1); border: 1px solid rgba(35,172,214,.25); }
+  .cat-card.purple { background: rgba(0,64,132,.08); border: 1px solid rgba(0,64,132,.2); }
+  .cat-card.green { background: rgba(26,127,55,.08); border: 1px solid rgba(26,127,55,.2); }
+  .cat-card h4 { font-size: 13px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+  .cat-card ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .cat-card li { font-size: 12px; color: #555; line-height: 1.5; padding-left: 14px; position: relative; }
+  .cat-card li::before { content: '—'; position: absolute; left: 0; color: #9fb6cc; }
+
+  .month-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0;
+  }
+  .month-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 12px 14px;
+  }
+  .month-card h4 {
+    font-size: 12.5px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
+    color: var(--hop-primary, #004084); margin-bottom: 6px;
+    padding-bottom: 6px; border-bottom: 1px solid #e8eaed;
+  }
+  .month-card ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .month-card li { font-size: 11.5px; color: #555; line-height: 1.45; padding-left: 12px; position: relative; }
+  .month-card li::before { content: '•'; position: absolute; left: 0; color: #9fb6cc; }
+
+  .exercise-box {
+    border: 1.5px dashed #c7d4de; border-radius: 12px; padding: 16px 18px; margin: 14px 0;
+  }
+  .exercise-box .ex-head {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;
+  }
+  .exercise-box .ex-title { font-size: 14px; font-weight: 800; color: #1a1a2e; }
+  .exercise-box .ex-meta {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 700; color: #5a7390;
+    background: #f4f8fb; border-radius: 999px; padding: 3px 10px;
+  }
+  .exercise-box .ex-prompt {
+    font-family: 'Fira Code', monospace; font-size: 12px; line-height: 1.7; color: #1a1a2e;
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 8px; padding: 10px 14px; margin-top: 8px;
+  }
+  .exercise-box p { font-size: 13px; color: #444; line-height: 1.6; }
+
+  .recap-tags { margin-top: 14px; }
+  .recap-tags .tag {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .5px;
+    padding: 3px 10px; border-radius: 999px; margin: 2px;
+  }
+  .tag.navy { background: rgba(0,22,46,.08); color: #00162E; }
+  .tag.blue { background: rgba(35,172,214,.14); color: #0969da; }
+  .tag.orange { background: rgba(237,107,42,.12); color: #bc4c00; }
+  .tag.green { background: rgba(26,127,55,.12); color: #1a7f37; }
+  .tag.purple { background: rgba(0,64,132,.1); color: #004084; }
+
+  @media (max-width: 700px) {
+    .cat-grid { grid-template-columns: 1fr; }
+    .month-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+</head>
+<body class="hop-guide">
+
+<header class="hop-topbar">
+  <a href="index.html" class="hop-topbar__logo" aria-label="Accueil Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="index.html" class="hop-topbar__back">&larr; Tous les guides</a>
+</header>
+
+<div class="header">
+  <div class="header-badge">✦ Partie 02 — Communication</div>
+  <div class="hop-guide-badge">Guide 2.6</div>
+  <h1>Construire un calendrier de communication CSE</h1>
+  <p>Que doit communiquer le CSE, et quand ? La cinquième famille de demandes du Guide 1.5 — l'organisation et la planification — entre enfin en jeu.</p>
+</div>
+
+<div class="overview">
+  <a href="#step-1" class="ov-step active"><span class="num">1</span> Communications obligatoires</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-2" class="ov-step active"><span class="num">2</span> Communications événementielles</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Communications d'information</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-4" class="ov-step active"><span class="num">4</span> Calendrier annuel &amp; exercices</a>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num blue">1</div>
+      <div>
+        <div class="step-title">Les communications obligatoires</div>
+        <div class="step-subtitle">Imposées par la loi — à ne jamais oublier dans le calendrier</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Que doit communiquer le CSE ? Une première catégorie de sujets revient chaque année, quelle que soit l'actualité de l'entreprise :</p>
+      <div class="cat-grid">
+        <div class="cat-card blue" style="grid-column: 1 / -1;">
+          <h4>⚖️ Communications obligatoires</h4>
+          <ul>
+            <li>PV des réunions CSE (affichage légal)</li>
+            <li>Rapport annuel d'activité et comptes</li>
+            <li>Listes électorales lors des élections</li>
+            <li>Affichage des délégués et du panneau CSE</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num purple">2</div>
+      <div>
+        <div class="step-title">Les communications événementielles</div>
+        <div class="step-subtitle">Liées aux activités sociales et culturelles du CSE</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Une deuxième catégorie suit le calendrier des événements et avantages proposés aux salariés :</p>
+      <div class="cat-grid">
+        <div class="cat-card purple" style="grid-column: 1 / -1;">
+          <h4>🎉 Communications événementielles</h4>
+          <ul>
+            <li>Arbre de Noël / Repas de fin d'année</li>
+            <li>Chèques vacances / Chèques cadeaux</li>
+            <li>Sorties culturelles, activités sportives</li>
+            <li>Offres de voyages, réductions loisirs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Les communications d'information</div>
+        <div class="step-subtitle">Le fil rouge qui maintient le lien avec les salariés</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Une troisième catégorie regroupe tout ce qui tient les salariés informés en continu :</p>
+      <div class="cat-grid">
+        <div class="cat-card green" style="grid-column: 1 / -1;">
+          <h4>📰 Communications d'information</h4>
+          <ul>
+            <li>Newsletter mensuelle ou trimestrielle</li>
+            <li>Info sur les droits (congés, maternité, etc.)</li>
+            <li>Résultats des négociations avec la direction</li>
+            <li>Alertes si situation sociale difficile</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div>Créez un <strong>calendrier annuel de communication dès janvier</strong>. Planifiez toutes les communications obligatoires ET événementielles. L'IA peut vous aider à construire ce calendrier en 10 minutes !</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num orange">4</div>
+      <div>
+        <div class="step-title">Exemple de calendrier annuel — et place à la pratique</div>
+        <div class="step-subtitle">Un premier trimestre type, puis deux exercices pour s'entraîner</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Voici à quoi peut ressembler un trimestre une fois les 3 catégories réparties dans le temps :</p>
+      <div class="month-grid">
+        <div class="month-card">
+          <h4>Janvier</h4>
+          <ul>
+            <li>Vœux du CSE aux salariés</li>
+            <li>Bilan de l'année passée</li>
+            <li>Présentation du programme de l'année</li>
+          </ul>
+        </div>
+        <div class="month-card">
+          <h4>Février</h4>
+          <ul>
+            <li>Saint-Valentin (si activité)</li>
+            <li>Newsletter mensuelle</li>
+            <li>Info chèques vacances (dossiers)</li>
+          </ul>
+        </div>
+        <div class="month-card">
+          <h4>Mars</h4>
+          <ul>
+            <li>8 mars : Journée des femmes</li>
+            <li>Newsletter</li>
+            <li>Clôture dossiers chèques vacances</li>
+            <li>Bilan trimestre 1</li>
+          </ul>
+        </div>
+        <div class="month-card">
+          <h4>Avril</h4>
+          <ul>
+            <li>Remise des chèques vacances</li>
+            <li>Newsletter + annonce Pâques</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-icon">🤖</div>
+        <div>Pour les 8 mois restants, demandez à l'IA : <em>« Tu es l'assistant communication d'un CSE. À partir de ces 3 catégories de communications [colle les listes], construis un calendrier mois par mois pour le reste de l'année, en tenant compte des périodes de vacances scolaires et des temps forts (rentrée, été, fêtes de fin d'année). »</em></div>
+      </div>
+
+      <p style="margin-top:20px;"><strong>Place à la pratique — deux exercices pour conclure la Partie 02 :</strong></p>
+
+      <div class="exercise-box">
+        <div class="ex-head">
+          <span class="ex-title">Exercice 3 — L'IA évalue votre communication actuelle</span>
+          <span class="ex-meta">⏱ 45 minutes</span>
+        </div>
+        <p>Prenez une communication récente de votre CSE, demandez à Claude :</p>
+        <div class="ex-prompt">« Tu es expert en communication interne. Évalue cette affiche/ce mail sur 5 critères : clarté du message (1-10), adaptation au public (1-10), qualité visuelle (1-10), appel à l'action (1-10), ton (1-10). Donne une note globale et 3 suggestions concrètes d'amélioration. »</div>
+        <p style="margin-top:8px;">Ensuite, demandez à l'IA une version améliorée. Discutez en groupe de sa proposition.</p>
+      </div>
+
+      <div class="exercise-box">
+        <div class="ex-head">
+          <span class="ex-title">Exercice 4 — Créer un plan de com complet pour un événement CSE</span>
+          <span class="ex-meta">⏱ 30 minutes</span>
+          <span class="ex-meta">👥 Binômes</span>
+        </div>
+        <p>Choisissez un événement CSE réel ou fictif et demandez à Claude :</p>
+        <div class="ex-prompt">« Crée un plan de communication complet pour [votre événement] organisé par le CSE d'une entreprise de [secteur] avec [nombre] salariés. Inclus : objectif, cible, message principal, 3 canaux à utiliser, un planning sur 3 semaines avant l'événement, et une liste des supports à créer. »</div>
+        <p style="margin-top:8px;">Analysez sa proposition et améliorez-la. Demandez ensuite à l'IA de générer l'objet et le premier paragraphe du mail d'invitation correspondant, en appliquant la méthode <strong>PROMPT</strong> complète (Guide 1.6).</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">🏁</div>
+        <div>
+          <p style="margin:0 0 6px;">C'est la fin de la <strong>Partie 02 — Communication</strong>. Vous savez maintenant :</p>
+          <div class="recap-tags">
+            <span class="tag navy">2.1 — Le schéma de la communication</span>
+            <span class="tag blue">2.2 — La forme compte autant que le fond</span>
+            <span class="tag green">2.3 — Clarté, cible, canal</span>
+            <span class="tag orange">2.4 — Les 8 étapes</span>
+            <span class="tag purple">2.5 — La structure du mail parfait</span>
+            <span class="tag navy">2.6 — Le calendrier de communication</span>
+          </div>
+          <p style="margin-top:14px;">Prochaine étape : <strong>Partie 03 — Canva</strong>, pour transformer ces messages en visuels prêts à diffuser.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guide généré par Enzo — Hopsite · Formation IA &amp; Canva — Partie 02 : Communication
+</div>
+
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Une question, un projet, une demande complémentaire ?</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit"><a href="index.html">&larr; Retour à l'accueil</a> &nbsp;|&nbsp; <a href="https://github.com/enzo0602/formation-ia-canva">github.com/enzo0602/formation-ia-canva</a></p>
+</footer>
+</body>
+</html>
