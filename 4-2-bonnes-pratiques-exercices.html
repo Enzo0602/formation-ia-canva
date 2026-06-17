@@ -68,8 +68,32 @@
     font-size: 11px; font-weight: 800;
   }
 
+  .recap-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0;
+  }
+  .recap-card {
+    background: #f8fafc; border: 1px solid #e8eaed; border-radius: 10px; padding: 14px 16px;
+  }
+  .recap-card h4 {
+    font-size: 13px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px;
+    padding-bottom: 6px; border-bottom: 1px solid #e8eaed;
+  }
+  .recap-card .rc-list { display: flex; flex-direction: column; gap: 6px; }
+  .recap-card .rc-item {
+    font-size: 12.5px; color: #444; line-height: 1.5;
+    padding-left: 16px; position: relative;
+  }
+  .recap-card .rc-item::before { content: '→'; position: absolute; left: 0; color: var(--hop-secondary, #23ACD6); font-weight: 800; }
+  .recap-card .rc-item strong { color: #1a1a2e; }
+  .recap-card .rc-code {
+    font-family: 'Fira Code', monospace; font-size: 11.5px; color: #1a7f37;
+    background: rgba(26,127,55,.07); border-radius: 6px;
+    padding: 5px 10px; margin-top: 10px; display: inline-block;
+  }
+
   @media (max-width: 700px) {
     .error-grid { grid-template-columns: 1fr; }
+    .recap-grid { grid-template-columns: 1fr; }
   }
 </style>
 <link rel="stylesheet" href="hopsite-theme.css?v=4">
@@ -87,13 +111,15 @@
   <div class="header-badge">✦ Partie 04 — Prompts avancés</div>
   <div class="hop-guide-badge">Guide 4.2</div>
   <h1>Bonnes pratiques &amp; erreurs à éviter</h1>
-  <p>Les réflexes essentiels à intégrer : comment adapter une trame Canva reçue d'un collègue, et les trois erreurs avec l'IA à ne plus jamais commettre.</p>
+  <p>Les réflexes essentiels à intégrer, les erreurs à ne plus commettre — et votre boîte à outils complète pour retrouver les méthodes clés après la formation.</p>
 </div>
 
 <div class="overview">
   <a href="#step-1" class="ov-step active"><span class="num">1</span> Personnaliser une trame Canva</a>
   <span class="ov-arrow">›</span>
   <a href="#step-2" class="ov-step active"><span class="num">2</span> Les 3 erreurs à éviter</a>
+  <span class="ov-arrow">›</span>
+  <a href="#step-3" class="ov-step active"><span class="num">3</span> Votre boîte à outils</a>
 </div>
 
 <div class="container">
@@ -152,9 +178,62 @@
         <div class="callout-icon">🤝</div>
         <div>L'IA accélère votre travail. Votre jugement le valide. Ce duo — IA + humain — est toujours meilleur que l'un ou l'autre seul.</div>
       </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num green">3</div>
+      <div>
+        <div class="step-title">Votre boîte à outils complète</div>
+        <div class="step-subtitle">Les 4 méthodes essentielles de la formation — condensées en une page</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Retrouvez ici, sur une seule page, les réflexes clés à garder sous la main après la formation.</p>
+      <div class="recap-grid">
+        <div class="recap-card">
+          <h4>🧩 Méthode PROMPT <span style="font-weight:400;color:#5a7390;font-size:11.5px;">(Guide 1.6)</span></h4>
+          <div class="rc-list">
+            <div class="rc-item"><strong>Rôle</strong> — « Tu es secrétaire du CSE / juriste… »</div>
+            <div class="rc-item"><strong>Tâche</strong> — « Rédige / Résume / Compare… »</div>
+            <div class="rc-item"><strong>Contexte</strong> — qui, quand, où, pour qui, enjeu</div>
+            <div class="rc-item"><strong>Format</strong> — longueur, ton, structure souhaitée</div>
+          </div>
+        </div>
+        <div class="recap-card">
+          <h4>🔒 Réflexe 5 s avant l'IA <span style="font-weight:400;color:#5a7390;font-size:11.5px;">(Guide 1.4)</span></h4>
+          <div class="rc-list">
+            <div class="rc-item">Personne identifiable ? → rôle générique</div>
+            <div class="rc-item">Information confidentielle ? → reformuler ou ne pas envoyer</div>
+            <div class="rc-item">Outil ? → compte perso pour usages syndicaux</div>
+            <div class="rc-item">Chiffre important ? → vérifier sur une source officielle</div>
+          </div>
+        </div>
+        <div class="recap-card">
+          <h4>✉️ Structure du mail parfait <span style="font-weight:400;color:#5a7390;font-size:11.5px;">(Guide 2.5)</span></h4>
+          <div class="rc-list">
+            <div class="rc-item"><strong>Objet</strong> — date + événement + bénéfice</div>
+            <div class="rc-item"><strong>Introduction</strong> — 1-2 phrases, bénéfice en premier</div>
+            <div class="rc-item"><strong>Corps</strong> — gras sur les éléments clés, liste si multi-info</div>
+            <div class="rc-item"><strong>CTA</strong> — une seule action demandée, clairement formulée</div>
+          </div>
+        </div>
+        <div class="recap-card">
+          <h4>📁 Nommage Canva <span style="font-weight:400;color:#5a7390;font-size:11.5px;">(Guide 3.2)</span></h4>
+          <div class="rc-list">
+            <div class="rc-item">Convention : CSE_TYPE_SUJET_DATE_v1</div>
+            <div class="rc-item">Versions : v1 → v2 → FINAL → PRINT</div>
+            <div class="rc-item">Templates : dossier protégé, jamais modifié directement</div>
+            <div class="rc-item">Exports : PDF pour impression, JPG/PNG pour numérique</div>
+          </div>
+          <code class="rc-code">CSE_AFFICHE_Noel_2024-11_v1</code>
+        </div>
+      </div>
       <div class="callout">
         <div class="callout-icon">🏁</div>
-        <div>Vous avez parcouru les trois domaines clés : <strong>IA</strong>, <strong>Communication</strong> et <strong>Canva</strong>. Les guides restent disponibles à tout moment pour retrouver un prompt, une méthode ou une règle de nommage.</div>
+        <div>Vous avez parcouru les trois domaines clés : <strong>IA</strong>, <strong>Communication</strong> et <strong>Canva</strong>. L'ensemble des guides reste accessible à tout moment depuis l'<strong><a href="index.html" style="color:inherit;">accueil</a></strong> — votre boîte à outils est prête.</div>
       </div>
     </div>
   </div>
