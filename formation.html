@@ -194,77 +194,73 @@ body {
 .section--dark .section-sub { color: rgba(255,255,255,.65); }
 
 /* ─── PROGRAMME PLANNING ─── */
-.planning-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 0;
-  border: 1px solid #e1ecf3;
-  border-radius: 16px;
-  overflow: hidden;
-}
-.planning-day-header {
-  padding: 14px 16px;
-  background: #00162E;
-  color: #fff;
-  font-family: 'Urbanist', sans-serif;
-  font-weight: 800;
-  font-size: 14px;
-  text-align: center;
-  border-right: 1px solid rgba(255,255,255,.1);
-  position: relative;
-}
-.planning-day-header:last-child { border-right: none; }
-.planning-day-header .day-date {
-  font-size: 11px;
-  font-weight: 600;
-  color: rgba(255,255,255,.5);
-  display: block;
-  margin-top: 2px;
+.planning-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 .planning-slot {
-  padding: 18px 16px;
-  border-right: 1px solid #e1ecf3;
-  border-top: 1px solid #e1ecf3;
-  position: relative;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0;
+  background: #fff;
+  border: 1px solid #e1ecf3;
+  border-radius: 14px;
+  overflow: hidden;
 }
-.planning-slot:last-child { border-right: none; }
-.ps-time {
+.ps-left {
+  background: #00162E;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+.ps-num {
   font-size: 11px;
-  font-weight: 700;
-  color: #9fb6cc;
-  letter-spacing: .5px;
-  margin-bottom: 6px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+  margin-bottom: 2px;
 }
 .ps-title {
   font-family: 'Urbanist', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
-  color: #00162E;
+  color: #fff;
   line-height: 1.3;
-  margin-bottom: 6px;
+}
+.ps-right {
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 .ps-points {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
+  flex: 1;
 }
 .ps-points li {
-  font-size: 11px;
+  font-size: 12.5px;
   color: #5a7390;
-  line-height: 1.4;
-  padding-left: 12px;
+  line-height: 1.45;
+  padding-left: 14px;
   position: relative;
 }
-.ps-points li::before { content: '·'; position: absolute; left: 2px; color: #9fb6cc; }
+.ps-points li::before { content: '→'; position: absolute; left: 0; color: #c7d4de; font-size: 10px; top: 2px; }
 .ps-badge {
   display: inline-block;
-  margin-top: 10px;
+  flex-shrink: 0;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: 999px;
 }
 .badge-ia     { background: rgba(35,172,214,.14); color: #0969da; }
@@ -272,17 +268,6 @@ body {
 .badge-prompt { background: rgba(0,64,132,.1);    color: #004084; }
 .badge-com    { background: rgba(26,127,55,.1);   color: #1a7f37; }
 .badge-vis    { background: rgba(237,107,42,.12); color: #bc4c00; }
-.ps-lunch {
-  background: #f8fafc;
-  border-top: 1px solid #e1ecf3;
-  padding: 10px 16px;
-  font-size: 11px;
-  color: #9fb6cc;
-  font-weight: 600;
-  text-align: center;
-  letter-spacing: .3px;
-  grid-column: 1 / -1;
-}
 
 /* ─── MODULE CARDS ─── */
 .modules-list { display: flex; flex-direction: column; gap: 28px; }
@@ -327,20 +312,6 @@ body {
   font-size: 1.3rem; font-weight: 800; color: #00162E; line-height: 1.25; margin-bottom: 4px;
 }
 .module-sub { font-size: 13.5px; color: #5a7390; }
-.module-timing {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
-  flex-shrink: 0;
-}
-.timing-day {
-  font-family: 'Urbanist', sans-serif;
-  font-size: 13px; font-weight: 800; color: #00162E;
-  background: #fff; border: 1px solid #e1ecf3;
-  border-radius: 8px; padding: 5px 12px;
-}
-.timing-dur { font-size: 12px; color: #9fb6cc; font-weight: 600; }
 
 .module-body {
   display: grid;
@@ -611,9 +582,8 @@ blockquote .hl { color: #23ACD6; }
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 860px) {
-  .planning-grid { grid-template-columns: 1fr; }
-  .planning-day-header { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); }
-  .planning-slot { border-right: none; }
+  .planning-slot { grid-template-columns: 1fr; }
+  .ps-left { border-radius: 14px 14px 0 0; }
   .module-body { grid-template-columns: 1fr; }
   .module-col:first-child { border-right: none; border-bottom: 1px solid #e1ecf3; }
   .trainer-box { grid-template-columns: 1fr; }
@@ -623,7 +593,6 @@ blockquote .hl { color: #23ACD6; }
   .hero { padding: 72px 20px 64px; }
   .section { padding: 56px 20px; }
   .module-header { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .module-timing { align-items: flex-start; }
   .stat-item { min-width: 130px; padding: 18px 20px; border-right: none; border-bottom: 1px solid #e1ecf3; }
   .sticky-nav a { padding: 12px 14px; font-size: 12px; }
   .trainer-aside { flex-direction: column; }
@@ -711,99 +680,93 @@ blockquote .hl { color: #23ACD6; }
     <h2 class="section-title">2,5 jours structurés en 5 demi-journées</h2>
     <p class="section-sub">Chaque demi-journée (3h30) alterne apports théoriques et ateliers pratiques. La progression est conçue pour que chaque module s'appuie sur le précédent.</p>
 
-    <div class="planning-grid">
-      <!-- HEADERS -->
-      <div class="planning-day-header">
-        Jour 1 — Matin
-        <span class="day-date">9h00 – 12h30</span>
-      </div>
-      <div class="planning-day-header">
-        Jour 1 — Après-midi
-        <span class="day-date">14h00 – 17h30</span>
-      </div>
-      <div class="planning-day-header">
-        Jour 2 — Matin
-        <span class="day-date">9h00 – 12h30</span>
-      </div>
-      <div class="planning-day-header">
-        Jour 2 — Après-midi
-        <span class="day-date">14h00 – 17h30</span>
-      </div>
-      <div class="planning-day-header">
-        Jour 3 — Matin
-        <span class="day-date">9h00 – 12h30</span>
-      </div>
+    <div class="planning-flow">
 
-      <!-- SLOTS -->
       <div class="planning-slot">
-        <div class="ps-time">Module 01</div>
-        <div class="ps-title">IA Générative — Les fondamentaux</div>
-        <ul class="ps-points">
-          <li>Comprendre l'IA générative</li>
-          <li>Panorama des outils (Claude, ChatGPT…)</li>
-          <li>Comment ça fonctionne vraiment</li>
-          <li>Enjeux pour le monde du travail</li>
-          <li>Atelier : première expérience guidée</li>
-        </ul>
-        <span class="ps-badge badge-ia">IA</span>
+        <div class="ps-left">
+          <div class="ps-num">Module 01</div>
+          <div class="ps-title">IA Générative — Les fondamentaux</div>
+        </div>
+        <div class="ps-right">
+          <ul class="ps-points">
+            <li>Comprendre l'IA générative, sans jargon</li>
+            <li>Panorama des outils (Claude, ChatGPT, Copilot…)</li>
+            <li>Comment ça fonctionne vraiment : tokens, limites, hallucinations</li>
+            <li>Enjeux pour le monde du travail</li>
+            <li>Atelier : première expérience guidée avec un assistant IA</li>
+          </ul>
+          <span class="ps-badge badge-ia">IA</span>
+        </div>
       </div>
 
       <div class="planning-slot">
-        <div class="ps-time">Module 02</div>
-        <div class="ps-title">IA Responsable — RGPD &amp; Sécurité</div>
-        <ul class="ps-points">
-          <li>Données sensibles : identifier</li>
-          <li>RGPD &amp; AI Act 2025</li>
-          <li>Anonymisation et bonnes pratiques</li>
-          <li>Réflexe 5 secondes avant l'IA</li>
-          <li>Atelier : audit de vos usages</li>
-        </ul>
-        <span class="ps-badge badge-rgpd">RGPD</span>
+        <div class="ps-left">
+          <div class="ps-num">Module 02</div>
+          <div class="ps-title">IA Responsable — RGPD &amp; Sécurité</div>
+        </div>
+        <div class="ps-right">
+          <ul class="ps-points">
+            <li>Données sensibles : les 8 catégories RGPD</li>
+            <li>AI Act européen : ce qui change depuis 2025</li>
+            <li>Anonymisation, pseudonymisation et bonnes pratiques</li>
+            <li>Le réflexe 5 secondes avant chaque prompt</li>
+            <li>Atelier : audit de vos usages et réécriture de prompts à risque</li>
+          </ul>
+          <span class="ps-badge badge-rgpd">RGPD</span>
+        </div>
       </div>
 
       <div class="planning-slot">
-        <div class="ps-time">Module 03</div>
-        <div class="ps-title">L'Art du Prompt — Communiquer avec l'IA</div>
-        <ul class="ps-points">
-          <li>Méthode PROMPT (4 ingrédients)</li>
-          <li>Prompts avancés &amp; itération</li>
-          <li>Les 5 familles de demandes</li>
-          <li>Créer un assistant personnalisé</li>
-          <li>Atelier : prompting en situation réelle</li>
-        </ul>
-        <span class="ps-badge badge-prompt">PROMPT</span>
+        <div class="ps-left">
+          <div class="ps-num">Module 03</div>
+          <div class="ps-title">L'Art du Prompt</div>
+        </div>
+        <div class="ps-right">
+          <ul class="ps-points">
+            <li>Méthode PROMPT : Rôle, Tâche, Contexte, Format</li>
+            <li>Prompts avancés : itération, contraintes, personas</li>
+            <li>Les 5 familles de demandes à maîtriser</li>
+            <li>Créer son propre assistant IA personnalisé</li>
+            <li>Atelier : bibliothèque de prompts prêts à l'emploi</li>
+          </ul>
+          <span class="ps-badge badge-prompt">Prompt</span>
+        </div>
       </div>
 
       <div class="planning-slot">
-        <div class="ps-time">Module 04</div>
-        <div class="ps-title">Communication — Méthodes &amp; Outils</div>
-        <ul class="ps-points">
-          <li>Schéma de communication</li>
-          <li>Clarté, cible, canal</li>
-          <li>Structurer le mail parfait</li>
-          <li>Calendrier de communication</li>
-          <li>Atelier : rédiger une com complète</li>
-        </ul>
-        <span class="ps-badge badge-com">Communication</span>
+        <div class="ps-left">
+          <div class="ps-num">Module 04</div>
+          <div class="ps-title">Communication — Méthodes &amp; Outils</div>
+        </div>
+        <div class="ps-right">
+          <ul class="ps-points">
+            <li>Schéma de communication, clarté, cible, canal</li>
+            <li>La structure du mail parfait (objet, intro, corps, CTA)</li>
+            <li>Les 8 étapes d'une communication réussie</li>
+            <li>Calendrier annuel de communication avec l'IA</li>
+            <li>Atelier : rédiger une communication complète de A à Z</li>
+          </ul>
+          <span class="ps-badge badge-com">Communication</span>
+        </div>
       </div>
 
       <div class="planning-slot">
-        <div class="ps-time">Module 05</div>
-        <div class="ps-title">Supports Impactants — Canva &amp; Web</div>
-        <ul class="ps-points">
-          <li>Canva : interface &amp; templates</li>
-          <li>Duo Claude + Canva</li>
-          <li>HTML/CSS interactif avec Claude</li>
-          <li>Pages web animées &amp; mini-sites</li>
-          <li>Atelier : créer un support de A à Z</li>
-        </ul>
-        <span class="ps-badge badge-vis">Canva &amp; Web</span>
+        <div class="ps-left">
+          <div class="ps-num">Module 05</div>
+          <div class="ps-title">Supports Impactants — Canva &amp; Web</div>
+        </div>
+        <div class="ps-right">
+          <ul class="ps-points">
+            <li>Canva : interface, templates, travail en équipe</li>
+            <li>Le duo Claude + Canva : texte à l'IA, mise en forme à Canva</li>
+            <li>HTML/CSS interactif généré par Claude</li>
+            <li>Pages web, mini-sites et supports animés</li>
+            <li>Atelier final : créer un support complet sur un projet réel</li>
+          </ul>
+          <span class="ps-badge badge-vis">Canva &amp; Web</span>
+        </div>
       </div>
-    </div>
 
-    <div style="margin-top:20px; padding:16px 22px; background:#f8fafc; border:1px solid #e1ecf3; border-radius:12px; font-size:13px; color:#5a7390; line-height:1.6;">
-      <strong style="color:#1a1a2e;">🕐 Pauses déjeuner incluses</strong> (J1 et J2 : 12h30-14h00) · La demi-journée du J3 se termine à 12h30.
-      Le rythme est délibérément conçu pour alterner 20 min de contenu et 30 min de pratique.
     </div>
   </div>
 </section>
@@ -822,15 +785,11 @@ blockquote .hl { color: #23ACD6; }
         <div class="module-header">
           <div class="module-icon-wrap">🤖</div>
           <div class="module-meta">
-            <div class="module-num">Module 01 · Jour 1 Matin</div>
+            <div class="module-num">Module 01</div>
             <div class="module-title">IA Générative — Les fondamentaux</div>
             <div class="module-sub">Comprendre ce que fait vraiment l'IA — et pourquoi ça change tout</div>
           </div>
-          <div class="module-timing">
-            <span class="timing-day">J1 · 9h–12h30</span>
-            <span class="timing-dur">3h30 · 45% pratique</span>
-          </div>
-        </div>
+</div>
         <div class="module-body">
           <div class="module-col">
             <h4>Contenu du module</h4>
@@ -862,15 +821,11 @@ blockquote .hl { color: #23ACD6; }
         <div class="module-header">
           <div class="module-icon-wrap">🔒</div>
           <div class="module-meta">
-            <div class="module-num">Module 02 · Jour 1 Après-midi</div>
+            <div class="module-num">Module 02</div>
             <div class="module-title">IA Responsable — RGPD &amp; Sécurité</div>
             <div class="module-sub">Utiliser l'IA sans compromettre la confidentialité de vos données</div>
           </div>
-          <div class="module-timing">
-            <span class="timing-day">J1 · 14h–17h30</span>
-            <span class="timing-dur">3h30 · 50% pratique</span>
-          </div>
-        </div>
+</div>
         <div class="module-body">
           <div class="module-col">
             <h4>Contenu du module</h4>
@@ -903,15 +858,11 @@ blockquote .hl { color: #23ACD6; }
         <div class="module-header">
           <div class="module-icon-wrap">💬</div>
           <div class="module-meta">
-            <div class="module-num">Module 03 · Jour 2 Matin</div>
+            <div class="module-num">Module 03</div>
             <div class="module-title">L'Art du Prompt — Communiquer avec l'IA</div>
             <div class="module-sub">Passer de "l'IA répond mal" à "l'IA répond exactement ce que je veux"</div>
           </div>
-          <div class="module-timing">
-            <span class="timing-day">J2 · 9h–12h30</span>
-            <span class="timing-dur">3h30 · 70% pratique</span>
-          </div>
-        </div>
+</div>
         <div class="module-body">
           <div class="module-col">
             <h4>Contenu du module</h4>
@@ -944,15 +895,11 @@ blockquote .hl { color: #23ACD6; }
         <div class="module-header">
           <div class="module-icon-wrap">📢</div>
           <div class="module-meta">
-            <div class="module-num">Module 04 · Jour 2 Après-midi</div>
+            <div class="module-num">Module 04</div>
             <div class="module-title">Communication — Méthodes &amp; Nouveaux Outils</div>
             <div class="module-sub">Les bases intemporelles de la communication, accélérées par l'IA</div>
           </div>
-          <div class="module-timing">
-            <span class="timing-day">J2 · 14h–17h30</span>
-            <span class="timing-dur">3h30 · 55% pratique</span>
-          </div>
-        </div>
+</div>
         <div class="module-body">
           <div class="module-col">
             <h4>Contenu du module</h4>
@@ -986,15 +933,11 @@ blockquote .hl { color: #23ACD6; }
         <div class="module-header">
           <div class="module-icon-wrap">🎨</div>
           <div class="module-meta">
-            <div class="module-num">Module 05 · Jour 3 Matin</div>
+            <div class="module-num">Module 05</div>
             <div class="module-title">Supports Impactants — Canva, HTML &amp; Web</div>
             <div class="module-sub">De l'affiche au mini-site : créer des supports visuels professionnels sans graphiste</div>
           </div>
-          <div class="module-timing">
-            <span class="timing-day">J3 · 9h–12h30</span>
-            <span class="timing-dur">3h30 · 75% pratique</span>
-          </div>
-        </div>
+</div>
         <div class="module-body">
           <div class="module-col">
             <h4>Contenu du module</h4>
@@ -1262,23 +1205,23 @@ blockquote .hl { color: #23ACD6; }
   <div class="section-inner">
     <span class="section-tag">Votre formateur</span>
     <h2 class="section-title">Enzo — Hopsite</h2>
-    <p class="section-sub">Un praticien, pas un théoricien. Enzo utilise au quotidien les outils qu'il enseigne, et conçoit des formations ancrées dans des situations réelles.</p>
+    <p class="section-sub">Des outils utilisés chaque jour, partagés tels quels. Ce que vous apprenez ici, c'est ce qu'Enzo fait vraiment — pas ce qu'un formateur enseigne.</p>
 
     <div class="trainer-box">
       <div class="trainer-aside">
         <div class="trainer-avatar">👤</div>
         <div class="trainer-name">Enzo</div>
-        <div class="trainer-role">Formateur · Fondateur Hopsite</div>
+        <div class="trainer-role">Fondateur Hopsite</div>
       </div>
       <div class="trainer-body">
         <p>
-          Enzo accompagne depuis plusieurs années des organisations dans la prise en main des outils numériques et de l'IA. Il a conçu et animé des formations pour des équipes CSE, des associations et des structures professionnelles de tailles variées.
+          Enzo n'enseigne pas des outils qu'il a étudiés — il partage des méthodes qu'il utilise lui-même chaque jour. Claude, Canva, la rédaction de prompts, la communication structurée, le HTML généré par l'IA : c'est son quotidien, pas un programme construit pour l'occasion.
         </p>
         <p>
-          Son approche est résolument pratique : pas de slides PowerPoint sans exercice qui suit, pas de concept sans exemple concret. La formation IA &amp; Communication est le résultat de dizaines d'heures passées à tester, reformuler et valider les contenus avec de vrais participants.
+          Cette formation est directement issue de sa propre façon de travailler. Les méthodes, les prompts, les templates, les ateliers — tout a été conçu et testé dans des contextes réels, pour des besoins réels. Rien n'est théorique.
         </p>
         <p>
-          Il est également l'auteur des 18 fiches mémo HTML accessibles en ligne après la formation — une ressource documentaire complète que les stagiaires consultent longtemps après la session.
+          Les 18 fiches mémo HTML disponibles après la formation sont un exemple concret de ce qu'il produit avec ces outils : des ressources claires, accessibles à vie, créées avec Claude et publiées avec GitHub Pages.
         </p>
         <div class="trainer-tags">
           <span class="trainer-tag">IA générative</span>
