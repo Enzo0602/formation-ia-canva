@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formation IA & Communication — Hopsite par Enzo</title>
+<meta name="description" content="Formation pratique : comprendre l'IA, maîtriser sa communication et créer des supports visuels impactants. Conçue pour les équipes CSE, associatives et professionnelles.">
+<link rel="stylesheet" href="hopsite-theme.css?v=4">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #f4f8fb;
+  color: #00162E;
+}
+
+/* ─── HERO ─── */
+.hero {
+  background: #00162E;
+  padding: 90px 24px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 0%, rgba(35,172,214,.18) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 100%, rgba(0,64,132,.35) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(35,172,214,.15);
+  border: 1px solid rgba(35,172,214,.4);
+  color: #23ACD6;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 7px 20px;
+  border-radius: 999px;
+  margin-bottom: 28px;
+}
+.hero h1 {
+  font-family: 'Urbanist', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+.hero h1 .accent { color: #23ACD6; }
+.hero-sub {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,.72);
+  line-height: 1.7;
+  max-width: 580px;
+  margin: 0 auto 36px;
+}
+.hero-ctas {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #23ACD6;
+  color: #00162E;
+  font-family: 'Urbanist', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 14px 30px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background .2s, transform .15s;
+}
+.btn-primary:hover { background: #1c9cbf; transform: translateY(-2px); }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: #fff;
+  font-family: 'Urbanist', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 14px 30px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255,255,255,.35);
+  text-decoration: none;
+  transition: border-color .2s, background .2s;
+}
+.btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,.08); }
+
+/* ─── STATS BAR ─── */
+.stats-bar {
+  background: #fff;
+  border-bottom: 1px solid #e1ecf3;
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 22px 40px;
+  border-right: 1px solid #e1ecf3;
+  text-align: center;
+  min-width: 160px;
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #004084;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-num .unit { font-size: 1.2rem; }
+.stat-label { font-size: 12.5px; color: #5a7390; font-weight: 600; letter-spacing: .3px; }
+
+/* ─── SECTIONS ─── */
+.section {
+  padding: 80px 24px;
+}
+.section--alt { background: #fff; }
+.section-inner { max-width: 1020px; margin: 0 auto; }
+
+.section-tag {
+  display: inline-block;
+  background: rgba(35,172,214,.12);
+  border: 1px solid rgba(35,172,214,.3);
+  color: #004084;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+.section-title {
+  font-family: 'Urbanist', sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 800;
+  color: #00162E;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.section-sub {
+  font-size: 1rem;
+  color: #5a7390;
+  line-height: 1.7;
+  max-width: 560px;
+  margin-bottom: 48px;
+}
+
+/* ─── MODULE CARDS ─── */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.module-card {
+  background: #f8fafc;
+  border: 1px solid #e1ecf3;
+  border-radius: 20px;
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .18s, box-shadow .18s, border-color .18s;
+}
+.module-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,64,132,.12);
+  border-color: #23ACD6;
+}
+.module-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+}
+.module-card.mod-ia::before   { background: #23ACD6; }
+.module-card.mod-com::before  { background: #004084; }
+.module-card.mod-vis::before  { background: #ED6B2A; }
+
+.mod-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  margin-bottom: 18px;
+}
+.mod-ia   .mod-icon { background: rgba(35,172,214,.14); }
+.mod-com  .mod-icon { background: rgba(0,64,132,.1); }
+.mod-vis  .mod-icon { background: rgba(237,107,42,.12); }
+
+.mod-num {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.mod-ia  .mod-num { color: #23ACD6; }
+.mod-com .mod-num { color: #004084; }
+.mod-vis .mod-num { color: #ED6B2A; }
+
+.mod-title {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #00162E;
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+.mod-desc {
+  font-size: 14px;
+  color: #5a7390;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.mod-points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mod-points li {
+  font-size: 13.5px;
+  color: #1a1a2e;
+  line-height: 1.5;
+  padding-left: 20px;
+  position: relative;
+  font-weight: 500;
+}
+.mod-points li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  font-weight: 800;
+}
+.mod-ia  .mod-points li::before { color: #23ACD6; }
+.mod-com .mod-points li::before { color: #004084; }
+.mod-vis .mod-points li::before { color: #ED6B2A; }
+
+.mod-badge {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+.mod-ia  .mod-badge { background: rgba(35,172,214,.12); color: #0969da; }
+.mod-com .mod-badge { background: rgba(0,64,132,.1); color: #004084; }
+.mod-vis .mod-badge { background: rgba(237,107,42,.12); color: #bc4c00; }
+
+/* ─── FORMAT SECTION ─── */
+.format-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.format-card {
+  background: #f8fafc;
+  border: 1px solid #e1ecf3;
+  border-radius: 14px;
+  padding: 22px 24px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.format-icon {
+  width: 40px; height: 40px;
+  background: rgba(0,64,132,.1);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.format-card h4 {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: #00162E;
+  margin-bottom: 4px;
+}
+.format-card p {
+  font-size: 13px;
+  color: #5a7390;
+  line-height: 1.6;
+}
+
+/* ─── OUTCOMES ─── */
+.outcomes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.outcome-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: #fff;
+  border: 1px solid #e1ecf3;
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.outcome-check {
+  width: 28px; height: 28px;
+  background: rgba(26,127,55,.12);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  color: #1a7f37;
+  font-weight: 800;
+  margin-top: 1px;
+}
+.outcome-item p {
+  font-size: 13.5px;
+  color: #1a1a2e;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+/* ─── QUOTE / PHILOSOPHY ─── */
+.philosophy-box {
+  background: #00162E;
+  border-radius: 20px;
+  padding: 50px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.philosophy-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 70% at 50% 0%, rgba(35,172,214,.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.philosophy-box blockquote {
+  position: relative;
+  font-family: 'Urbanist', sans-serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.5;
+  max-width: 640px;
+  margin: 0 auto 20px;
+}
+.philosophy-box blockquote .hl { color: #23ACD6; }
+.philosophy-cite {
+  position: relative;
+  font-size: 13px;
+  color: rgba(255,255,255,.55);
+  font-weight: 600;
+  letter-spacing: .5px;
+}
+
+/* ─── CTA SECTION ─── */
+.cta-section {
+  background: #fff;
+  padding: 80px 24px;
+  text-align: center;
+}
+.cta-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.cta-section .section-title { text-align: center; }
+.cta-section .section-sub { margin: 0 auto 36px; }
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px solid #e1ecf3;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+}
+.contact-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #00162E;
+}
+.contact-line a {
+  color: #004084;
+  text-decoration: none;
+  transition: color .15s;
+}
+.contact-line a:hover { color: #23ACD6; }
+.contact-icon {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  background: rgba(0,64,132,.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.cta-note {
+  font-size: 13px;
+  color: #8aa6bd;
+  font-weight: 500;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 700px) {
+  .hero { padding: 64px 20px 60px; }
+  .section { padding: 56px 20px; }
+  .stats-bar { flex-direction: row; overflow-x: auto; }
+  .stat-item { min-width: 130px; padding: 18px 20px; }
+  .philosophy-box { padding: 36px 24px; }
+  .contact-card { padding: 22px 20px; }
+}
+@media (max-width: 480px) {
+  .modules-grid, .format-grid, .outcomes-grid { grid-template-columns: 1fr; }
+  .hero-ctas { flex-direction: column; align-items: center; }
+  .stat-item { border-right: none; border-bottom: 1px solid #e1ecf3; }
+}
+</style>
+</head>
+<body>
+
+<!-- ░░ TOPBAR ░░ -->
+<header class="hop-topbar">
+  <a href="https://hopsite.fr" class="hop-topbar__logo" aria-label="Hopsite">
+    <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  </a>
+  <a href="mailto:enzo@hopsite.fr" class="hop-topbar__back">Nous contacter</a>
+</header>
+
+<!-- ░░ HERO ░░ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">✦ Formation professionnelle</div>
+    <h1>
+      Maîtrisez <span class="accent">l'IA</span>,<br>
+      la Communication<br>
+      et les Supports Visuels
+    </h1>
+    <p class="hero-sub">
+      Une formation concrète et progressive pour comprendre l'intelligence artificielle, structurer vos communications et créer des supports qui marquent les esprits — sans prise de tête.
+    </p>
+    <div class="hero-ctas">
+      <a href="#modules" class="btn-primary">Découvrir le programme →</a>
+      <a href="#contact" class="btn-secondary">Demander un devis</a>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ STATS BAR ░░ -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-num">3</span>
+    <span class="stat-label">Modules complets</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">18</span>
+    <span class="stat-label">Fiches mémo disponibles</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">100<span class="unit">%</span></span>
+    <span class="stat-label">Pratique & applicable</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">½</span>
+    <span class="stat-label">Journée ou sur mesure</span>
+  </div>
+</div>
+
+<!-- ░░ MODULES ░░ -->
+<section class="section" id="modules">
+  <div class="section-inner">
+    <span class="section-tag">Le programme</span>
+    <h2 class="section-title">Trois modules, une progression logique</h2>
+    <p class="section-sub">Chaque module s'appuie sur le précédent : on commence par comprendre l'IA, on apprend à communiquer avec elle, puis on transforme ces textes en visuels professionnels.</p>
+
+    <div class="modules-grid">
+
+      <!-- MODULE 1 -->
+      <div class="module-card mod-ia">
+        <div class="mod-icon">🤖</div>
+        <div class="mod-num">Module 01</div>
+        <div class="mod-title">L'IA à bon escient</div>
+        <p class="mod-desc">Comprendre ce que fait vraiment l'IA, choisir le bon outil, et l'utiliser en toute sécurité — sans enfreindre les règles de confidentialité.</p>
+        <ul class="mod-points">
+          <li>Qu'est-ce que l'IA générative et comment ça fonctionne</li>
+          <li>Claude, ChatGPT, Copilot : lequel choisir et pourquoi</li>
+          <li>RGPD et données sensibles : les 3 règles à ne jamais enfreindre</li>
+          <li>Identifier et anonymiser une donnée avant de l'envoyer à l'IA</li>
+          <li>Écrire des prompts efficaces : la méthode PROMPT en 4 étapes</li>
+          <li>Les 4 familles de demandes qu'on peut faire à une IA</li>
+        </ul>
+        <span class="mod-badge">6 guides · 45 min</span>
+      </div>
+
+      <!-- MODULE 2 -->
+      <div class="module-card mod-com">
+        <div class="mod-icon">📢</div>
+        <div class="mod-num">Module 02</div>
+        <div class="mod-title">Communication : les bases & les nouveaux outils</div>
+        <p class="mod-desc">Revenir aux fondamentaux de la communication, puis les appliquer avec les outils modernes — mails, affiches, calendriers — accélérés par l'IA.</p>
+        <ul class="mod-points">
+          <li>Le schéma de la communication et ses 5 obstacles</li>
+          <li>La règle 7-38-55% : forme et fond, les deux comptent</li>
+          <li>Clarté, cible, canal : les 5 questions à se poser avant d'écrire</li>
+          <li>Les 8 étapes d'une communication réussie, de l'idée à l'évaluation</li>
+          <li>La structure du mail parfait (objet, intro, corps, CTA)</li>
+          <li>Construire un calendrier de communication annuel avec l'IA</li>
+        </ul>
+        <span class="mod-badge">6 guides · 45 min</span>
+      </div>
+
+      <!-- MODULE 3 -->
+      <div class="module-card mod-vis">
+        <div class="mod-icon">🎨</div>
+        <div class="mod-num">Module 03</div>
+        <div class="mod-title">Créer des supports impactants</div>
+        <p class="mod-desc">De Canva aux pages web interactives — créer des visuels professionnels avec les bons outils, sans formation graphique ni code complexe.</p>
+        <ul class="mod-points">
+          <li>Canva : découverte de l'interface et création d'un premier visuel</li>
+          <li>Construire un template réutilisable et l'organiser en équipe</li>
+          <li>Le duo Claude + Canva : texte à l'IA, mise en forme à Canva</li>
+          <li>Prompts avancés pour situations réelles (réunions, élections…)</li>
+          <li>Introduction au HTML/CSS interactif : supports web animés</li>
+          <li>Communication 4.0 : affiches numériques, pages et mini-sites</li>
+        </ul>
+        <span class="mod-badge">4 guides + bonus · 45 min</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ░░ PHILOSOPHY ░░ -->
+<section class="section section--alt">
+  <div class="section-inner">
+    <div class="philosophy-box">
+      <blockquote>
+        « L'IA accélère votre travail. <span class="hl">Votre jugement le valide.</span><br>
+        Ce duo — humain + IA — est toujours meilleur que l'un ou l'autre seul. »
+      </blockquote>
+      <p class="philosophy-cite">— La philosophie de la formation</p>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ FORMAT ░░ -->
+<section class="section" id="format">
+  <div class="section-inner">
+    <span class="section-tag">Format & organisation</span>
+    <h2 class="section-title">Une formation adaptée à vos contraintes</h2>
+    <p class="section-sub">Conçue pour être efficace en peu de temps, avec des supports réutilisables immédiatement après la session.</p>
+
+    <div class="format-grid">
+      <div class="format-card">
+        <span class="format-icon">⏱️</span>
+        <div>
+          <h4>Durée modulable</h4>
+          <p>Demi-journée (3h), journée complète (6h) ou modules à la carte selon vos besoins.</p>
+        </div>
+      </div>
+      <div class="format-card">
+        <span class="format-icon">👥</span>
+        <div>
+          <h4>Public visé</h4>
+          <p>Équipes CSE, associations, petites structures professionnelles, tout niveau — zéro prérequis technique.</p>
+        </div>
+      </div>
+      <div class="format-card">
+        <span class="format-icon">🖥️</span>
+        <div>
+          <h4>En présentiel ou distanciel</h4>
+          <p>Adaptée en salle comme en visioconférence. Chaque participant suit sur son propre écran.</p>
+        </div>
+      </div>
+      <div class="format-card">
+        <span class="format-icon">📋</span>
+        <div>
+          <h4>Supports inclus</h4>
+          <p>18 fiches mémo HTML accessibles en ligne après la formation, à retrouver à tout moment.</p>
+        </div>
+      </div>
+      <div class="format-card">
+        <span class="format-icon">🛠️</span>
+        <div>
+          <h4>100% pratique</h4>
+          <p>Exercices en temps réel, exemples concrets tirés de situations réelles du quotidien professionnel.</p>
+        </div>
+      </div>
+      <div class="format-card">
+        <span class="format-icon">✏️</span>
+        <div>
+          <h4>Sur mesure</h4>
+          <p>Le contenu peut être adapté à votre contexte (secteur, outils déjà utilisés, besoins spécifiques).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ OUTCOMES ░░ -->
+<section class="section section--alt" id="objectifs">
+  <div class="section-inner">
+    <span class="section-tag">Ce que vous repartez avec</span>
+    <h2 class="section-title">Des compétences concrètes, dès le lendemain</h2>
+    <p class="section-sub">À la fin de la formation, chaque participant est autonome sur ces points — pas de théorie sans application.</p>
+
+    <div class="outcomes-grid">
+      <div class="outcome-item">
+        <span class="outcome-check">✓</span>
+        <p>Utiliser Claude ou ChatGPT pour rédiger un mail, résumer une réunion ou préparer une communication en 2 minutes</p>
+      </div>
+      <div class="outcome-item">
+        <span class="outcome-check">✓</span>
+        <p>Identifier une donnée sensible et savoir comment la protéger avant d'envoyer quelque chose à l'IA</p>
+      </div>
+      <div class="outcome-item">
+        <span class="outcome-check">✓</span>
+        <p>Écrire un prompt efficace avec la méthode PROMPT : Rôle, Tâche, Contexte, Format</p>
+      </div>
+      <div class="outcome-item">
+        <span class="outcome-check">✓</span>
+        <p>Structurer un mail qui sera lu : objet accrocheur, introduction bénéfice, corps clair, un seul CTA</p>
+      </div>
+      <div class="outcome-item">
+        <span class="outcome-check">✓</span>
+        <p>Créer une affiche ou newsletter sur Canva à partir d'un texte généré par l'IA, en moins de 20 minutes</p>
+      </div>
+      <div class="outcome-item">
+        <span class="outcome-check">✓</span>
+        <p>Organiser ses fichiers Canva en équipe avec une convention de nommage claire et des templates réutilisables</p>
+      </div>
+      <div class="outcome-item">
+        <span class="outcome-check">✓</span>
+        <p>Construire un calendrier de communication annuel et l'alimenter avec l'IA mois par mois</p>
+      </div>
+      <div class="outcome-item">
+        <span class="outcome-check">✓</span>
+        <p>Créer une page web simple (HTML) avec Claude — un support numérique interactif, sans coder soi-même</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ CONTACT / CTA ░░ -->
+<section class="cta-section" id="contact">
+  <div class="cta-inner">
+    <span class="section-tag">Passons à l'action</span>
+    <h2 class="section-title">Organisons votre formation</h2>
+    <p class="section-sub">Un échange de 15 minutes suffit pour cerner vos besoins et vous proposer un programme adapté.</p>
+
+    <div class="contact-card">
+      <div class="contact-line">
+        <span class="contact-icon">✉️</span>
+        <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+      </div>
+      <div class="contact-line">
+        <span class="contact-icon">📞</span>
+        <a href="tel:+33786948062">07 86 94 80 62</a>
+      </div>
+      <div class="contact-line">
+        <span class="contact-icon">🌐</span>
+        <a href="https://hopsite.fr" target="_blank" rel="noopener">hopsite.fr</a>
+      </div>
+    </div>
+
+    <p class="cta-note">Devis gratuit · Réponse sous 24h · Adapté à votre structure et budget</p>
+  </div>
+</section>
+
+<!-- ░░ FOOTER ░░ -->
+<footer class="hop-footer">
+  <img src="assets/logo-hopsite-white.png" alt="Hopsite" class="hop-logo">
+  <p class="hop-footer__text">Formation IA &amp; Communication — conçue et animée par Enzo</p>
+  <p class="hop-footer__contact">
+    <a href="mailto:enzo@hopsite.fr">enzo@hopsite.fr</a>
+    <span class="hop-footer__sep">&middot;</span>
+    <a href="tel:+33786948062">07 86 94 80 62</a>
+  </p>
+  <p class="hop-footer__credit">
+    <a href="index.html">Accéder aux fiches mémo →</a>
+    &nbsp;|&nbsp;
+    <a href="https://hopsite.fr" target="_blank" rel="noopener">hopsite.fr</a>
+  </p>
+</footer>
+
+</body>
+</html>
